@@ -221,8 +221,8 @@ ul.li li b{color:#fff;}
       <div class="card solid">
         <h3><span class="dot"></span>נתוני אירוע חיים</h3>
         <div class="stats">
-          <div class="stat danger"><div class="k">טמפ' פנימית</div><div class="v">90°F <small>↑1°/שעה</small></div></div>
-          <div class="stat danger"><div class="k">סף BLEVE</div><div class="v">100°F</div></div>
+          <div class="stat danger"><div class="k">טמפ' פנימית</div><div class="v">32°C <small>↑~0.5°/שעה</small></div></div>
+          <div class="stat danger"><div class="k">סף BLEVE</div><div class="v">38°C</div></div>
           <div class="stat"><div class="k">מפונים</div><div class="v">~50K</div></div>
           <div class="stat"><div class="k">נפח מיכל</div><div class="v">34K <small>גלון</small></div></div>
           <div class="stat ok"><div class="k">ניטור אוויר</div><div class="v" style="font-size:18px">תקין</div></div>
@@ -233,10 +233,10 @@ ul.li li b{color:#fff;}
       <div class="card">
         <h3><span class="dot"></span>שעון BLEVE</h3>
         <div class="gauge-wrap">
-          <div class="gnum">90<small>°F</small> → <span style="color:var(--red-soft)">100<small>°F</small></span></div>
-          <div class="glabel">פער של 10°F · עלייה ~1°/שעה → חלון של שעות בודדות</div>
-          <div class="gbar"><div class="pin" style="left:80%"></div></div>
-          <div class="gscale"><span>77°F התחלה</span><span>90°F עכשיו</span><span>100°F BLEVE</span></div>
+          <div class="gnum">32<small>°C</small> → <span style="color:var(--red-soft)">38<small>°C</small></span></div>
+          <div class="glabel">פער של ~6°C · עלייה ~0.5°C/שעה → חלון של שעות בודדות</div>
+          <div class="gbar"><div class="pin" style="left:54%"></div></div>
+          <div class="gscale"><span>25°C התחלה</span><span>32°C עכשיו</span><span>38°C BLEVE</span></div>
         </div>
       </div>
 
@@ -366,7 +366,7 @@ ul.li li b{color:#fff;}
           <li class="g">קירור דופן חיצונית ברסס מים — בתחילה הצליח לסגור את מסתם ההקלה ולמנוע בריחת חומר.</li>
           <li>מעבר מעמדה הגנתית ל<b>התקפית</b>: הצבת צוות בסיכון מבוקר בתמיכת כימאי OCFA.</li>
           <li>קריאת טמפ' חיצונית ברחפן (לא קורא את פנים המיכל) — לכן הערכת ירידת הטמפ' המוקדמת התבררה כשגויה.</li>
-          <li class="g">צוות שהתקרב למיכל <b>אחר</b> לנטרול כימי הצליח לקרוא את מד הטמפ' הפנימי — כך התגלתה הקפיצה ל-90°F.</li>
+          <li class="g">צוות שהתקרב למיכל <b>אחר</b> לנטרול כימי הצליח לקרוא את מד הטמפ' הפנימי — כך התגלתה הקפיצה ל-32°C.</li>
           <li class="w">חומר בשימוש עד כה: <b>מים בלבד</b>. לא דווח על נטרול שהוחדר בהצלחה למיכל הבעייתי.</li>
         </ul>
       </div>
@@ -393,7 +393,7 @@ ul.li li b{color:#fff;}
           <div class="tlitem"><div class="t">חמישי 21.5 · ~15:40</div><div class="d">דיווח על שחרור אדים ממיכלי אחסון; מסתם הקלה וספרינקלרים פנימיים נפתחו אוטומטית; צווי פינוי ראשונים.</div></div>
           <div class="tlitem"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את מסתם ההקלה; צווי הפינוי בוטלו.</div></div>
           <div class="tlitem"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום.</div></div>
-          <div class="tlitem"><div class="t">שבת 23.5 · לילה</div><div class="d">מעבר להתקפה: ניסיון מסוכן לנטרול; קריאת מד פנימי הראתה 90°F (מול 77°F בבוקר). פתיחת מקלטים נוספים.</div></div>
+          <div class="tlitem"><div class="t">שבת 23.5 · לילה</div><div class="d">מעבר להתקפה: ניסיון מסוכן לנטרול; קריאת מד פנימי הראתה 32°C (מול 25°C בבוקר). פתיחת מקלטים נוספים.</div></div>
           <div class="tlitem now"><div class="t">ראשון 24.5 · בוקר</div><div class="d">איום קרע/פיצוץ עדיין מיידי; ~50K מפונים; טמפ' ממשיכה לעלות ~1°/שעה לעבר סף ה-BLEVE.</div></div>
         </div>
       </div>
@@ -493,7 +493,7 @@ RECEPTORS.map(r=>({...r,km:dist(INCIDENT,r),dir:bearing(INCIDENT,r)}))
 function initMap(){
   if(mapInit) return; mapInit=true;
   const map=L.map('map',{zoomControl:true,attributionControl:true}).setView([INCIDENT.lat,INCIDENT.lng],13);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
     maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(map);
 
   // evacuation zone polygon (approx)
