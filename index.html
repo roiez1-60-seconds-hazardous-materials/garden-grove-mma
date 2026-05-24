@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0e13">
+<title>60 שניות חומ"ס · אירוע גרדן גרוב</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<style>
+:root{
+  --bg:#0b0e13;
+  --bg-2:#11151c;
+  --card:rgba(28,34,44,.72);
+  --card-solid:#1a212b;
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --txt:#f2f5f8;
+  --muted:#8b95a3;
+  --amber:#ffb02e;
+  --amber-2:#ff9416;
+  --red:#ff453a;
+  --red-soft:#ff6961;
+  --blue:#0a84ff;
+  --green:#30d158;
+  --yellow:#ffd60a;
+  --tab-h:84px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Heebo","Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+@font-face{font-family:'Heebo';src:local('Heebo');}
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ===== App shell ===== */
+.app{height:100vh;height:100dvh;display:flex;flex-direction:column;position:relative;background:
+  radial-gradient(900px 420px at 90% -8%, rgba(255,176,46,.10), transparent 60%),
+  radial-gradient(700px 420px at -10% 105%, rgba(255,69,58,.10), transparent 55%),
+  var(--bg);}
+
+/* ===== Status bar faux ===== */
+.nav{
+  position:sticky;top:0;z-index:50;
+  padding:calc(env(safe-area-inset-top) + 10px) 18px 12px;
+  background:rgba(11,14,19,.72);
+  backdrop-filter:saturate(180%) blur(22px);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);
+  border-bottom:.5px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:11px;}
+.logo{width:42px;height:42px;flex:0 0 auto;}
+.brand-txt h1{font-size:18px;font-weight:800;letter-spacing:-.2px;line-height:1.1;}
+.brand-txt h1 .num{color:var(--amber);}
+.brand-txt p{font-size:11.5px;color:var(--muted);font-weight:500;margin-top:1px;}
+.live{margin-right:auto;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;
+  color:var(--red-soft);background:rgba(255,69,58,.14);border:.5px solid rgba(255,69,58,.4);
+  padding:5px 10px;border-radius:999px;}
+.live .ld{width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1.4s infinite;}
+@keyframes blink{50%{opacity:.25;}}
+
+/* ===== Scroll area ===== */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px calc(var(--tab-h) + 20px);}
+.page{display:none;animation:fade .35s ease;}
+.page.on{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.ltitle{font-size:30px;font-weight:900;letter-spacing:-.5px;margin:4px 2px 14px;}
+
+/* ===== Cards ===== */
+.card{background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:.5px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;}
+.card.solid{background:var(--card-solid);backdrop-filter:none;}
+.card h3{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.card h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:20px;margin-bottom:14px;
+  background:linear-gradient(145deg,#241a14,#16110d);border:.5px solid rgba(255,176,46,.22);}
+.hero::after{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(45deg,transparent 0 26px,rgba(255,176,46,.05) 26px 52px);pointer-events:none;}
+.hero .tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.4px;
+  color:var(--red-soft);background:rgba(255,69,58,.16);border:.5px solid rgba(255,69,58,.4);padding:6px 12px;border-radius:999px;}
+.hero h2{font-size:24px;font-weight:900;margin:12px 0 4px;letter-spacing:-.3px;line-height:1.15;}
+.hero .loc{font-size:14px;color:var(--muted);}
+
+/* stat grid */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stat{background:rgba(255,255,255,.04);border:.5px solid var(--line);border-radius:16px;padding:13px 14px;}
+.stat .k{font-size:11px;color:var(--muted);font-weight:600;}
+.stat .v{font-size:23px;font-weight:800;margin-top:3px;letter-spacing:-.5px;}
+.stat .v small{font-size:12px;font-weight:600;color:var(--muted);}
+.stat.danger .v{color:var(--red-soft);}
+.stat.ok .v{color:var(--green);}
+
+/* BLEVE gauge */
+.gauge-wrap{text-align:center;}
+.gauge{position:relative;width:200px;height:110px;margin:6px auto 4px;}
+.gnum{font-size:34px;font-weight:900;letter-spacing:-1px;}
+.gnum small{font-size:15px;color:var(--muted);font-weight:600;}
+.glabel{font-size:12px;color:var(--muted);margin-top:2px;}
+.gbar{height:10px;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--yellow),var(--amber),var(--red));margin:14px 4px 6px;position:relative;}
+.gbar .pin{position:absolute;top:-6px;width:4px;height:22px;background:#fff;border-radius:3px;box-shadow:0 0 0 2px rgba(0,0,0,.4);}
+.gscale{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);padding:0 2px;}
+
+/* alert blocks */
+.alert{border-radius:16px;padding:14px 15px;margin-bottom:12px;border:.5px solid;}
+.alert h4{font-size:15px;font-weight:800;margin-bottom:5px;display:flex;gap:8px;align-items:center;}
+.alert p{font-size:14px;line-height:1.55;color:#dfe5ec;}
+.alert.red{border-color:rgba(255,69,58,.4);background:linear-gradient(180deg,rgba(255,69,58,.13),rgba(255,69,58,.04));}
+.alert.amber{border-color:rgba(255,176,46,.42);background:linear-gradient(180deg,rgba(255,176,46,.13),rgba(255,176,46,.04));}
+.alert.blue{border-color:rgba(10,132,255,.4);background:linear-gradient(180deg,rgba(10,132,255,.12),rgba(10,132,255,.04));}
+
+/* lists */
+ul.li{list-style:none;}
+ul.li li{position:relative;padding-right:20px;margin:9px 0;font-size:14.5px;line-height:1.5;color:#e3e8ee;}
+ul.li li::before{content:"";position:absolute;right:3px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--amber);}
+ul.li li.w::before{background:var(--red);}
+ul.li li.g::before{background:var(--green);}
+ul.li li b{color:#fff;}
+
+/* property grid */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.pg .p{background:rgba(255,255,255,.04);border:.5px solid var(--line);border-radius:14px;padding:11px 12px;}
+.pg .p .k{font-size:10.5px;color:var(--muted);font-weight:600;letter-spacing:.2px;}
+.pg .p .v{font-size:17px;font-weight:800;margin-top:2px;}
+.pg .p .v small{font-size:11px;color:var(--muted);font-weight:600;}
+
+/* NFPA */
+.nfpa{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center;}
+.diamond{width:118px;height:118px;transform:rotate(45deg);display:grid;grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;border:2px solid #000;border-radius:6px;overflow:hidden;box-shadow:0 8px 26px rgba(0,0,0,.55);}
+.diamond .q{display:flex;align-items:center;justify-content:center;}
+.diamond .q span{transform:rotate(-45deg);font-weight:800;font-size:27px;color:#111;}
+.q.h{background:#3b9dff;}.q.f{background:#ff453a;}.q.r{background:#ffd60a;}.q.s{background:#f2f2f2;}
+.nleg{font-size:12.5px;color:var(--muted);}
+.nleg div{margin:4px 0;}.nleg b{color:var(--txt);}
+.ghs{margin-top:8px;}
+.ghs .chip{display:inline-block;font-size:11px;font-family:ui-monospace,monospace;color:var(--amber);
+  background:rgba(255,176,46,.1);border:.5px solid rgba(255,176,46,.3);border-radius:7px;padding:3px 8px;margin:3px 3px 0 0;}
+
+/* map */
+#map{height:62vh;min-height:380px;border-radius:20px;overflow:hidden;border:.5px solid var(--line-2);}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:13px 2px 4px;font-size:12.5px;color:var(--muted);}
+.legend .li{display:flex;align-items:center;gap:6px;}
+.legend .pin{width:11px;height:11px;border-radius:50%;}
+.recep{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:.5px solid var(--line);}
+.recep:last-child{border-bottom:none;}
+.recep .ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;}
+.recep .nm{font-size:14.5px;font-weight:700;}
+.recep .ds{font-size:12px;color:var(--muted);margin-top:1px;}
+.recep .dist{margin-right:auto;text-align:left;}
+.recep .dist .d{font-size:15px;font-weight:800;}
+.recep .dist .dir{font-size:11px;color:var(--muted);}
+
+/* timeline */
+.tl{position:relative;padding-right:22px;}
+.tl::before{content:"";position:absolute;right:5px;top:6px;bottom:6px;width:2px;background:var(--line-2);}
+.tlitem{position:relative;padding-right:18px;margin:14px 0;}
+.tlitem::before{content:"";position:absolute;right:-3px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:2.5px solid var(--amber);}
+.tlitem.now::before{background:var(--red);border-color:var(--red);box-shadow:0 0 0 4px rgba(255,69,58,.25);}
+.tlitem .t{font-size:12px;font-weight:700;color:var(--amber);}
+.tlitem .d{font-size:14px;color:#e3e8ee;margin-top:2px;line-height:1.5;}
+
+/* source links */
+.src{display:flex;align-items:center;gap:12px;padding:14px;background:rgba(255,255,255,.04);
+  border:.5px solid var(--line);border-radius:14px;margin-bottom:10px;text-decoration:none;color:var(--txt);}
+.src .ic{width:34px;height:34px;border-radius:10px;background:rgba(10,132,255,.16);color:var(--blue);
+  display:flex;align-items:center;justify-content:center;font-size:17px;flex:0 0 auto;}
+.src .nm{font-size:14.5px;font-weight:700;}
+.src .u{font-size:11.5px;color:var(--muted);}
+.src .arr{margin-right:auto;color:var(--muted);font-size:18px;}
+
+.note{font-size:11.5px;color:var(--muted);line-height:1.6;text-align:center;padding:8px 6px 2px;}
+
+/* ===== Tab bar ===== */
+.tabbar{position:absolute;bottom:0;left:0;right:0;z-index:60;height:var(--tab-h);
+  padding:8px 8px calc(env(safe-area-inset-bottom));
+  background:rgba(11,14,19,.78);backdrop-filter:saturate(180%) blur(24px);
+  -webkit-backdrop-filter:saturate(180%) blur(24px);border-top:.5px solid var(--line);
+  display:flex;}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--muted);font-size:10.5px;font-weight:600;cursor:pointer;transition:color .2s;}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;}
+.tab.on{color:var(--amber);}
+
+.spacer{height:4px;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="brand">
+      <!-- LOGO: placeholder stopwatch/hazmat mark — Roei can swap with Canva logo -->
+      <svg class="logo" viewBox="0 0 100 100" fill="none">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffd60a"/><stop offset="1" stop-color="#ff9416"/></linearGradient></defs>
+        <circle cx="50" cy="55" r="34" stroke="url(#g)" stroke-width="6"/>
+        <rect x="42" y="10" width="16" height="9" rx="3" fill="url(#g)"/>
+        <line x1="50" y1="19" x2="50" y2="26" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
+        <text x="50" y="64" font-size="30" font-weight="900" fill="#fff" text-anchor="middle" font-family="Heebo,sans-serif">60</text>
+        <path d="M50 40 L57 53 H43 Z" fill="#ff453a" opacity=".9"/>
+      </svg>
+      <div class="brand-txt">
+        <h1><span class="num">60</span> שניות חומ"ס</h1>
+        <p>כרטיס אירוע · ניתוח מקצועי</p>
+      </div>
+      <span class="live"><span class="ld"></span>LIVE</span>
+    </div>
+  </header>
+
+  <!-- SCROLL -->
+  <main class="scroll" id="scroll">
+
+    <!-- ===== PAGE 1: STATUS ===== -->
+    <section class="page on" id="p-status">
+      <div class="hero">
+        <span class="tag">● אירוע פעיל · מצב חירום</span>
+        <h2>קריסת מיכל מתיל מתאקרילט</h2>
+        <div class="loc">GKN Aerospace · גרדן גרוב, מחוז אורנג', קליפורניה</div>
+      </div>
+
+      <div class="card solid">
+        <h3><span class="dot"></span>נתוני אירוע חיים</h3>
+        <div class="stats">
+          <div class="stat danger"><div class="k">טמפ' פנימית</div><div class="v">90°F <small>↑1°/שעה</small></div></div>
+          <div class="stat danger"><div class="k">סף BLEVE</div><div class="v">100°F</div></div>
+          <div class="stat"><div class="k">מפונים</div><div class="v">~50K</div></div>
+          <div class="stat"><div class="k">נפח מיכל</div><div class="v">34K <small>גלון</small></div></div>
+          <div class="stat ok"><div class="k">ניטור אוויר</div><div class="v" style="font-size:18px">תקין</div></div>
+          <div class="stat ok"><div class="k">נפגעים</div><div class="v">0</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>שעון BLEVE</h3>
+        <div class="gauge-wrap">
+          <div class="gnum">90<small>°F</small> → <span style="color:var(--red-soft)">100<small>°F</small></span></div>
+          <div class="glabel">פער של 10°F · עלייה ~1°/שעה → חלון של שעות בודדות</div>
+          <div class="gbar"><div class="pin" style="left:80%"></div></div>
+          <div class="gscale"><span>77°F התחלה</span><span>90°F עכשיו</span><span>100°F BLEVE</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>שני תרחישי כשל</h3>
+        <div class="alert red">
+          <h4>⚠️ דליפה או פיצוץ</h4>
+          <p>מפקד האירוע מעריך שהמיכל ייכשל באחת משתי דרכים: <b>קרע ושחרור אלפי גלונים</b> של נוזל רעיל לחניון הסמוך, או <b>פיצוץ (BLEVE)</b> עם ענן אדים דליק. האיום מוערך כמיידי. הוגדר כתרחיש הגרוע ביותר בקריירה של 32 שנה.</p>
+        </div>
+        <ul class="li">
+          <li class="g">לא דווחו נפגעים; גלאי איכות אוויר טרם זיהו MMA (תושבים בודדים דיווחו על גירוי בגרון/סחרחורת).</li>
+          <li>קירור דופן ברסס מים וקו צינור בלתי מאויש; מאמצי הלילה לא עצרו את עליית הטמפ'.</li>
+          <li>הוכרז מצב חירום במחוז אורנג'; אזור הפינוי ~10 מייל רבוע.</li>
+        </ul>
+      </div>
+      <div class="note">עדכון אחרון: 24.5.2026 בוקר · נתונים מ-OCFA והתקשורת · אירוע מתפתח.</div>
+    </section>
+
+    <!-- ===== PAGE 2: MAP ===== -->
+    <section class="page" id="p-map">
+      <h2 class="ltitle">מפת האירוע</h2>
+      <div id="map"></div>
+      <div class="legend">
+        <span class="li"><span class="pin" style="background:#ff453a"></span>מוקד האירוע</span>
+        <span class="li"><span class="pin" style="background:#ffb02e"></span>בי"ס (פגיע)</span>
+        <span class="li"><span class="pin" style="background:#bf5af2"></span>פארק שעשועים</span>
+        <span class="li"><span class="pin" style="background:#0a84ff"></span>בי"ח</span>
+        <span class="li"><span class="pin" style="background:#30d158"></span>מקלט פינוי</span>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <h3><span class="dot"></span>רצפטורים ציבוריים</h3>
+        <div id="recep-list"></div>
+      </div>
+      <div class="note">אזור הפינוי (מצולע אדום) מקורב: צפ' Ball Rd · דר' Trask Ave · מע' Valley View St · מז' Dale St. טבעות מרחק 1/3/5 ק"מ סביב המוקד. קואורדינטות מ-Google Places.</div>
+    </section>
+
+    <!-- ===== PAGE 3: CHEMICAL ===== -->
+    <section class="page" id="p-chem">
+      <h2 class="ltitle">החומר המסוכן</h2>
+      <div class="card solid">
+        <h3><span class="dot"></span>זיהוי</h3>
+        <div class="pg">
+          <div class="p"><div class="k">שם</div><div class="v" style="font-size:15px">מתיל מתאקרילט <small>(MMA)</small></div></div>
+          <div class="p"><div class="k">קאס</div><div class="v">80-62-6</div></div>
+          <div class="p"><div class="k">מספר או"ם</div><div class="v">או"ם 1247</div></div>
+          <div class="p"><div class="k">נוסחה</div><div class="v">C₅H₈O₂</div></div>
+          <div class="p"><div class="k">משקל מולקולרי</div><div class="v">100.12</div></div>
+          <div class="p"><div class="k">ריח</div><div class="v" style="font-size:14px">פירותי חריף</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>סיווג NFPA 704</h3>
+        <div class="nfpa">
+          <div class="diamond">
+            <div class="q h"><span>2</span></div><div class="q f"><span>3</span></div>
+            <div class="q s"><span></span></div><div class="q r"><span>2</span></div>
+          </div>
+          <div class="nleg">
+            <div><b style="color:#3b9dff">בריאות 2</b> — נזק זמני/שיורי</div>
+            <div><b style="color:#ff6961">דליקות 3</b> — מתלקח כמעט בכל טמפ'</div>
+            <div><b style="color:#ffd60a">ריאקטיביות 2</b> — שינוי אלים בחום (פילמור)</div>
+            <div class="ghs">GHS:
+              <span class="chip">H225</span><span class="chip">H315</span><span class="chip">H317</span><span class="chip">H335</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>תכונות פיזיקליות</h3>
+        <div class="pg">
+          <div class="p"><div class="k">נקודת הבזקה</div><div class="v">2°C</div></div>
+          <div class="p"><div class="k">התלקחות עצמית</div><div class="v">435°C</div></div>
+          <div class="p"><div class="k">תחום נפיצות</div><div class="v">1.7–8.2<small>%</small></div></div>
+          <div class="p"><div class="k">נקודת רתיחה</div><div class="v">101°C</div></div>
+          <div class="p"><div class="k">לחץ אדים</div><div class="v">29<small> mmHg</small></div></div>
+          <div class="p"><div class="k">צפיפות</div><div class="v">0.94</div></div>
+          <div class="p"><div class="k">IDLH</div><div class="v">1000<small> ppm</small></div></div>
+          <div class="p"><div class="k">PEL/REL (TWA)</div><div class="v">100<small> ppm</small></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>השפעות בריאותיות ותגובה</h3>
+        <div class="alert amber"><h4>🫁 חשיפה חריפה</h4>
+          <p>גירוי משמעותי של ריאות ודרכי נשימה עליונות, גירוי עור ועיניים, בחילה, סחרחורת וכאבי ראש. בריכוז גבוה מאוד — מצוקה נשימתית קשה ואשפוז.</p></div>
+        <ul class="li">
+          <li class="g">פינוי והרחקה מכיוון הרוח</li>
+          <li class="g">אוויר צח; חמצן בקושי נשימתי</li>
+          <li class="g">שטיפת עור/עיניים במים בשפע; הסרת ביגוד מזוהם</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 4: MECHANISM ===== -->
+    <section class="page" id="p-mech">
+      <h2 class="ltitle">מנגנון הסכנה</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>פילמור בורח (מאושר)</h3>
+        <div class="alert red"><h4>🔥 אוטו-פילמור אקסותרמי</h4>
+          <p>הנוזל החל בפילמור כימי בלתי מבוקר. יצירת הפלסטיק משחררת חום: החום מאיץ את הפילמור → עוד חום → התגובה מאיצה — <b>לולאת משוב חיובית</b> המובילה ל-thermal runaway. עליית הטמפ' (~1°/שעה) היא חתימת התופעה.</p></div>
+        <div class="alert amber"><h4>💊 מדוע המעכב נכשל</h4>
+          <p>ל-MMA מוסיפים מייצב/מעכב (הידרוקווינון / Topanol / MEHQ) — סורק רדיקלים השומר על יציבות באחסון. עם הזמן, בזיהום או נקודות חום מקומיות, <b>המעכב מתכלה ונגמר</b>. ברגע שכשל — המולקולות מגיבות מעצמן. חומר הייצוב היה במיכל; הוא פשוט נצרך.</p></div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>מנגנון החסימה</h3>
+        <div class="alert red"><h4>🔒 הפילמור פקק את היציאות</h4>
+          <p>ליבת המשבר אינה קירור ולא מלאי מעכבים — אלא <b>חסימה מכנית מוחלטת</b>. לפי הערכת מומחה (USC), המונומר הנוזלי התפלמר בתוך מוצא המיכל והפך לחומר מוצק דמוי-זכוכית. לכן אי אפשר להכניס או להוציא דבר.</p></div>
+        <p style="font-weight:700;font-size:14.5px;margin:4px 2px 6px;">התערבויות שנשללו עקב חסימת הברזים:</p>
+        <ul class="li">
+          <li class="w"><b>הזרקת מעכב נוסף</b> — אין מוצא פתוח להחדרה/ערבוב; המעכבים אף דורשים חמצן כדי לפעול.</li>
+          <li class="w"><b>חנקן נוזלי / קירור פנימי</b> — אין גישה פנימה; קירור אפשרי רק על הדופן בעוד החום נוצר בנוזל. סיכון הלם תרמי לפלדה.</li>
+          <li class="w"><b>ניקוז / שאיבה</b> — חסום ע"י הברזים הפקוקים.</li>
+          <li class="w"><b>שחרור לחץ מבוקר</b> — מסתם ההקלה ניזוק ואינו אמין.</li>
+        </ul>
+        <div class="alert blue" style="margin-top:10px;"><h4>🧊 למה קירור עדיין קריטי</h4>
+          <p>קצב הפילמור יורד בקירוב בחצי על כל ~10°C ירידה. קירור הדופן מאט (לא עוצר) את הבריחה ו"קונה זמן" — לכן ממשיכים ברסס מים גם ללא גישה לליבה.</p></div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>פעולות המומחים בפועל</h3>
+        <ul class="li">
+          <li class="g">קירור דופן חיצונית ברסס מים — בתחילה הצליח לסגור את מסתם ההקלה ולמנוע בריחת חומר.</li>
+          <li>מעבר מעמדה הגנתית ל<b>התקפית</b>: הצבת צוות בסיכון מבוקר בתמיכת כימאי OCFA.</li>
+          <li>קריאת טמפ' חיצונית ברחפן (לא קורא את פנים המיכל) — לכן הערכת ירידת הטמפ' המוקדמת התבררה כשגויה.</li>
+          <li class="g">צוות שהתקרב למיכל <b>אחר</b> לנטרול כימי הצליח לקרוא את מד הטמפ' הפנימי — כך התגלתה הקפיצה ל-90°F.</li>
+          <li class="w">חומר בשימוש עד כה: <b>מים בלבד</b>. לא דווח על נטרול שהוחדר בהצלחה למיכל הבעייתי.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>שיקולי כיבוי</h3>
+        <ul class="li">
+          <li>קירור מיכלים חשופים ממרחק — עדיפות לתותח מים מקובע לא מאויש / קווים בלתי מאוישים.</li>
+          <li>אמצעי כיבוי: <b>קצף היוצר שכבה מימית (AFFF)</b>, חומר כיבוי יבש, פחמן דו חמצני. מים — לקירור ופיזור אדים בלבד.</li>
+          <li class="w">לנטרל מקורות הצתה ברדיוס הסיכון — אדים עלולים לנדוד ולחזור כלהבה.</li>
+          <li>בקרת תשטיפי כיבוי; מניעת זרימה למקורות מים וביוב.</li>
+          <li class="w">להתרחק מקצוות המיכל בסיכון קרע; היערכות לנסיגה מיידית.</li>
+          <li>מיגון: ערכת מגן כימי מלאה + מנ"פ בכל כניסה לאזור החם.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 5: TIMELINE + SOURCES ===== -->
+    <section class="page" id="p-info">
+      <h2 class="ltitle">ציר זמן ומקורות</h2>
+      <div class="card">
+        <h3><span class="dot"></span>כרונולוגיה</h3>
+        <div class="tl">
+          <div class="tlitem"><div class="t">חמישי 21.5 · ~15:40</div><div class="d">דיווח על שחרור אדים ממיכלי אחסון; מסתם הקלה וספרינקלרים פנימיים נפתחו אוטומטית; צווי פינוי ראשונים.</div></div>
+          <div class="tlitem"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את מסתם ההקלה; צווי הפינוי בוטלו.</div></div>
+          <div class="tlitem"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום.</div></div>
+          <div class="tlitem"><div class="t">שבת 23.5 · לילה</div><div class="d">מעבר להתקפה: ניסיון מסוכן לנטרול; קריאת מד פנימי הראתה 90°F (מול 77°F בבוקר). פתיחת מקלטים נוספים.</div></div>
+          <div class="tlitem now"><div class="t">ראשון 24.5 · בוקר</div><div class="d">איום קרע/פיצוץ עדיין מיידי; ~50K מפונים; טמפ' ממשיכה לעלות ~1°/שעה לעבר סף ה-BLEVE.</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>מקורות וקישורים</h3>
+        <a class="src" href="https://www.nbcnews.com/news/us-news/california-evacuation-chemical-explosion-rcna346582" target="_blank" rel="noopener"><span class="ic">📰</span><span><div class="nm">NBC News</div><div class="u">פינוי ואיום פיצוץ · נתוני MMA</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://abc7.com/live-updates/garden-grove-chemical-tank-emergency-leaking-toxic-chemicals-orange-county-will-spill-explode-officials-say/19152918/" target="_blank" rel="noopener"><span class="ic">📡</span><span><div class="nm">ABC7 Los Angeles · Live</div><div class="u">עדכוני חי, גבולות אזור פינוי</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://ktla.com/news/california/heres-why-experts-cant-stop-garden-grove-tank-from-overheating/" target="_blank" rel="noopener"><span class="ic">🔬</span><span><div class="nm">KTLA</div><div class="u">מדוע אי אפשר לעצור · פרופ' Picazo</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://newsantaana.com/latests-updates-on-the-garden-grove-chemical-tank-emergency/" target="_blank" rel="noopener"><span class="ic">⚗️</span><span><div class="nm">New Santa Ana</div><div class="u">הסבר אוטו-פילמור וכשל מעכב</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://www.cnn.com/2026/05/22/us/chemical-spill-orange-county-california" target="_blank" rel="noopener"><span class="ic">🌐</span><span><div class="nm">CNN</div><div class="u">רצפטורים, מרחקים, תגובת GKN</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://en.wikipedia.org/wiki/Garden_Grove_chemical_leak" target="_blank" rel="noopener"><span class="ic">📚</span><span><div class="nm">Wikipedia · דף האירוע</div><div class="u">סיכום מתעדכן</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://en.wikipedia.org/wiki/Methyl_methacrylate" target="_blank" rel="noopener"><span class="ic">🧪</span><span><div class="nm">Wikipedia · MMA</div><div class="u">נתוני חומר מלאים</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://pubchem.ncbi.nlm.nih.gov/compound/6658" target="_blank" rel="noopener"><span class="ic">🔎</span><span><div class="nm">PubChem · CID 6658</div><div class="u">מסד נתונים כימי</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://ggcity.org/emergency" target="_blank" rel="noopener"><span class="ic">🚨</span><span><div class="nm">City of Garden Grove · Emergency</div><div class="u">מפת פינוי רשמית · קו חם 714-628-7085</div></span><span class="arr">›</span></a>
+      </div>
+      <div class="note">הופק עבור 60 שניות חומ"ס · 24.5.2026 · אירוע מתפתח, ייתכנו שינויים. נתוני החומר מעוגלים — אין להשתמש ככלי הכרעה תפעולי ללא אימות מול ERG 2024 / כרטיס בטיחות.</div>
+    </section>
+
+    <div class="spacer"></div>
+  </main>
+
+  <!-- TAB BAR -->
+  <nav class="tabbar">
+    <div class="tab on" data-p="p-status">
+      <svg viewBox="0 0 24 24"><path d="M3 13a9 9 0 1 1 18 0"/><path d="M12 13l4-3"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/></svg>
+      מצב</div>
+    <div class="tab" data-p="p-map">
+      <svg viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>
+      מפה</div>
+    <div class="tab" data-p="p-chem">
+      <svg viewBox="0 0 24 24"><path d="M9 3v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 3h8"/></svg>
+      החומר</div>
+    <div class="tab" data-p="p-mech">
+      <svg viewBox="0 0 24 24"><path d="M12 3c1 3-1 4-1 6a3 3 0 0 0 6 0c2 2 3 4 3 7a8 8 0 1 1-16 0c0-4 3-7 5-9 1 2 2 2 3 1Z"/></svg>
+      מנגנון</div>
+    <div class="tab" data-p="p-info">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+      מידע</div>
+  </nav>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ---- Tab navigation ----
+const tabs=document.querySelectorAll('.tab');
+const pages=document.querySelectorAll('.page');
+const scroll=document.getElementById('scroll');
+let mapInit=false;
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('on'));
+  pages.forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');
+  const pg=document.getElementById(t.dataset.p);
+  pg.classList.add('on');
+  scroll.scrollTop=0;
+  if(t.dataset.p==='p-map'){ initMap(); }
+}));
+
+// ---- Data: incident + receptors ----
+const INCIDENT={lat:33.7864618,lng:-118.001386,name:'GKN Aerospace',addr:'12122 Western Ave, Garden Grove'};
+const RECEPTORS=[
+  {n:'Wakeham Elementary',d:'בית ספר יסודי',t:'school',lat:33.7876869,lng:-117.9963068,emoji:'🏫',c:'#ffb02e'},
+  {n:'Patton Elementary',d:'בית ספר יסודי',t:'school',lat:33.7894706,lng:-118.0126219,emoji:'🏫',c:'#ffb02e'},
+  {n:'Stanton City Hall',d:'מקלט פינוי',t:'shelter',lat:33.8023249,lng:-117.9962905,emoji:'🏛️',c:'#30d158'},
+  {n:"Knott's Berry Farm",d:'פארק שעשועים',t:'park',lat:33.8443038,lng:-118.0002265,emoji:'🎢',c:'#bf5af2'},
+  {n:'GG Sports & Rec Center',d:'מקלט פינוי',t:'shelter',lat:33.7641383,lng:-117.9663724,emoji:'🏟️',c:'#30d158'},
+  {n:'Disneyland Park',d:'פארק שעשועים',t:'park',lat:33.8120918,lng:-117.918974,emoji:'🎡',c:'#bf5af2'},
+  {n:'Garden Grove Hospital',d:'בית חולים',t:'hospital',lat:33.7748653,lng:-117.913120,emoji:'🏥',c:'#0a84ff'},
+];
+// distance + bearing
+function dist(a,b){const R=6371,toR=x=>x*Math.PI/180;
+  const dLat=toR(b.lat-a.lat),dLng=toR(b.lng-a.lng);
+  const s=Math.sin(dLat/2)**2+Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(s),Math.sqrt(1-s));}
+function bearing(a,b){const toR=x=>x*Math.PI/180,toD=x=>x*180/Math.PI;
+  const y=Math.sin(toR(b.lng-a.lng))*Math.cos(toR(b.lat));
+  const x=Math.cos(toR(a.lat))*Math.sin(toR(b.lat))-Math.sin(toR(a.lat))*Math.cos(toR(b.lat))*Math.cos(toR(b.lng-a.lng));
+  const dirs=['צפון','צ-מז','מזרח','ד-מז','דרום','ד-מע','מערב','צ-מע'];
+  return dirs[Math.round(((toD(Math.atan2(y,x))+360)%360)/45)%8];}
+
+// receptor list
+const list=document.getElementById('recep-list');
+RECEPTORS.map(r=>({...r,km:dist(INCIDENT,r),dir:bearing(INCIDENT,r)}))
+  .sort((a,b)=>a.km-b.km)
+  .forEach(r=>{
+    const el=document.createElement('div');el.className='recep';
+    el.innerHTML=`<div class="ic" style="background:${r.c}22;color:${r.c}">${r.emoji}</div>
+      <div><div class="nm">${r.n}</div><div class="ds">${r.d}</div></div>
+      <div class="dist"><div class="d" style="color:${r.km<2?'#ff6961':'#fff'}">${r.km.toFixed(1)} ק"מ</div><div class="dir">${r.dir} · ${(r.km*0.621).toFixed(1)} mi</div></div>`;
+    list.appendChild(el);
+  });
+
+// ---- Map ----
+function initMap(){
+  if(mapInit) return; mapInit=true;
+  const map=L.map('map',{zoomControl:true,attributionControl:true}).setView([INCIDENT.lat,INCIDENT.lng],13);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+    maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(map);
+
+  // evacuation zone polygon (approx)
+  const N=33.834,S=33.766,W=-118.014,E=-117.985;
+  L.polygon([[N,W],[N,E],[S,E],[S,W]],{color:'#ff453a',weight:1.5,fillColor:'#ff453a',fillOpacity:.12,dashArray:'6 5'})
+    .addTo(map).bindPopup('אזור פינוי (מקורב)');
+
+  // distance rings
+  [1000,3000,5000].forEach(rr=>L.circle([INCIDENT.lat,INCIDENT.lng],{radius:rr,color:'#ffb02e',weight:.8,opacity:.4,fill:false,dashArray:'3 6'}).addTo(map));
+
+  // incident marker (pulsing)
+  const inc=L.divIcon({className:'',html:`<div style="width:22px;height:22px;border-radius:50%;background:#ff453a;border:3px solid #fff;box-shadow:0 0 0 6px rgba(255,69,58,.35);animation:pulse 1.6s infinite"></div><style>@keyframes pulse{0%{box-shadow:0 0 0 4px rgba(255,69,58,.45)}70%{box-shadow:0 0 0 16px rgba(255,69,58,0)}100%{box-shadow:0 0 0 4px rgba(255,69,58,0)}}</style>`,iconSize:[22,22],iconAnchor:[11,11]});
+  L.marker([INCIDENT.lat,INCIDENT.lng],{icon:inc}).addTo(map)
+    .bindPopup(`<b>${INCIDENT.name}</b><br>מוקד האירוע · מיכל MMA<br><small>${INCIDENT.addr}</small>`).openPopup();
+
+  // receptor markers
+  RECEPTORS.forEach(r=>{
+    const ic=L.divIcon({className:'',html:`<div style="width:15px;height:15px;border-radius:50%;background:${r.c};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.6)"></div>`,iconSize:[15,15],iconAnchor:[7,7]});
+    L.marker([r.lat,r.lng],{icon:ic}).addTo(map)
+      .bindPopup(`<b>${r.emoji} ${r.n}</b><br>${r.d}<br><small>${dist(INCIDENT,r).toFixed(1)} ק"מ ${bearing(INCIDENT,r)}</small>`);
+  });
+  setTimeout(()=>map.invalidateSize(),200);
+}
+</script>
+</body>
+</html>
