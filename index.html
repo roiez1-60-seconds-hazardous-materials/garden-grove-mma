@@ -290,6 +290,12 @@ ul.li li b{color:#fff;}
           <button class="seg on" data-layer="rupture">קרע מיידי</button>
           <button class="seg" data-stab="F">לילה יציב</button>
           <button class="seg" data-stab="D">ניטרלי יום</button>
+          <button class="seg ghost" id="wind-refresh">↻ רענן רוח</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12.5px;color:var(--muted);">
+          <span>כיוון רוח ידני:</span>
+          <input type="range" id="wind-slider" min="0" max="359" value="270" style="flex:1;accent-color:var(--blue);">
+          <span id="wind-slider-val" style="font-weight:700;color:var(--txt);min-width:38px;text-align:left;">270°</span>
         </div>
         <div id="plume-readout"></div>
         <div class="note" style="text-align:right;padding:6px 2px 0;">שני התרחישים מוצגים כשכבות נפרדות: <b>קרע מיידי</b> (מקווקו, טווח גדול) ו<b>דליפה מתאדה</b> (מלא). הקש על תרחיש להצגה/הסתרה. ⚠️ הערכה גאוסיאנית מפושטת (Pasquill-Gifford) — <b>אינה ALOHA רשמי</b>; להמחשה בלבד.</div>
@@ -628,23 +634,47 @@ function drawPlume(){
   const u=plumeState.windSpeed||2, stab=plumeState.stab;
   const travel=(plumeState.windDir+180)%360; // toward
   plumeLayer=L.layerGroup().addTo(MAP);
-  // draw rupture (bigger, dashed) first so evap sits on top; only enabled layers
+  // per-zone fill so inner (dangerous) zones read darker; outer lighter
+  const zoneFill={'AEGL-3':.55,'AEGL-2':.40,'AEGL-1':.22};
   Object.keys(SCEN).sort((a,b)=>SCEN[a].order-SCEN[b].order).forEach(sc=>{
     if(!plumeState.layers[sc])return;
     const cfg=SCEN[sc], Q=cfg.Q;
-    // farthest AEGL first within each scenario
-    AEGL.forEach(a=>{
-      const d=distFor(ppm2mg(a.ppm),Q,u,stab);
-      if(!d)return;
-      const opts={color:a.color,weight:cfg.dash?1.5:1,fillColor:a.color,fillOpacity:cfg.fill,opacity:.7};
+    // compute distances, then draw FARTHEST (AEGL-1) first so the
+    // smaller, more dangerous zones are layered on TOP and stay visible.
+    const zones=AEGL.map(a=>({a,d:distFor(ppm2mg(a.ppm),Q,u,stab)}))
+                    .filter(z=>z.d)
+                    .sort((x,y)=>y.d-x.d);   // big -> small
+    zones.forEach(({a,d})=>{
+      const opts={color:a.color,weight:cfg.dash?2:1.5,
+        fillColor:a.color,fillOpacity:(cfg.dash? zoneFill[a.k]*0.6 : zoneFill[a.k]),
+        opacity:.95};
       if(cfg.dash)opts.dashArray=cfg.dash;
       L.polygon(wedge(d,travel,stab),opts).addTo(plumeLayer)
         .bindPopup(`<b>${cfg.name}</b><br>${a.k} · ${a.ppm} ppm — ${a.label}<br>טווח ~${(d/1000).toFixed(2)} ק"מ במורד הרוח`);
     });
   });
-  // wind arrow
-  const tip=destPoint(INCIDENT.lat,INCIDENT.lng,travel,600);
-  L.polyline([[INCIDENT.lat,INCIDENT.lng],tip],{color:'#0a84ff',weight:3,opacity:.8}).addTo(plumeLayer);
+  // wind arrow — clear shaft + arrowhead, length scaled to be visible
+  const arrowLen=900;
+  const tip=destPoint(INCIDENT.lat,INCIDENT.lng,travel,arrowLen);
+  L.polyline([[INCIDENT.lat,INCIDENT.lng],tip],{color:'#0a84ff',weight:4,opacity:.9}).addTo(plumeLayer);
+  // arrowhead (two short barbs)
+  [-25,25].forEach(off=>{
+    const barb=destPoint(tip[0],tip[1],(travel+180+off+360)%360,220);
+    L.polyline([tip,barb],{color:'#0a84ff',weight:4,opacity:.9}).addTo(plumeLayer);
+  });
+  L.marker(tip,{icon:L.divIcon({className:'',html:'<div style="background:#0a84ff;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-50%)">רוח</div>',iconSize:[1,1]})}).addTo(plumeLayer);
+
+  // auto-fit map to show the full plume extent (largest enabled zone)
+  try{
+    const allPts=[];
+    Object.keys(SCEN).forEach(sc=>{
+      if(!plumeState.layers[sc])return;
+      const d=distFor(ppm2mg(17),SCEN[sc].Q,u,stab); // AEGL-1 = farthest
+      if(d) wedge(d,travel,stab).forEach(p=>allPts.push(p));
+    });
+    allPts.push([INCIDENT.lat,INCIDENT.lng]); allPts.push(tip);
+    if(allPts.length>2) MAP.fitBounds(L.latLngBounds(allPts).pad(0.25),{maxZoom:15,animate:true});
+  }catch(e){}
 }
 
 function renderReadout(){
@@ -679,12 +709,16 @@ async function fetchWind(){
     const sp=j.current?.wind_speed_10m, dr=j.current?.wind_direction_10m;
     if(sp!=null&&dr!=null){
       plumeState.windSpeed=Math.max(1,sp);plumeState.windDir=dr;
-      const dirs=['צפון','צ-מז','מזרח','ד-מז','דרום','ד-מע','מערב','צ-מע'];
+      const dirs=['צפונית','צפון-מזרחית','מזרחית','דרום-מזרחית','דרומית','דרום-מערבית','מערבית','צפון-מערבית'];
       const dname=dirs[Math.round(dr/45)%8];
-      ws.innerHTML=`🌬️ רוח אמת (Open-Meteo): מ<b>${dname}</b> ${sp.toFixed(1)} מ'/ש' · הפלומה נעה למורד הרוח`;
+      const toward=dirs[Math.round(((dr+180)%360)/45)%8];
+      ws.innerHTML=`🌬️ <b>רוח אמת</b> (Open-Meteo): מכיוון <b>${dname}</b> (${Math.round(dr)}°) · ${sp.toFixed(1)} מ'/ש'<br><span style="color:var(--amber)">← הפלומה נעה לכיוון ${toward}</span>`;
+      // sync the manual slider to the live value
+      const sl=document.getElementById('wind-slider'), sv=document.getElementById('wind-slider-val');
+      if(sl){sl.value=Math.round(dr); sv.textContent=Math.round(dr)+'°';}
     }else throw new Error('no data');
   }catch(e){
-    ws.innerHTML='🌬️ רוח ברירת מחדל: ממערב 2 מ\'/ש\' (לא נמשך נתון אמת)';
+    ws.innerHTML='🌬️ <b>רוח לא נמשכה</b> — שימוש בכיוון הידני למטה. הזז את המחוון כדי לכוון את הפלומה.';
   }
   refreshPlume();
 }
@@ -698,6 +732,18 @@ function initPlume(){
     b.addEventListener('click',()=>{
     document.querySelectorAll('.seg[data-stab]').forEach(x=>x.classList.remove('on'));
     b.classList.add('on');plumeState.stab=b.dataset.stab;refreshPlume();});});
+  // manual wind-direction slider
+  const sl=document.getElementById('wind-slider'), sv=document.getElementById('wind-slider-val');
+  if(sl){sl.addEventListener('input',()=>{
+    plumeState.windDir=+sl.value; sv.textContent=sl.value+'°';
+    const ws=document.getElementById('wind-status');
+    const dirs=['צפונית','צפון-מזרחית','מזרחית','דרום-מזרחית','דרומית','דרום-מערבית','מערבית','צפון-מערבית'];
+    const toward=dirs[Math.round(((plumeState.windDir+180)%360)/45)%8];
+    ws.innerHTML=`✋ <b>כיוון רוח ידני</b>: מכיוון ${Math.round(plumeState.windDir)}° · ${plumeState.windSpeed.toFixed(1)} מ'/ש'<br><span style="color:var(--amber)">← הפלומה נעה לכיוון ${toward}</span>`;
+    refreshPlume();
+  });}
+  const wr=document.getElementById('wind-refresh');
+  if(wr)wr.addEventListener('click',fetchWind);
   fetchWind();
 }
 
