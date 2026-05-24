@@ -286,14 +286,13 @@ ul.li li b{color:#fff;}
         <h3><span class="dot"></span>פלומת עננת רעילה (הערכה)</h3>
         <div id="wind-status" style="font-size:13px;color:var(--muted);margin-bottom:10px;">טוען נתוני רוח…</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-          <button class="seg on" data-sc="evap">דליפה מתאדה</button>
-          <button class="seg" data-sc="rupture">קרע מיידי</button>
+          <button class="seg on" data-layer="evap">דליפה מתאדה</button>
+          <button class="seg on" data-layer="rupture">קרע מיידי</button>
           <button class="seg" data-stab="F">לילה יציב</button>
           <button class="seg" data-stab="D">ניטרלי יום</button>
-          <button class="seg ghost" id="plume-toggle">הצג/הסתר פלומה</button>
         </div>
         <div id="plume-readout"></div>
-        <div class="note" style="text-align:right;padding:6px 2px 0;">⚠️ הערכה גאוסיאנית מפושטת (Pasquill-Gifford) — <b>אינה ALOHA רשמי</b>. מיועדת להמחשה בלבד; אין להשתמש כבסיס פינוי.</div>
+        <div class="note" style="text-align:right;padding:6px 2px 0;">שני התרחישים מוצגים כשכבות נפרדות: <b>קרע מיידי</b> (מקווקו, טווח גדול) ו<b>דליפה מתאדה</b> (מלא). הקש על תרחיש להצגה/הסתרה. ⚠️ הערכה גאוסיאנית מפושטת (Pasquill-Gifford) — <b>אינה ALOHA רשמי</b>; להמחשה בלבד.</div>
       </div>
 
       <div class="card" style="margin-top:14px;">
@@ -581,8 +580,11 @@ function distFor(mgm3,Qgs,u,stab){const tg=mgm3/1000;let lo=1,hi=30000;
   for(let i=0;i<80;i++){const m=(lo+hi)/2;concAt(m,Qgs,u,stab)>tg?lo=m:hi=m;}return (lo+hi)/2;}
 
 // scenario source strengths (g/s) — transparent assumptions
-const SCEN={evap:{Q:120,name:'דליפה מתאדה (~120 ג\'/ש\')'},rupture:{Q:1000,name:'קרע מיידי (~1000 ג\'/ש\')'}};
-let plumeState={sc:'evap',stab:'F',windDir:270,windSpeed:2.0,shown:true};
+const SCEN={
+  rupture:{Q:1000,name:'קרע מיידי',short:'קרע',dash:'8 6',fill:.16,order:0},
+  evap:{Q:120,name:'דליפה מתאדה',short:'דליפה',dash:null,fill:.30,order:1},
+};
+let plumeState={layers:{evap:true,rupture:true},stab:'F',windDir:270,windSpeed:2.0};
 
 // wind: meteorological "from" direction -> plume travels toward (dir+180)
 function destPoint(lat,lng,bearingDeg,distM){const R=6371000,br=bearingDeg*Math.PI/180;
@@ -591,24 +593,32 @@ function destPoint(lat,lng,bearingDeg,distM){const R=6371000,br=bearingDeg*Math.
   const lng2=lng1+Math.atan2(Math.sin(br)*Math.sin(dR)*Math.cos(lat1),Math.cos(dR)-Math.sin(lat1)*Math.sin(lat2));
   return [lat2*180/Math.PI,lng2*180/Math.PI];}
 
+function wedge(d,travel,stab){
+  const[sy]=sigmas(d,stab); const halfW=Math.min(45,Math.max(12,Math.atan2(2*sy,d)*180/Math.PI));
+  const pts=[[INCIDENT.lat,INCIDENT.lng]];
+  for(let ang=-halfW;ang<=halfW;ang+=3){pts.push(destPoint(INCIDENT.lat,INCIDENT.lng,(travel+ang+360)%360,d));}
+  pts.push([INCIDENT.lat,INCIDENT.lng]);return pts;
+}
+
 function drawPlume(){
   if(!MAP)return;
   if(plumeLayer){MAP.removeLayer(plumeLayer);plumeLayer=null;}
-  if(!plumeState.shown)return;
-  const Q=SCEN[plumeState.sc].Q, u=plumeState.windSpeed||2, stab=plumeState.stab;
+  const u=plumeState.windSpeed||2, stab=plumeState.stab;
   const travel=(plumeState.windDir+180)%360; // toward
   plumeLayer=L.layerGroup().addTo(MAP);
-  // draw from farthest (AEGL-1) to nearest so smaller sits on top
-  AEGL.forEach(a=>{
-    const d=distFor(ppm2mg(a.ppm),Q,u,stab);
-    if(!d)return;
-    // build a teardrop wedge: arc +/- halfWidth around travel direction
-    const[sy]=sigmas(d,stab); const halfW=Math.min(45,Math.max(12,Math.atan2(2*sy,d)*180/Math.PI));
-    const pts=[[INCIDENT.lat,INCIDENT.lng]];
-    for(let ang=-halfW;ang<=halfW;ang+=3){pts.push(destPoint(INCIDENT.lat,INCIDENT.lng,(travel+ang+360)%360,d));}
-    pts.push([INCIDENT.lat,INCIDENT.lng]);
-    L.polygon(pts,{color:a.color,weight:1,fillColor:a.color,fillOpacity:.28,opacity:.7})
-      .addTo(plumeLayer).bindPopup(`<b>${a.k}</b> · ${a.ppm} ppm<br>${a.label}<br>טווח ~${(d/1000).toFixed(2)} ק"מ במורד הרוח`);
+  // draw rupture (bigger, dashed) first so evap sits on top; only enabled layers
+  Object.keys(SCEN).sort((a,b)=>SCEN[a].order-SCEN[b].order).forEach(sc=>{
+    if(!plumeState.layers[sc])return;
+    const cfg=SCEN[sc], Q=cfg.Q;
+    // farthest AEGL first within each scenario
+    AEGL.forEach(a=>{
+      const d=distFor(ppm2mg(a.ppm),Q,u,stab);
+      if(!d)return;
+      const opts={color:a.color,weight:cfg.dash?1.5:1,fillColor:a.color,fillOpacity:cfg.fill,opacity:.7};
+      if(cfg.dash)opts.dashArray=cfg.dash;
+      L.polygon(wedge(d,travel,stab),opts).addTo(plumeLayer)
+        .bindPopup(`<b>${cfg.name}</b><br>${a.k} · ${a.ppm} ppm — ${a.label}<br>טווח ~${(d/1000).toFixed(2)} ק"מ במורד הרוח`);
+    });
   });
   // wind arrow
   const tip=destPoint(INCIDENT.lat,INCIDENT.lng,travel,600);
@@ -616,16 +626,24 @@ function drawPlume(){
 }
 
 function renderReadout(){
-  const Q=SCEN[plumeState.sc].Q,u=plumeState.windSpeed||2,stab=plumeState.stab;
+  const u=plumeState.windSpeed||2,stab=plumeState.stab;
   const ro=document.getElementById('plume-readout');ro.innerHTML='';
-  AEGL.forEach(a=>{
-    const d=distFor(ppm2mg(a.ppm),Q,u,stab);
-    const km=d?`${(d/1000).toFixed(2)} ק"מ`:'מתחת לסף';
-    const row=document.createElement('div');row.className='plume-row';
-    row.innerHTML=`<span class="sw" style="background:${a.color}"></span>
-      <div><div class="nm">${a.k} · ${a.ppm} ppm</div><div class="sub2">${a.label}</div></div>
-      <span class="km">${km}</span>`;
-    ro.appendChild(row);
+  Object.keys(SCEN).sort((a,b)=>SCEN[a].order-SCEN[b].order).forEach(sc=>{
+    if(!plumeState.layers[sc])return;
+    const cfg=SCEN[sc];
+    const hdr=document.createElement('div');
+    hdr.style.cssText='font-size:12px;font-weight:800;color:#fff;margin:10px 2px 2px;';
+    hdr.innerHTML=`${cfg.name} <span style="color:var(--muted);font-weight:600">· מקור ~${cfg.Q} ג'/ש'${cfg.dash?' (מקווקו)':''}</span>`;
+    ro.appendChild(hdr);
+    AEGL.forEach(a=>{
+      const d=distFor(ppm2mg(a.ppm),cfg.Q,u,stab);
+      const km=d?`${(d/1000).toFixed(2)} ק"מ`:'מתחת לסף';
+      const row=document.createElement('div');row.className='plume-row';
+      row.innerHTML=`<span class="sw" style="background:${a.color}"></span>
+        <div><div class="nm">${a.k} · ${a.ppm} ppm</div><div class="sub2">${a.label}</div></div>
+        <span class="km">${km}</span>`;
+      ro.appendChild(row);
+    });
   });
 }
 
@@ -650,16 +668,14 @@ async function fetchWind(){
 }
 
 function initPlume(){
-  document.querySelectorAll('.seg[data-sc]').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('.seg[data-sc]').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on');plumeState.sc=b.dataset.sc;refreshPlume();}));
+  document.querySelectorAll('.seg[data-layer]').forEach(b=>b.addEventListener('click',()=>{
+    const L=b.dataset.layer; plumeState.layers[L]=!plumeState.layers[L];
+    b.classList.toggle('on',plumeState.layers[L]); refreshPlume();}));
   document.querySelectorAll('.seg[data-stab]').forEach(b=>{
     if(b.dataset.stab===plumeState.stab)b.classList.add('on');
     b.addEventListener('click',()=>{
     document.querySelectorAll('.seg[data-stab]').forEach(x=>x.classList.remove('on'));
     b.classList.add('on');plumeState.stab=b.dataset.stab;refreshPlume();});});
-  document.getElementById('plume-toggle').addEventListener('click',()=>{
-    plumeState.shown=!plumeState.shown;drawPlume();});
   fetchWind();
 }
 </script>
