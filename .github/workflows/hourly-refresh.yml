@@ -1,0 +1,44 @@
+name: Hourly refresh
+
+# Runs every hour. Updates version.json timestamp so the app shows it is
+# "live", and triggers a Vercel redeploy on push.
+#
+# NOTE (honest limitation): this Action refreshes the timestamp and redeploys.
+# It does NOT read news and interpret what changed — that professional
+# judgement still requires a human (Roei) or Claude in a chat session.
+# If a CORS-free, server-readable feed is wired in later, add a fetch step
+# here that writes headlines into version.json.
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # top of every hour (UTC)
+  workflow_dispatch: {}     # allow manual run from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update timestamp
+        run: |
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%S+00:00")
+          NOTE=$(node -e "try{console.log(require('./version.json').note||'')}catch(e){console.log('')}")
+          cat > version.json <<EOF
+          {
+            "lastUpdated": "$NOW",
+            "note": "$NOTE"
+          }
+          EOF
+          echo "Updated version.json to $NOW"
+
+      - name: Commit if changed
+        run: |
+          git config user.name "gg-bot"
+          git config user.email "roiez1@gmail.com"
+          git add version.json
+          git diff --staged --quiet || git commit -m "chore: hourly timestamp refresh"
+          git push

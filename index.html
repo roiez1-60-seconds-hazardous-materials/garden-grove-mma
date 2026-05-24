@@ -426,15 +426,37 @@ ul.li li b{color:#fff;}
     <!-- ===== PAGE 5: TIMELINE + SOURCES ===== -->
     <section class="page" id="p-info">
       <h2 class="ltitle">ציר זמן ומקורות</h2>
+
+      <div class="card" style="border-color:rgba(255,69,58,.3);">
+        <h3><span class="dot" style="background:var(--red);box-shadow:0 0 8px var(--red);"></span>מעקב חי — מתעדכן במקור</h3>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">הקישורים הבאים מתעדכנים אוטומטית בצד המקור — הכותרות הטריות ביותר נמצאות שם. לחיצה פותחת את הבלוג החי.</div>
+        <a class="src" href="https://abc7.com/live-updates/garden-grove-chemical-tank-emergency-leaking-toxic-chemicals-orange-county-will-spill-explode-officials-say/19152918/" target="_blank" rel="noopener"><span class="ic" style="background:rgba(255,69,58,.16);color:var(--red-soft)">🔴</span><span><div class="nm">ABC7 · Live Updates</div><div class="u">בלוג חי — מתעדכן בזמן אמת</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://www.nbclosangeles.com/news/local/live-updates-garden-grove-chemical-tank-crisis/3894268/" target="_blank" rel="noopener"><span class="ic" style="background:rgba(255,69,58,.16);color:var(--red-soft)">🔴</span><span><div class="nm">NBC LA · Live</div><div class="u">בלוג חי — מתעדכן בזמן אמת</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://x.com/OCFireAuthority" target="_blank" rel="noopener"><span class="ic" style="background:rgba(10,132,255,.16);color:var(--blue)">𝕏</span><span><div class="nm">OCFA · @OCFireAuthority</div><div class="u">עדכוני הרשות הרשמיים</div></span><span class="arr">›</span></a>
+        <a class="src" href="https://ggcity.org/" target="_blank" rel="noopener"><span class="ic" style="background:rgba(48,209,88,.16);color:var(--green)">🏛️</span><span><div class="nm">City of Garden Grove</div><div class="u">מפת פינוי רשמית · קו חם 714-628-7085</div></span><span class="arr">›</span></a>
+        <div id="last-updated" class="note" style="text-align:right;padding:8px 2px 0;"></div>
+      </div>
+
       <div class="card">
         <h3><span class="dot"></span>כרונולוגיה</h3>
         <div class="tl">
           <div class="tlitem"><div class="t">חמישי 21.5 · ~15:40</div><div class="d">דיווח על שחרור אדים ממיכלי אחסון; שסתום בטיחות וספרינקלרים פנימיים נפתחו אוטומטית; צווי פינוי ראשונים.</div></div>
           <div class="tlitem"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את שסתום הבטיחות; צווי הפינוי בוטלו.</div></div>
-          <div class="tlitem"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום.</div></div>
+          <div class="tlitem"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום; פרקליטות המחוז (DA) פתחה חקירה.</div></div>
           <div class="tlitem"><div class="t">שבת 23.5 · לילה</div><div class="d">מעבר להתקפה: ניסיון מסוכן לנטרול; קריאת מד פנימי הראתה 32°C (מול 25°C בבוקר). פתיחת מקלטים נוספים.</div></div>
-          <div class="tlitem now"><div class="t">ראשון 24.5 · בוקר</div><div class="d">מיכל #2 (15,000 גלון) יוצב בהזרקת מנטרל; מיכל #1 עדיין באיום קרע/פיצוץ מיידי. ~50K מפונים; טמפ' עולה ~0.5°C/שעה לעבר סף ה-BLEVE. OCFA מתייעצת עם מומחים מרחבי ארה"ב; GKN בתביעה ייצוגית.</div></div>
+          <div class="tlitem now"><div class="t">ראשון 24.5 · בוקר</div><div class="d">מיכל #2 (15,000 גלון) יוצב בהזרקת מנטרל; מיכל #1 עדיין באיום קרע/פיצוץ מיידי. ~50K מפונים; טמפ' עולה ~0.5°C/שעה לעבר סף ה-BLEVE. OCFA מתייעצת עם מומחים; GKN בתביעה ייצוגית.</div></div>
         </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>מרכזי פינוי</h3>
+        <ul class="li">
+          <li>Golden West College — 15744 Goldenwest St, Huntington Beach</li>
+          <li>Freedom Hall, Mile Square Park — 16801 Euclid St, Fountain Valley</li>
+          <li>Savanna High School — 301 N Gilbert St, Anaheim</li>
+          <li>John F. Kennedy High School — 8281 Walker St, La Palma</li>
+          <li>Oceanview High School — 17071 Gothard St, Huntington Beach</li>
+        </ul>
       </div>
 
       <div class="card">
@@ -678,6 +700,18 @@ function initPlume(){
     b.classList.add('on');plumeState.stab=b.dataset.stab;refreshPlume();});});
   fetchWind();
 }
+
+// ---- last-updated stamp (from version.json, refreshed by GitHub Action) ----
+(async function(){
+  const el=document.getElementById('last-updated');
+  if(!el)return;
+  try{
+    const r=await fetch('version.json?t='+Date.now());
+    const j=await r.json();
+    const d=new Date(j.lastUpdated);
+    el.textContent='עודכן לאחרונה: '+d.toLocaleString('he-IL',{dateStyle:'short',timeStyle:'short'})+(j.note?' · '+j.note:'');
+  }catch(e){ el.textContent='עודכן לאחרונה: 24.5.2026'; }
+})();
 </script>
 </body>
 </html>
