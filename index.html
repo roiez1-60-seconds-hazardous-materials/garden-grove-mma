@@ -54,7 +54,7 @@ body{
   -webkit-backdrop-filter:saturate(180%) blur(22px);
   border-bottom:.5px solid var(--line);
 }
-.brand{display:flex;align-items:center;gap:11px;}
+.brand{display:flex;align-items:center;gap:11px;position:relative;}
 .logo{width:42px;height:42px;flex:0 0 auto;}
 .brand-txt h1{font-size:18px;font-weight:800;letter-spacing:-.2px;line-height:1.1;}
 .brand-txt h1 .num{color:var(--amber);}
@@ -218,6 +218,7 @@ ul.li li b{color:#fff;}
       </div>
       <span class="live"><span class="ld"></span>LIVE</span>
       <button id="lang-toggle" style="margin-right:8px;font-family:inherit;font-size:12px;font-weight:800;color:var(--amber);background:rgba(255,176,46,.12);border:.5px solid rgba(255,176,46,.4);border-radius:10px;padding:6px 11px;cursor:pointer;">EN</button>
+      <div id="viewcount" style="position:absolute;top:100%;left:0;right:0;text-align:center;font-size:10.5px;color:var(--muted);pointer-events:none;padding-top:3px;"></div>
     </div>
   </header>
 
@@ -517,7 +518,6 @@ ul.li li b{color:#fff;}
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
       <span data-i="tab_info">מידע</span></div>
   </nav>
-  <div id="viewcount" style="position:absolute;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) - 2px);left:0;right:0;text-align:center;font-size:10.5px;color:var(--muted);pointer-events:none;z-index:55;"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -985,16 +985,22 @@ function applyLang(lang){
 // ================= view counter (Abacus — countapi successor) =================
 // Free, no-backend hit counter with open CORS. Namespace/key are public by design.
 // If the service is unreachable, the counter simply hides — nothing breaks.
+let _viewCount=null;
+function renderViewCount(){
+  const el=document.getElementById('viewcount');
+  if(!el)return;
+  if(_viewCount==null){ el.textContent=''; return; }
+  el.textContent=(LANG==='he'?'👁 '+Number(_viewCount).toLocaleString('he-IL')+' צפיות'
+                             :'👁 '+Number(_viewCount).toLocaleString('en-US')+' views');
+}
 (async function viewCounter(){
   const el=document.getElementById('viewcount');
   if(!el)return;
-  const label=n=>(LANG==='he'?'👁 '+Number(n).toLocaleString('he-IL')+' צפיות'
-                              :'👁 '+Number(n).toLocaleString('en-US')+' views');
   try{
     const r=await fetch('https://abacus.jasoncameron.dev/hit/60sec-hazmat/garden-grove-mma');
     const j=await r.json();
-    const n=(j&&typeof j.value!=='undefined')?j.value:null;
-    if(n!=null){ el.textContent=label(n); el.dataset.count=n; }
+    _viewCount=(j&&typeof j.value!=='undefined')?j.value:null;
+    renderViewCount();
   }catch(e){ el.textContent=''; }
 })();
 
@@ -1038,6 +1044,7 @@ applyLang=function(l){
   try{if(typeof renderReceptors==='function')renderReceptors();}catch(e){}
   try{if(typeof refreshPlume==='function'&&MAP)refreshPlume();}catch(e){}
   try{if(typeof fetchWind==='function'&&MAP)fetchWind();}catch(e){}
+  try{if(typeof renderViewCount==='function')renderViewCount();}catch(e){}
   // rebuild map markers' popups by re-initializing is heavy; popups update on next open.
 };
 drawTempChart();
