@@ -217,6 +217,7 @@ ul.li li b{color:#fff;}
         <p>רועי צוקרמן · מומחה לחומ"ס וטב"ק</p>
       </div>
       <span class="live"><span class="ld"></span>LIVE</span>
+      <button id="lang-toggle" style="margin-right:8px;font-family:inherit;font-size:12px;font-weight:800;color:var(--amber);background:rgba(255,176,46,.12);border:.5px solid rgba(255,176,46,.4);border-radius:10px;padding:6px 11px;cursor:pointer;">EN</button>
     </div>
   </header>
 
@@ -226,57 +227,57 @@ ul.li li b{color:#fff;}
     <!-- ===== PAGE 1: STATUS ===== -->
     <section class="page on" id="p-status">
       <div class="hero">
-        <span class="tag">● אירוע פעיל · מצב חירום</span>
-        <h2>קריסת מיכל מתיל מתאקרילט</h2>
-        <div class="loc">GKN Aerospace · גרדן גרוב, מחוז אורנג', קליפורניה</div>
+        <span class="tag" data-i="tag">● אירוע פעיל · מצב חירום</span>
+        <h2 data-i="hero_title">קריסת מיכל מתיל מתאקרילט</h2>
+        <div class="loc" data-i="hero_loc">GKN Aerospace · גרדן גרוב, מחוז אורנג', קליפורניה</div>
       </div>
 
       <div class="card solid">
-        <h3><span class="dot"></span>נתוני אירוע חיים</h3>
+        <h3><span class="dot"></span><span data-i="live_data">נתוני אירוע חיים</span></h3>
         <div class="stats">
-          <div class="stat danger"><div class="k">טמפ' פנימית</div><div class="v">32°C <small>↑~0.5°/שעה</small></div></div>
-          <div class="stat danger"><div class="k">סף BLEVE</div><div class="v">38°C</div></div>
-          <div class="stat"><div class="k">מפונים</div><div class="v">~50K</div></div>
-          <div class="stat"><div class="k">נפח מיכל</div><div class="v">34K <small>גלון</small></div></div>
-          <div class="stat ok"><div class="k">ניטור אוויר</div><div class="v" style="font-size:18px">תקין</div></div>
-          <div class="stat ok"><div class="k">נפגעים</div><div class="v">0</div></div>
+          <div class="stat danger"><div class="k" data-i="s_temp">טמפ' פנימית</div><div class="v">32°C <small data-i="s_temp_rate">↑~0.5°/שעה</small></div></div>
+          <div class="stat danger"><div class="k" data-i="s_bleve">סף BLEVE</div><div class="v">38°C</div></div>
+          <div class="stat"><div class="k" data-i="s_evac">מפונים</div><div class="v">~50K</div></div>
+          <div class="stat"><div class="k" data-i="s_vol">נפח מיכל</div><div class="v">34K <small data-i="s_gal">גלון</small></div></div>
+          <div class="stat ok"><div class="k" data-i="s_air">ניטור אוויר</div><div class="v" style="font-size:18px" data-i="s_air_ok">תקין</div></div>
+          <div class="stat ok"><div class="k" data-i="s_cas">נפגעים</div><div class="v">0</div></div>
         </div>
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>שעון BLEVE</h3>
+        <h3><span class="dot"></span><span data-i="bleve_clock">שעון BLEVE</span></h3>
         <div class="gauge-wrap">
           <div class="gnum">32<small>°C</small> → <span style="color:var(--red-soft)">38<small>°C</small></span></div>
-          <div class="glabel">פער של ~6°C · עלייה ~0.5°C/שעה → חלון של שעות בודדות</div>
+          <div class="glabel" data-i="bleve_gap">פער של ~6°C · עלייה ~0.5°C/שעה → חלון של שעות בודדות</div>
           <div class="gbar"><div class="pin" style="left:54%"></div></div>
-          <div class="gscale"><span>25°C התחלה</span><span>32°C עכשיו</span><span>38°C BLEVE</span></div>
+          <div class="gscale"><span data-i="g_start">25°C התחלה</span><span data-i="g_now">32°C עכשיו</span><span>38°C BLEVE</span></div>
         </div>
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>שני תרחישי כשל</h3>
+        <h3><span class="dot"></span><span data-i="fail_scen">שני תרחישי כשל</span></h3>
         <div class="alert amber">
-          <h4>🔍 התפתחות: סדק אפשרי שעשוי לשחרר לחץ</h4>
-          <p>במשימת סיור לילית זוהה <b>סדק אפשרי במיכל #1</b> שעשוי לשחרר חלק מהלחץ הפנימי — כיוון חיובי. מבצע לילי נערך כדי לאשר אם הלחץ שוחרר ואיום ה-BLEVE הוסר. <b>OCFA מדגישים: "עדיין לא שם"</b> — הסכנה לא הוסרה.</p>
+          <h4 data-i="crack_h">🔍 התפתחות: סדק אפשרי שעשוי לשחרר לחץ</h4>
+          <p data-i="crack_p">במשימת סיור לילית זוהה <b>סדק אפשרי במיכל #1</b> שעשוי לשחרר חלק מהלחץ הפנימי — כיוון חיובי. מבצע לילי נערך כדי לאשר אם הלחץ שוחרר ואיום ה-BLEVE הוסר. <b>OCFA מדגישים: "עדיין לא שם"</b> — הסכנה לא הוסרה.</p>
         </div>
         <div class="alert red">
-          <h4>⚠️ שני תרחישי כשל</h4>
-          <p>אם הסדק לא יספיק, המיכל עדיין עלול להיכשל באחת משתי דרכים: <b>קרע ושחרור ~7,000 גלון</b> של נוזל רעיל, או <b>פיצוץ (BLEVE)</b> עם ענן אדים דליק. הוגדר כתרחיש הגרוע ביותר בקריירה של 32 שנה.</p>
+          <h4 data-i="two_h">⚠️ שני תרחישי כשל</h4>
+          <p data-i="two_p">אם הסדק לא יספיק, המיכל עדיין עלול להיכשל באחת משתי דרכים: <b>קרע ושחרור ~7,000 גלון</b> של נוזל רעיל, או <b>פיצוץ (BLEVE)</b> עם ענן אדים דליק. הוגדר כתרחיש הגרוע ביותר בקריירה של 32 שנה.</p>
         </div>
         <ul class="li">
-          <li class="g">מיכל #2 (15,000 גלון, אותו חומר) <b>יוצב</b>: צוות OCFA הזריק "מנטרל" כדי למנוע תגובת שרשרת; המיכל נראה תקין מבנית.</li>
-          <li class="w">מיכל #1 (34,000 גלון) — הבעייתי: הברז נתקע עקב התגובה הכימית בתוכו; זוהה בו סדק אפשרי המשחרר לחץ.</li>
-          <li class="g">לא דווחו נפגעים; גלאי איכות אוויר טרם זיהו MMA (תושבים בודדים דיווחו על גירוי בגרון/סחרחורת).</li>
-          <li>קירור דופן ברסס מים וקו צינור בלתי מאויש מזה ימים.</li>
-          <li>הוכרז מצב חירום במחוז אורנג'; אזור הפינוי ~10 מייל רבוע. GKN כבר עומדת בפני תביעה ייצוגית.</li>
+          <li class="g" data-i="st_li1">מיכל #2 (15,000 גלון, אותו חומר) <b>יוצב</b>: צוות OCFA הזריק "מנטרל" כדי למנוע תגובת שרשרת; המיכל נראה תקין מבנית.</li>
+          <li class="w" data-i="st_li2">מיכל #1 (34,000 גלון) — הבעייתי: הברז נתקע עקב התגובה הכימית בתוכו; זוהה בו סדק אפשרי המשחרר לחץ.</li>
+          <li class="g" data-i="st_li3">לא דווחו נפגעים; גלאי איכות אוויר טרם זיהו MMA (תושבים בודדים דיווחו על גירוי בגרון/סחרחורת).</li>
+          <li data-i="st_li4">קירור דופן ברסס מים וקו צינור בלתי מאויש מזה ימים.</li>
+          <li data-i="st_li5">הוכרז מצב חירום במחוז אורנג'; אזור הפינוי ~10 מייל רבוע. GKN כבר עומדת בפני תביעה ייצוגית.</li>
         </ul>
       </div>
-      <div class="note">עדכון אחרון: 25.5.2026 בוקר (שעון ישראל) · נתונים מ-OCFA והתקשורת · אירוע מתפתח.</div>
+      <div class="note" data-i="st_foot">עדכון אחרון: 25.5.2026 בוקר (שעון ישראל) · נתונים מ-OCFA והתקשורת · אירוע מתפתח.</div>
     </section>
 
     <!-- ===== PAGE 2: MAP ===== -->
     <section class="page" id="p-map">
-      <h2 class="ltitle">מפת האירוע</h2>
+      <h2 class="ltitle" data-i="map_title">מפת האירוע</h2>
       <div id="map"></div>
       <div class="legend">
         <span class="li"><span class="pin" style="background:#ff453a"></span>מוקד האירוע</span>
@@ -290,11 +291,11 @@ ul.li li b{color:#fff;}
         <h3><span class="dot"></span>פלומת עננת רעילה (הערכה)</h3>
         <div id="wind-status" style="font-size:13px;color:var(--muted);margin-bottom:10px;">טוען נתוני רוח…</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-          <button class="seg on" data-layer="evap">דליפה מתאדה</button>
-          <button class="seg on" data-layer="rupture">קרע מיידי</button>
-          <button class="seg" data-stab="F">לילה יציב</button>
-          <button class="seg" data-stab="D">ניטרלי יום</button>
-          <button class="seg ghost" id="wind-refresh">↻ רענן רוח</button>
+          <button class="seg on" data-layer="evap" data-i="sc_evap">דליפה מתאדה</button>
+          <button class="seg on" data-layer="rupture" data-i="sc_rupture">קרע מיידי</button>
+          <button class="seg" data-stab="F" data-i="stab_f">לילה יציב</button>
+          <button class="seg" data-stab="D" data-i="stab_d">ניטרלי יום</button>
+          <button class="seg ghost" id="wind-refresh" data-i="wind_refresh">↻ רענן רוח</button>
         </div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12.5px;color:var(--muted);">
           <span>כיוון רוח ידני:</span>
@@ -314,21 +315,21 @@ ul.li li b{color:#fff;}
 
     <!-- ===== PAGE 3: CHEMICAL ===== -->
     <section class="page" id="p-chem">
-      <h2 class="ltitle">החומר המסוכן</h2>
+      <h2 class="ltitle" data-i="chem_title">החומר המסוכן</h2>
       <div class="card solid">
-        <h3><span class="dot"></span>זיהוי</h3>
+        <h3><span class="dot"></span><span data-i="c_id">זיהוי</span></h3>
         <div class="pg">
-          <div class="p"><div class="k">שם</div><div class="v" style="font-size:15px">מתיל מתאקרילט <small>(MMA)</small></div></div>
-          <div class="p"><div class="k">קאס</div><div class="v">80-62-6</div></div>
-          <div class="p"><div class="k">מספר או"ם</div><div class="v">או"ם 1247</div></div>
-          <div class="p"><div class="k">נוסחה</div><div class="v">C₅H₈O₂</div></div>
-          <div class="p"><div class="k">משקל מולקולרי</div><div class="v">100.12</div></div>
-          <div class="p"><div class="k">ריח</div><div class="v" style="font-size:14px">פירותי חריף</div></div>
+          <div class="p"><div class="k" data-i="p_name">שם</div><div class="v" style="font-size:15px">מתיל מתאקרילט <small>(MMA)</small></div></div>
+          <div class="p"><div class="k" data-i="p_cas">קאס</div><div class="v">80-62-6</div></div>
+          <div class="p"><div class="k" data-i="p_un">מספר או"ם</div><div class="v">או"ם 1247</div></div>
+          <div class="p"><div class="k" data-i="p_formula">נוסחה</div><div class="v">C₅H₈O₂</div></div>
+          <div class="p"><div class="k" data-i="p_mw">משקל מולקולרי</div><div class="v">100.12</div></div>
+          <div class="p"><div class="k" data-i="p_odor">ריח</div><div class="v" style="font-size:14px" data-i="v_odor">פירותי חריף</div></div>
         </div>
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>סיווג NFPA 704</h3>
+        <h3><span class="dot"></span><span data-i="c_nfpa">סיווג NFPA 704</span></h3>
         <div class="nfpa">
           <div class="diamond">
             <div class="q h"><span>2</span></div><div class="q f"><span>3</span></div>
@@ -346,32 +347,32 @@ ul.li li b{color:#fff;}
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>תכונות פיזיקליות</h3>
+        <h3><span class="dot"></span><span data-i="c_phys">תכונות פיזיקליות</span></h3>
         <div class="pg">
-          <div class="p"><div class="k">נקודת הבזקה</div><div class="v">2°C</div></div>
-          <div class="p"><div class="k">התלקחות עצמית</div><div class="v">435°C</div></div>
-          <div class="p"><div class="k">תחום נפיצות</div><div class="v">1.7–8.2<small>%</small></div></div>
-          <div class="p"><div class="k">נקודת רתיחה</div><div class="v">101°C</div></div>
-          <div class="p"><div class="k">לחץ אדים</div><div class="v">29<small> mmHg</small></div></div>
-          <div class="p"><div class="k">צפיפות</div><div class="v">0.94</div></div>
+          <div class="p"><div class="k" data-i="p_flash">נקודת הבזקה</div><div class="v">2°C</div></div>
+          <div class="p"><div class="k" data-i="p_auto">התלקחות עצמית</div><div class="v">435°C</div></div>
+          <div class="p"><div class="k" data-i="p_flam">תחום נפיצות</div><div class="v">1.7–8.2<small>%</small></div></div>
+          <div class="p"><div class="k" data-i="p_boil">נקודת רתיחה</div><div class="v">101°C</div></div>
+          <div class="p"><div class="k" data-i="p_vp">לחץ אדים</div><div class="v">29<small> mmHg</small></div></div>
+          <div class="p"><div class="k" data-i="p_dens">צפיפות</div><div class="v">0.94</div></div>
           <div class="p"><div class="k">IDLH</div><div class="v">1000<small> ppm</small></div></div>
-          <div class="p"><div class="k">PEL/REL (TWA)</div><div class="v">100<small> ppm</small></div></div>
+          <div class="p"><div class="k" data-i="p_pel">PEL/REL (TWA)</div><div class="v">100<small> ppm</small></div></div>
         </div>
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>ספי חשיפה חריפה (AEGL · 60 דק')</h3>
+        <h3><span class="dot"></span><span data-i="c_aegl">ספי חשיפה חריפה (AEGL · 60 דק')</span></h3>
         <div class="pg">
-          <div class="p"><div class="k">AEGL-1 · גירוי הפיך</div><div class="v" style="color:#ffd60a">17<small> ppm</small></div></div>
-          <div class="p"><div class="k">AEGL-2 · נזק בל"ה</div><div class="v" style="color:#ff9416">120<small> ppm</small></div></div>
-          <div class="p"><div class="k">AEGL-3 · מסכן חיים</div><div class="v" style="color:#ff453a">570<small> ppm</small></div></div>
-          <div class="p"><div class="k">סף ריח (LOA)</div><div class="v">0.11<small> ppm</small></div></div>
+          <div class="p"><div class="k" data-i="a1">AEGL-1 · גירוי הפיך</div><div class="v" style="color:#ffd60a">17<small> ppm</small></div></div>
+          <div class="p"><div class="k" data-i="a2">AEGL-2 · נזק בל"ה</div><div class="v" style="color:#ff9416">120<small> ppm</small></div></div>
+          <div class="p"><div class="k" data-i="a3">AEGL-3 · מסכן חיים</div><div class="v" style="color:#ff453a">570<small> ppm</small></div></div>
+          <div class="p"><div class="k" data-i="loa">סף ריח (LOA)</div><div class="v">0.11<small> ppm</small></div></div>
         </div>
         <div class="note" style="text-align:right;padding:8px 2px 0;">מקור: EPA AEGL Interim (12/12/06). ערכים אלו משמשים את מודל הפלומה בלשונית המפה.</div>
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>השפעות בריאותיות ותגובה</h3>
+        <h3><span class="dot"></span><span data-i="c_health">השפעות בריאותיות ותגובה</span></h3>
         <div class="alert amber"><h4>🫁 חשיפה חריפה</h4>
           <p>גירוי משמעותי של ריאות ודרכי נשימה עליונות, גירוי עור ועיניים, בחילה, סחרחורת וכאבי ראש. בריכוז גבוה מאוד — מצוקה נשימתית קשה ואשפוז.</p></div>
         <ul class="li">
@@ -384,10 +385,10 @@ ul.li li b{color:#fff;}
 
     <!-- ===== PAGE 4: MECHANISM ===== -->
     <section class="page" id="p-mech">
-      <h2 class="ltitle">מנגנון הסכנה</h2>
+      <h2 class="ltitle" data-i="mech_title">מנגנון הסכנה</h2>
 
       <div class="card">
-        <h3><span class="dot"></span>פילמור בורח (מאושר)</h3>
+        <h3><span class="dot"></span><span data-i="m_poly">פילמור בורח (מאושר)</span></h3>
         <div class="alert red"><h4>🔥 אוטו-פילמור אקסותרמי</h4>
           <p>הנוזל החל בפילמור כימי בלתי מבוקר. יצירת הפלסטיק משחררת חום: החום מאיץ את הפילמור → עוד חום → התגובה מאיצה — <b>לולאת משוב חיובית</b> המובילה ל-thermal runaway. עליית הטמפ' (~1°/שעה) היא חתימת התופעה.</p></div>
         <div class="alert amber"><h4>💊 מדוע המעכב נכשל</h4>
@@ -395,7 +396,7 @@ ul.li li b{color:#fff;}
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>מנגנון החסימה</h3>
+        <h3><span class="dot"></span><span data-i="m_block">מנגנון החסימה</span></h3>
         <div class="alert red"><h4>🔒 הפילמור פקק את היציאות</h4>
           <p>ליבת המשבר אינה קירור ולא מלאי מעכבים — אלא <b>חסימה מכנית מוחלטת</b>. לפי הערכת מומחה (USC), המונומר הנוזלי התפלמר בתוך מוצא המיכל והפך לחומר מוצק דמוי-זכוכית. לכן אי אפשר להכניס או להוציא דבר.</p></div>
         <p style="font-weight:700;font-size:14.5px;margin:4px 2px 6px;">התערבויות שנשללו עקב חסימת הברזים:</p>
@@ -410,7 +411,7 @@ ul.li li b{color:#fff;}
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>פעולות המומחים בפועל</h3>
+        <h3><span class="dot"></span><span data-i="m_actions">פעולות המומחים בפועל</span></h3>
         <ul class="li">
           <li class="g">קירור דופן חיצונית ברסס מים — בתחילה הצליח לסגור את שסתום הבטיחות ולמנוע בריחת חומר.</li>
           <li>מעבר מעמדה הגנתית ל<b>התקפית</b>: הצבת צוות בסיכון מבוקר בתמיכת כימאי OCFA.</li>
@@ -421,7 +422,7 @@ ul.li li b{color:#fff;}
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>שיקולי כיבוי</h3>
+        <h3><span class="dot"></span><span data-i="m_fire">שיקולי כיבוי</span></h3>
         <ul class="li">
           <li>קירור מיכלים חשופים ממרחק — עדיפות לתותח מים מקובע לא מאויש / קווים בלתי מאוישים.</li>
           <li>אמצעי כיבוי: <b>קצף היוצר שכבה מימית (AFFF)</b>, חומר כיבוי יבש, פחמן דו חמצני. מים — לקירור ופיזור אדים בלבד.</li>
@@ -435,10 +436,10 @@ ul.li li b{color:#fff;}
 
     <!-- ===== PAGE 5: TIMELINE + SOURCES ===== -->
     <section class="page" id="p-info">
-      <h2 class="ltitle">ציר זמן ומקורות</h2>
+      <h2 class="ltitle" data-i="info_title">ציר זמן ומקורות</h2>
 
       <div class="card" style="border-color:rgba(255,69,58,.3);">
-        <h3><span class="dot" style="background:var(--red);box-shadow:0 0 8px var(--red);"></span>מעקב חי — מתעדכן במקור</h3>
+        <h3><span class="dot" style="background:var(--red);box-shadow:0 0 8px var(--red);"></span><span data-i="i_live">מעקב חי — מתעדכן במקור</span></h3>
         <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">הקישורים הבאים מתעדכנים אוטומטית בצד המקור — הכותרות הטריות ביותר נמצאות שם. לחיצה פותחת את הבלוג החי.</div>
         <a class="src" href="https://abc7.com/live-updates/garden-grove-chemical-tank-emergency-leaking-toxic-chemicals-orange-county-will-spill-explode-officials-say/19152918/" target="_blank" rel="noopener"><span class="ic" style="background:rgba(255,69,58,.16);color:var(--red-soft)">🔴</span><span><div class="nm">ABC7 · Live Updates</div><div class="u">בלוג חי — מתעדכן בזמן אמת</div></span><span class="arr">›</span></a>
         <a class="src" href="https://www.nbclosangeles.com/news/local/live-updates-garden-grove-chemical-tank-crisis/3894268/" target="_blank" rel="noopener"><span class="ic" style="background:rgba(255,69,58,.16);color:var(--red-soft)">🔴</span><span><div class="nm">NBC LA · Live</div><div class="u">בלוג חי — מתעדכן בזמן אמת</div></span><span class="arr">›</span></a>
@@ -448,7 +449,7 @@ ul.li li b{color:#fff;}
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>כרונולוגיה</h3>
+        <h3><span class="dot"></span><span data-i="i_chrono">כרונולוגיה</span></h3>
         <div class="tl">
           <div class="tlitem"><div class="t">חמישי 21.5 · ~15:40</div><div class="d">דיווח על שחרור אדים ממיכלי אחסון; שסתום בטיחות וספרינקלרים פנימיים נפתחו אוטומטית; צווי פינוי ראשונים.</div></div>
           <div class="tlitem"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את שסתום הבטיחות; צווי הפינוי בוטלו.</div></div>
@@ -461,7 +462,7 @@ ul.li li b{color:#fff;}
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>מרכזי פינוי</h3>
+        <h3><span class="dot"></span><span data-i="i_evac">מרכזי פינוי</span></h3>
         <ul class="li">
           <li>Golden West College — 15744 Goldenwest St, Huntington Beach</li>
           <li>Freedom Hall, Mile Square Park — 16801 Euclid St, Fountain Valley</li>
@@ -472,7 +473,7 @@ ul.li li b{color:#fff;}
       </div>
 
       <div class="card">
-        <h3><span class="dot"></span>מקורות וקישורים</h3>
+        <h3><span class="dot"></span><span data-i="i_sources">מקורות וקישורים</span></h3>
         <a class="src" href="https://www.nbcnews.com/news/us-news/california-evacuation-chemical-explosion-rcna346582" target="_blank" rel="noopener"><span class="ic">📰</span><span><div class="nm">NBC News</div><div class="u">פינוי ואיום פיצוץ · נתוני MMA</div></span><span class="arr">›</span></a>
         <a class="src" href="https://abc7.com/live-updates/garden-grove-chemical-tank-emergency-leaking-toxic-chemicals-orange-county-will-spill-explode-officials-say/19152918/" target="_blank" rel="noopener"><span class="ic">📡</span><span><div class="nm">ABC7 Los Angeles · Live</div><div class="u">עדכוני חי, גבולות אזור פינוי</div></span><span class="arr">›</span></a>
         <a class="src" href="https://ktla.com/news/california/heres-why-experts-cant-stop-garden-grove-tank-from-overheating/" target="_blank" rel="noopener"><span class="ic">🔬</span><span><div class="nm">KTLA</div><div class="u">מדוע אי אפשר לעצור · פרופ' Picazo</div></span><span class="arr">›</span></a>
@@ -495,25 +496,27 @@ ul.li li b{color:#fff;}
   <nav class="tabbar">
     <div class="tab on" data-p="p-status">
       <svg viewBox="0 0 24 24"><path d="M3 13a9 9 0 1 1 18 0"/><path d="M12 13l4-3"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/></svg>
-      מצב</div>
+      <span data-i="tab_status">מצב</span></div>
     <div class="tab" data-p="p-map">
       <svg viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>
-      מפה</div>
+      <span data-i="tab_map">מפה</span></div>
     <div class="tab" data-p="p-chem">
       <svg viewBox="0 0 24 24"><path d="M9 3v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 3h8"/></svg>
-      החומר</div>
+      <span data-i="tab_chem">החומר</span></div>
     <div class="tab" data-p="p-mech">
       <svg viewBox="0 0 24 24"><path d="M12 3c1 3-1 4-1 6a3 3 0 0 0 6 0c2 2 3 4 3 7a8 8 0 1 1-16 0c0-4 3-7 5-9 1 2 2 2 3 1Z"/></svg>
-      מנגנון</div>
+      <span data-i="tab_mech">מנגנון</span></div>
     <div class="tab" data-p="p-info">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
-      מידע</div>
+      <span data-i="tab_info">מידע</span></div>
   </nav>
+  <div id="viewcount" style="position:absolute;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) - 2px);left:0;right:0;text-align:center;font-size:10.5px;color:var(--muted);pointer-events:none;z-index:55;"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 // ---- Tab navigation ----
+var LANG='he';
 const tabs=document.querySelectorAll('.tab');
 const pages=document.querySelectorAll('.page');
 const scroll=document.getElementById('scroll');
@@ -761,8 +764,98 @@ function initPlume(){
     const r=await fetch('version.json?t='+Date.now());
     const j=await r.json();
     const d=new Date(j.lastUpdated);
-    el.textContent='עודכן לאחרונה: '+d.toLocaleString('he-IL',{dateStyle:'short',timeStyle:'short'})+(j.note?' · '+j.note:'');
-  }catch(e){ el.textContent='עודכן לאחרונה: 24.5.2026'; }
+    el.textContent=(LANG==='he'?'עודכן לאחרונה: ':'Last updated: ')+d.toLocaleString(LANG==='he'?'he-IL':'en-US',{dateStyle:'short',timeStyle:'short'})+(j.note?' · '+j.note:'');
+  }catch(e){ el.textContent=(LANG==='he'?'עודכן לאחרונה: ':'Last updated: ')+'25.5.2026'; }
+})();
+
+// ================= i18n (EN translations) =================
+const EN={
+  tag:'● ACTIVE INCIDENT · EMERGENCY',
+  hero_title:'Methyl Methacrylate Tank Crisis',
+  hero_loc:'GKN Aerospace · Garden Grove, Orange County, California',
+  live_data:'Live incident data',
+  s_temp:'Internal temp', s_temp_rate:'↑~0.5°/hr', s_bleve:'BLEVE threshold',
+  s_evac:'Evacuated', s_vol:'Tank volume', s_gal:'gallons',
+  s_air:'Air monitoring', s_air_ok:'Normal', s_cas:'Casualties',
+  bleve_clock:'BLEVE clock',
+  bleve_gap:'~6°C gap · rising ~0.5°C/hr → window of a few hours',
+  g_start:'25°C start', g_now:'32°C now',
+  fail_scen:'Two failure scenarios',
+  crack_h:'🔍 Development: possible crack may relieve pressure',
+  crack_p:'An overnight recon mission identified a <b>possible crack in Tank #1</b> that may be relieving some internal pressure — a positive sign. An all-night operation was run to confirm whether pressure was released and the BLEVE threat eliminated. <b>OCFA stresses: "not there yet"</b> — the danger is not over.',
+  two_h:'⚠️ Two failure scenarios',
+  two_p:'If the crack is insufficient, the tank may still fail one of two ways: <b>rupture releasing ~7,000 gallons</b> of toxic liquid, or a <b>vapor explosion (BLEVE)</b> with a flammable cloud. Described as the worst-case scenario in a 32-year career.',
+  st_li1:'Tank #2 (15,000 gal, same chemical) <b>stabilized</b>: OCFA injected a neutralizer to prevent a chain reaction; the tank appears structurally sound.',
+  st_li2:'Tank #1 (34,000 gal) — the problem tank: its valve seized due to the chemical reaction inside; a possible pressure-relieving crack was identified.',
+  st_li3:'No casualties reported; air monitors have not detected MMA (a few residents reported throat irritation/dizziness).',
+  st_li4:'Shell cooling with water spray and an unmanned monitor line for days.',
+  st_li5:'State of emergency declared in Orange County; evacuation zone ~10 sq miles. GKN already faces a class-action lawsuit.',
+  st_foot:'Last update: 25 May 2026 AM (Israel time) · Data from OCFA and media · developing incident.',
+  tab_status:'Status', tab_map:'Map', tab_chem:'Chemical', tab_mech:'Mechanism', tab_info:'Info',
+  map_title:'Incident map', chem_title:'The hazardous material',
+  mech_title:'Hazard mechanism', info_title:'Timeline & sources',
+  sc_evap:'Evaporating pool', sc_rupture:'Instant rupture',
+  stab_f:'Stable night', stab_d:'Neutral day', wind_refresh:'↻ Refresh wind',
+  p_name:'Name', p_cas:'CAS', p_un:'UN number', p_formula:'Formula', p_mw:'Molecular weight', p_odor:'Odor', v_odor:'Sharp fruity',
+  p_flash:'Flash point', p_auto:'Autoignition', p_flam:'Flammable range', p_boil:'Boiling point', p_vp:'Vapor pressure', p_dens:'Density', p_pel:'PEL/REL (TWA)',
+  a1:'AEGL-1 · reversible irritation', a2:'AEGL-2 · irreversible harm', a3:'AEGL-3 · life-threatening', loa:'Odor threshold (LOA)',
+  c_id:"Identification",
+  c_nfpa:"NFPA 704 classification",
+  c_phys:"Physical properties",
+  c_aegl:"Acute exposure limits (AEGL · 60 min)",
+  c_health:"Health effects & response",
+  m_poly:"Runaway polymerization (confirmed)",
+  m_block:"Blockage mechanism",
+  m_actions:"What the experts actually did",
+  m_fire:"Firefighting considerations",
+  i_live:"Live tracking — updates at source",
+  i_chrono:"Chronology",
+  i_evac:"Evacuation centers",
+  i_sources:"Sources & links",
+};
+
+let origHE={};
+function applyLang(lang){
+  LANG=lang;
+  const root=document.documentElement;
+  root.lang=lang; root.dir=(lang==='he'?'rtl':'ltr');
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const k=el.getAttribute('data-i');
+    if(lang==='he'){ if(origHE[k]!=null) el.innerHTML=origHE[k]; }
+    else { if(origHE[k]==null) origHE[k]=el.innerHTML; if(EN[k]!=null) el.innerHTML=EN[k]; }
+  });
+  const btn=document.getElementById('lang-toggle');
+  if(btn) btn.textContent=(lang==='he'?'EN':'עב');
+  try{ localStorage.setItem('gg_lang',lang);}catch(e){}
+}
+(function initLang(){
+  // capture HE originals
+  document.querySelectorAll('[data-i]').forEach(el=>{origHE[el.getAttribute('data-i')]=el.innerHTML;});
+  const btn=document.getElementById('lang-toggle');
+  if(btn) btn.addEventListener('click',()=>applyLang(LANG==='he'?'en':'he'));
+  let saved='he'; try{saved=localStorage.getItem('gg_lang')||'he';}catch(e){}
+  if(saved==='en') applyLang('en');
+})();
+
+// ================= view counter (Supabase) =================
+// Uses a Supabase table 'app_views' with row id='garden-grove-mma' and a
+// numeric 'count'. Increment via RPC 'increment_view'. Falls back silently.
+const SUPA_URL='';      // <-- Roei: paste your Supabase project URL
+const SUPA_KEY='';      // <-- Roei: paste your public anon key
+(async function viewCounter(){
+  const el=document.getElementById('viewcount');
+  if(!el)return;
+  const label=n=>(LANG==='he'?'👁 '+n.toLocaleString('he-IL')+' צפיות':'👁 '+n.toLocaleString('en-US')+' views');
+  if(!SUPA_URL||!SUPA_KEY){ el.textContent=''; return; }   // not configured yet
+  try{
+    const r=await fetch(`${SUPA_URL}/rest/v1/rpc/increment_view`,{
+      method:'POST',
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({page_id:'garden-grove-mma'})
+    });
+    const n=await r.json();
+    if(typeof n==='number') el.textContent=label(n);
+  }catch(e){ el.textContent=''; }
 })();
 </script>
 </body>
