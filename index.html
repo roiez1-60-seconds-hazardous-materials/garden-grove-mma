@@ -833,28 +833,27 @@ function applyLang(lang){
   document.querySelectorAll('[data-i]').forEach(el=>{origHE[el.getAttribute('data-i')]=el.innerHTML;});
   const btn=document.getElementById('lang-toggle');
   if(btn) btn.addEventListener('click',()=>applyLang(LANG==='he'?'en':'he'));
-  let saved='he'; try{saved=localStorage.getItem('gg_lang')||'he';}catch(e){}
-  if(saved==='en') applyLang('en');
+  let saved=null; try{saved=localStorage.getItem('gg_lang');}catch(e){}
+  if(!saved){ // first visit: pick by browser language
+    const bl=(navigator.language||navigator.userLanguage||'he').toLowerCase();
+    saved=bl.startsWith('he')?'he':'en';
+  }
+  if(saved==='en') applyLang('en'); else applyLang('he');
 })();
 
-// ================= view counter (Supabase) =================
-// Uses a Supabase table 'app_views' with row id='garden-grove-mma' and a
-// numeric 'count'. Increment via RPC 'increment_view'. Falls back silently.
-const SUPA_URL='';      // <-- Roei: paste your Supabase project URL
-const SUPA_KEY='';      // <-- Roei: paste your public anon key
+// ================= view counter (Abacus — countapi successor) =================
+// Free, no-backend hit counter with open CORS. Namespace/key are public by design.
+// If the service is unreachable, the counter simply hides — nothing breaks.
 (async function viewCounter(){
   const el=document.getElementById('viewcount');
   if(!el)return;
-  const label=n=>(LANG==='he'?'👁 '+n.toLocaleString('he-IL')+' צפיות':'👁 '+n.toLocaleString('en-US')+' views');
-  if(!SUPA_URL||!SUPA_KEY){ el.textContent=''; return; }   // not configured yet
+  const label=n=>(LANG==='he'?'👁 '+Number(n).toLocaleString('he-IL')+' צפיות'
+                              :'👁 '+Number(n).toLocaleString('en-US')+' views');
   try{
-    const r=await fetch(`${SUPA_URL}/rest/v1/rpc/increment_view`,{
-      method:'POST',
-      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({page_id:'garden-grove-mma'})
-    });
-    const n=await r.json();
-    if(typeof n==='number') el.textContent=label(n);
+    const r=await fetch('https://abacus.jasoncameron.dev/hit/60sec-hazmat/garden-grove-mma');
+    const j=await r.json();
+    const n=(j&&typeof j.value!=='undefined')?j.value:null;
+    if(n!=null){ el.textContent=label(n); el.dataset.count=n; }
   }catch(e){ el.textContent=''; }
 })();
 </script>
