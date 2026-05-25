@@ -280,16 +280,16 @@ ul.li li b{color:#fff;}
       <h2 class="ltitle" data-i="map_title">מפת האירוע</h2>
       <div id="map"></div>
       <div class="legend">
-        <span class="li"><span class="pin" style="background:#ff453a"></span>מוקד האירוע</span>
-        <span class="li"><span class="pin" style="background:#ffb02e"></span>בי"ס (פגיע)</span>
-        <span class="li"><span class="pin" style="background:#bf5af2"></span>פארק שעשועים</span>
-        <span class="li"><span class="pin" style="background:#0a84ff"></span>בי"ח</span>
-        <span class="li"><span class="pin" style="background:#30d158"></span>מקלט פינוי</span>
+        <span class="li"><span class="pin" style="background:#ff453a"></span><span data-i="lg_inc">מוקד האירוע</span></span>
+        <span class="li"><span class="pin" style="background:#ffb02e"></span><span data-i="lg_school">בי"ס (פגיע)</span></span>
+        <span class="li"><span class="pin" style="background:#bf5af2"></span><span data-i="lg_park">פארק שעשועים</span></span>
+        <span class="li"><span class="pin" style="background:#0a84ff"></span><span data-i="lg_hosp">בי"ח</span></span>
+        <span class="li"><span class="pin" style="background:#30d158"></span><span data-i="lg_shelter">מקלט פינוי</span></span>
       </div>
 
       <div class="card" style="margin-top:14px;">
-        <h3><span class="dot"></span>פלומת עננת רעילה (הערכה)</h3>
-        <div id="wind-status" style="font-size:13px;color:var(--muted);margin-bottom:10px;">טוען נתוני רוח…</div>
+        <h3><span class="dot"></span><span data-i="plume_title">פלומת עננת רעילה (הערכה)</span></h3>
+        <div id="wind-status" style="font-size:13px;color:var(--muted);margin-bottom:10px;" data-i="wind_loading">טוען נתוני רוח…</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
           <button class="seg on" data-layer="evap" data-i="sc_evap">דליפה מתאדה</button>
           <button class="seg on" data-layer="rupture" data-i="sc_rupture">קרע מיידי</button>
@@ -298,19 +298,19 @@ ul.li li b{color:#fff;}
           <button class="seg ghost" id="wind-refresh" data-i="wind_refresh">↻ רענן רוח</button>
         </div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12.5px;color:var(--muted);">
-          <span>כיוון רוח ידני:</span>
+          <span data-i="wind_manual">כיוון רוח ידני:</span>
           <input type="range" id="wind-slider" min="0" max="359" value="270" style="flex:1;accent-color:var(--blue);">
           <span id="wind-slider-val" style="font-weight:700;color:var(--txt);min-width:38px;text-align:left;">270°</span>
         </div>
         <div id="plume-readout"></div>
-        <div class="note" style="text-align:right;padding:6px 2px 0;">שני התרחישים מוצגים כשכבות נפרדות: <b>קרע מיידי</b> (מקווקו, טווח גדול) ו<b>דליפה מתאדה</b> (מלא). הקש על תרחיש להצגה/הסתרה. ⚠️ הערכה גאוסיאנית מפושטת (Pasquill-Gifford) — <b>אינה ALOHA רשמי</b>; להמחשה בלבד.</div>
+        <div class="note" style="text-align:right;padding:6px 2px 0;" data-i="plume_note">שני התרחישים מוצגים כשכבות נפרדות: <b>קרע מיידי</b> (מקווקו, טווח גדול) ו<b>דליפה מתאדה</b> (מלא). הקש על תרחיש להצגה/הסתרה. ⚠️ הערכה גאוסיאנית מפושטת (Pasquill-Gifford) — <b>אינה ALOHA רשמי</b>; להמחשה בלבד.</div>
       </div>
 
       <div class="card" style="margin-top:14px;">
-        <h3><span class="dot"></span>רצפטורים ציבוריים</h3>
+        <h3><span class="dot"></span><span data-i="receptors">רצפטורים ציבוריים</span></h3>
         <div id="recep-list"></div>
       </div>
-      <div class="note">אזור הפינוי (מצולע אדום) מקורב: צפ' Ball Rd · דר' Trask Ave · מע' Valley View St · מז' Dale St. טבעות מרחק 1/3/5 ק"מ סביב המוקד. קואורדינטות מ-Google Places.</div>
+      <div class="note" data-i="map_note">אזור הפינוי (מצולע אדום) מקורב: צפ' Ball Rd · דר' Trask Ave · מע' Valley View St · מז' Dale St. טבעות מרחק 1/3/5 ק"מ סביב המוקד. קואורדינטות מ-Google Places.</div>
     </section>
 
     <!-- ===== PAGE 3: CHEMICAL ===== -->
@@ -336,9 +336,9 @@ ul.li li b{color:#fff;}
             <div class="q s"><span></span></div><div class="q r"><span>2</span></div>
           </div>
           <div class="nleg">
-            <div><b style="color:#3b9dff">בריאות 2</b> — נזק זמני/שיורי</div>
-            <div><b style="color:#ff6961">דליקות 3</b> — מתלקח כמעט בכל טמפ'</div>
-            <div><b style="color:#ffd60a">ריאקטיביות 2</b> — שינוי אלים בחום (פילמור)</div>
+            <div data-i="nfpa_h"><b style="color:#3b9dff">בריאות 2</b> — נזק זמני/שיורי</div>
+            <div data-i="nfpa_f"><b style="color:#ff6961">דליקות 3</b> — מתלקח כמעט בכל טמפ'</div>
+            <div data-i="nfpa_r"><b style="color:#ffd60a">ריאקטיביות 2</b> — שינוי אלים בחום (פילמור)</div>
             <div class="ghs">GHS:
               <span class="chip">H225</span><span class="chip">H315</span><span class="chip">H317</span><span class="chip">H335</span>
             </div>
@@ -368,17 +368,17 @@ ul.li li b{color:#fff;}
           <div class="p"><div class="k" data-i="a3">AEGL-3 · מסכן חיים</div><div class="v" style="color:#ff453a">570<small> ppm</small></div></div>
           <div class="p"><div class="k" data-i="loa">סף ריח (LOA)</div><div class="v">0.11<small> ppm</small></div></div>
         </div>
-        <div class="note" style="text-align:right;padding:8px 2px 0;">מקור: EPA AEGL Interim (12/12/06). ערכים אלו משמשים את מודל הפלומה בלשונית המפה.</div>
+        <div class="note" style="text-align:right;padding:8px 2px 0;" data-i="aegl_note">מקור: EPA AEGL Interim (12/12/06). ערכים אלו משמשים את מודל הפלומה בלשונית המפה.</div>
       </div>
 
       <div class="card">
         <h3><span class="dot"></span><span data-i="c_health">השפעות בריאותיות ותגובה</span></h3>
-        <div class="alert amber"><h4>🫁 חשיפה חריפה</h4>
-          <p>גירוי משמעותי של ריאות ודרכי נשימה עליונות, גירוי עור ועיניים, בחילה, סחרחורת וכאבי ראש. בריכוז גבוה מאוד — מצוקה נשימתית קשה ואשפוז.</p></div>
+        <div class="alert amber" data-i="health_h"><h4>🫁 חשיפה חריפה</h4>
+          <p data-i="health_p">גירוי משמעותי של ריאות ודרכי נשימה עליונות, גירוי עור ועיניים, בחילה, סחרחורת וכאבי ראש. בריכוז גבוה מאוד — מצוקה נשימתית קשה ואשפוז.</p></div>
         <ul class="li">
-          <li class="g">פינוי והרחקה מכיוון הרוח</li>
-          <li class="g">אוויר צח; חמצן בקושי נשימתי</li>
-          <li class="g">שטיפת עור/עיניים במים בשפע; הסרת ביגוד מזוהם</li>
+          <li class="g" data-i="health_l1">פינוי והרחקה מכיוון הרוח</li>
+          <li class="g" data-i="health_l2">אוויר צח; חמצן בקושי נשימתי</li>
+          <li class="g" data-i="health_l3">שטיפת עור/עיניים במים בשפע; הסרת ביגוד מזוהם</li>
         </ul>
       </div>
     </section>
@@ -389,47 +389,47 @@ ul.li li b{color:#fff;}
 
       <div class="card">
         <h3><span class="dot"></span><span data-i="m_poly">פילמור בורח (מאושר)</span></h3>
-        <div class="alert red"><h4>🔥 אוטו-פילמור אקסותרמי</h4>
-          <p>הנוזל החל בפילמור כימי בלתי מבוקר. יצירת הפלסטיק משחררת חום: החום מאיץ את הפילמור → עוד חום → התגובה מאיצה — <b>לולאת משוב חיובית</b> המובילה ל-thermal runaway. עליית הטמפ' (~1°/שעה) היא חתימת התופעה.</p></div>
-        <div class="alert amber"><h4>💊 מדוע המעכב נכשל</h4>
-          <p>ל-MMA מוסיפים מייצב/מעכב (הידרוקווינון / Topanol / MEHQ) — מולקולה ה<b>לוכדת רדיקלים חופשיים</b>: פילמור MMA מתרחש כשרשרת תגובה של רדיקלים, והמעכב מגיב איתם ושובר את השרשרת לפני שתתפשט, וכך שומר על יציבות באחסון. עם הזמן, בזיהום או נקודות חום מקומיות, <b>המעכב מתכלה ונגמר</b>. ברגע שכשל — אין מי שילכוד את הרדיקלים, והמולקולות מגיבות מעצמן בשרשרת בורחת. חומר הייצוב היה במיכל; הוא פשוט נצרך.</p></div>
+        <div class="alert red" data-i="m_auto_h"><h4>🔥 אוטו-פילמור אקסותרמי</h4>
+          <p data-i="m_auto_p">הנוזל החל בפילמור כימי בלתי מבוקר. יצירת הפלסטיק משחררת חום: החום מאיץ את הפילמור → עוד חום → התגובה מאיצה — <b>לולאת משוב חיובית</b> המובילה ל-thermal runaway. עליית הטמפ' (~1°/שעה) היא חתימת התופעה.</p></div>
+        <div class="alert amber" data-i="m_inh_h"><h4>💊 מדוע המעכב נכשל</h4>
+          <p data-i="m_inh_p">ל-MMA מוסיפים מייצב/מעכב (הידרוקווינון / Topanol / MEHQ) — מולקולה ה<b>לוכדת רדיקלים חופשיים</b>: פילמור MMA מתרחש כשרשרת תגובה של רדיקלים, והמעכב מגיב איתם ושובר את השרשרת לפני שתתפשט, וכך שומר על יציבות באחסון. עם הזמן, בזיהום או נקודות חום מקומיות, <b>המעכב מתכלה ונגמר</b>. ברגע שכשל — אין מי שילכוד את הרדיקלים, והמולקולות מגיבות מעצמן בשרשרת בורחת. חומר הייצוב היה במיכל; הוא פשוט נצרך.</p></div>
       </div>
 
       <div class="card">
         <h3><span class="dot"></span><span data-i="m_block">מנגנון החסימה</span></h3>
-        <div class="alert red"><h4>🔒 הפילמור פקק את היציאות</h4>
-          <p>ליבת המשבר אינה קירור ולא מלאי מעכבים — אלא <b>חסימה מכנית מוחלטת</b>. לפי הערכת מומחה (USC), המונומר הנוזלי התפלמר בתוך מוצא המיכל והפך לחומר מוצק דמוי-זכוכית. לכן אי אפשר להכניס או להוציא דבר.</p></div>
-        <p style="font-weight:700;font-size:14.5px;margin:4px 2px 6px;">התערבויות שנשללו עקב חסימת הברזים:</p>
+        <div class="alert red" data-i="m_blk_h"><h4>🔒 הפילמור פקק את היציאות</h4>
+          <p data-i="m_blk_p">ליבת המשבר אינה קירור ולא מלאי מעכבים — אלא <b>חסימה מכנית מוחלטת</b>. לפי הערכת מומחה (USC), המונומר הנוזלי התפלמר בתוך מוצא המיכל והפך לחומר מוצק דמוי-זכוכית. לכן אי אפשר להכניס או להוציא דבר.</p></div>
+        <p style="font-weight:700;font-size:14.5px;margin:4px 2px 6px;" data-i="m_blk_sub">התערבויות שנשללו עקב חסימת הברזים:</p>
         <ul class="li">
-          <li class="w"><b>הזרקת מעכב נוסף</b> — אין מוצא פתוח להחדרה/ערבוב; המעכבים אף דורשים חמצן כדי לפעול.</li>
-          <li class="w"><b>חנקן נוזלי / קירור פנימי</b> — אין גישה פנימה; קירור אפשרי רק על הדופן בעוד החום נוצר בנוזל. סיכון הלם תרמי לפלדה.</li>
-          <li class="w"><b>ניקוז / שאיבה</b> — חסום ע"י הברזים הפקוקים.</li>
-          <li class="w"><b>שחרור לחץ מבוקר</b> — שסתום הבטיחות ניזוק ואינו אמין.</li>
+          <li class="w" data-i="m_blk_l1"><b>הזרקת מעכב נוסף</b> — אין מוצא פתוח להחדרה/ערבוב; המעכבים אף דורשים חמצן כדי לפעול.</li>
+          <li class="w" data-i="m_blk_l2"><b>חנקן נוזלי / קירור פנימי</b> — אין גישה פנימה; קירור אפשרי רק על הדופן בעוד החום נוצר בנוזל. סיכון הלם תרמי לפלדה.</li>
+          <li class="w" data-i="m_blk_l3"><b>ניקוז / שאיבה</b> — חסום ע"י הברזים הפקוקים.</li>
+          <li class="w" data-i="m_blk_l4"><b>שחרור לחץ מבוקר</b> — שסתום הבטיחות ניזוק ואינו אמין.</li>
         </ul>
-        <div class="alert blue" style="margin-top:10px;"><h4>🧊 למה קירור עדיין קריטי</h4>
-          <p>קצב הפילמור יורד בקירוב בחצי על כל ~10°C ירידה. קירור הדופן מאט (לא עוצר) את הבריחה ו"קונה זמן" — לכן ממשיכים ברסס מים גם ללא גישה לליבה.</p></div>
+        <div class="alert blue" style="margin-top:10px;" data-i="m_cool_h"><h4>🧊 למה קירור עדיין קריטי</h4>
+          <p data-i="m_cool_p">קצב הפילמור יורד בקירוב בחצי על כל ~10°C ירידה. קירור הדופן מאט (לא עוצר) את הבריחה ו"קונה זמן" — לכן ממשיכים ברסס מים גם ללא גישה לליבה.</p></div>
       </div>
 
       <div class="card">
         <h3><span class="dot"></span><span data-i="m_actions">פעולות המומחים בפועל</span></h3>
         <ul class="li">
-          <li class="g">קירור דופן חיצונית ברסס מים — בתחילה הצליח לסגור את שסתום הבטיחות ולמנוע בריחת חומר.</li>
-          <li>מעבר מעמדה הגנתית ל<b>התקפית</b>: הצבת צוות בסיכון מבוקר בתמיכת כימאי OCFA.</li>
-          <li>קריאת טמפ' חיצונית ברחפן (לא קורא את פנים המיכל) — לכן הערכת ירידת הטמפ' המוקדמת התבררה כשגויה.</li>
-          <li class="g">צוות שהתקרב למיכל <b>אחר</b> לנטרול כימי הצליח לקרוא את מד הטמפ' הפנימי — כך התגלתה הקפיצה ל-32°C.</li>
-          <li class="w">חומר בשימוש עד כה: <b>מים בלבד</b>. לא דווח על נטרול שהוחדר בהצלחה למיכל הבעייתי.</li>
+          <li class="g" data-i="m_act_l1">קירור דופן חיצונית ברסס מים — בתחילה הצליח לסגור את שסתום הבטיחות ולמנוע בריחת חומר.</li>
+          <li data-i="m_act_l2">מעבר מעמדה הגנתית ל<b>התקפית</b>: הצבת צוות בסיכון מבוקר בתמיכת כימאי OCFA.</li>
+          <li data-i="m_act_l3">קריאת טמפ' חיצונית ברחפן (לא קורא את פנים המיכל) — לכן הערכת ירידת הטמפ' המוקדמת התבררה כשגויה.</li>
+          <li class="g" data-i="m_act_l4">צוות שהתקרב למיכל <b>אחר</b> לנטרול כימי הצליח לקרוא את מד הטמפ' הפנימי — כך התגלתה הקפיצה ל-32°C.</li>
+          <li class="w" data-i="m_act_l5">חומר בשימוש עד כה: <b>מים בלבד</b>. לא דווח על נטרול שהוחדר בהצלחה למיכל הבעייתי.</li>
         </ul>
       </div>
 
       <div class="card">
         <h3><span class="dot"></span><span data-i="m_fire">שיקולי כיבוי</span></h3>
         <ul class="li">
-          <li>קירור מיכלים חשופים ממרחק — עדיפות לתותח מים מקובע לא מאויש / קווים בלתי מאוישים.</li>
-          <li>אמצעי כיבוי: <b>קצף היוצר שכבה מימית (AFFF)</b>, חומר כיבוי יבש, פחמן דו חמצני. מים — לקירור ופיזור אדים בלבד.</li>
-          <li class="w">לנטרל מקורות הצתה ברדיוס הסיכון — אדים עלולים לנדוד ולחזור כלהבה.</li>
-          <li>בקרת תשטיפי כיבוי; מניעת זרימה למקורות מים וביוב.</li>
-          <li class="w">להתרחק מקצוות המיכל בסיכון קרע; היערכות לנסיגה מיידית.</li>
-          <li>מיגון: ערכת מגן כימי מלאה + מנ"פ בכל כניסה לאזור החם.</li>
+          <li data-i="m_ff_l1">קירור מיכלים חשופים ממרחק — עדיפות לתותח מים מקובע לא מאויש / קווים בלתי מאוישים.</li>
+          <li data-i="m_ff_l2">אמצעי כיבוי: <b>קצף היוצר שכבה מימית (AFFF)</b>, חומר כיבוי יבש, פחמן דו חמצני. מים — לקירור ופיזור אדים בלבד.</li>
+          <li class="w" data-i="m_ff_l3">לנטרל מקורות הצתה ברדיוס הסיכון — אדים עלולים לנדוד ולחזור כלהבה.</li>
+          <li data-i="m_ff_l4">בקרת תשטיפי כיבוי; מניעת זרימה למקורות מים וביוב.</li>
+          <li class="w" data-i="m_ff_l5">להתרחק מקצוות המיכל בסיכון קרע; היערכות לנסיגה מיידית.</li>
+          <li data-i="m_ff_l6">מיגון: ערכת מגן כימי מלאה + מנ"פ בכל כניסה לאזור החם.</li>
         </ul>
       </div>
     </section>
@@ -440,7 +440,7 @@ ul.li li b{color:#fff;}
 
       <div class="card" style="border-color:rgba(255,69,58,.3);">
         <h3><span class="dot" style="background:var(--red);box-shadow:0 0 8px var(--red);"></span><span data-i="i_live">מעקב חי — מתעדכן במקור</span></h3>
-        <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">הקישורים הבאים מתעדכנים אוטומטית בצד המקור — הכותרות הטריות ביותר נמצאות שם. לחיצה פותחת את הבלוג החי.</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px;" data-i="i_live_intro">הקישורים הבאים מתעדכנים אוטומטית בצד המקור — הכותרות הטריות ביותר נמצאות שם. לחיצה פותחת את הבלוג החי.</div>
         <a class="src" href="https://abc7.com/live-updates/garden-grove-chemical-tank-emergency-leaking-toxic-chemicals-orange-county-will-spill-explode-officials-say/19152918/" target="_blank" rel="noopener"><span class="ic" style="background:rgba(255,69,58,.16);color:var(--red-soft)">🔴</span><span><div class="nm">ABC7 · Live Updates</div><div class="u">בלוג חי — מתעדכן בזמן אמת</div></span><span class="arr">›</span></a>
         <a class="src" href="https://www.nbclosangeles.com/news/local/live-updates-garden-grove-chemical-tank-crisis/3894268/" target="_blank" rel="noopener"><span class="ic" style="background:rgba(255,69,58,.16);color:var(--red-soft)">🔴</span><span><div class="nm">NBC LA · Live</div><div class="u">בלוג חי — מתעדכן בזמן אמת</div></span><span class="arr">›</span></a>
         <a class="src" href="https://x.com/OCFireAuthority" target="_blank" rel="noopener"><span class="ic" style="background:rgba(10,132,255,.16);color:var(--blue)">𝕏</span><span><div class="nm">OCFA · @OCFireAuthority</div><div class="u">עדכוני הרשות הרשמיים</div></span><span class="arr">›</span></a>
@@ -451,13 +451,13 @@ ul.li li b{color:#fff;}
       <div class="card">
         <h3><span class="dot"></span><span data-i="i_chrono">כרונולוגיה</span></h3>
         <div class="tl">
-          <div class="tlitem"><div class="t">חמישי 21.5 · ~15:40</div><div class="d">דיווח על שחרור אדים ממיכלי אחסון; שסתום בטיחות וספרינקלרים פנימיים נפתחו אוטומטית; צווי פינוי ראשונים.</div></div>
-          <div class="tlitem"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את שסתום הבטיחות; צווי הפינוי בוטלו.</div></div>
-          <div class="tlitem"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום; פרקליטות המחוז (DA) פתחה חקירה.</div></div>
-          <div class="tlitem"><div class="t">שבת 23.5 · לילה</div><div class="d">מעבר להתקפה: ניסיון מסוכן לנטרול; קריאת מד פנימי הראתה 32°C (מול 25°C בבוקר). פתיחת מקלטים נוספים.</div></div>
-          <div class="tlitem"><div class="t">ראשון 24.5 · בוקר</div><div class="d">מיכל #2 (15,000 גלון) יוצב בהזרקת מנטרל; מיכל #1 עדיין באיום קרע/פיצוץ מיידי. ~50K מפונים; טמפ' עולה ~0.5°C/שעה לעבר סף ה-BLEVE. GKN בתביעה ייצוגית.</div></div>
-          <div class="tlitem"><div class="t">ראשון 24.5 · אחה"צ</div><div class="d">משימת סיור לילית (שבת בלילה) על מיכל #1 הניבה "מודיעין חיובי": הצוות זיהה <b>סדק אפשרי במיכל</b> שעשוי לשחרר חלק מהלחץ הפנימי — התפתחות שעשויה לשנות את אסטרטגיית התגובה.</div></div>
-          <div class="tlitem now"><div class="t">שני 25.5 · לילה→בוקר</div><div class="d"><b>משימה לכל אורך הלילה</b> לאישור אם הלחץ אכן שוחרר ואם איום ה-BLEVE הוסר. McGovern (מפקד OCFA בפועל): "איום ה-BLEVE הוא התרחיש הקטסטרופלי במקרה הגרוע — <b>אנחנו עדיין לא שם</b>. צריך להריץ את המבצע הלילה." הפינוי (~50K) עדיין בתוקף; אין לוח זמנים לחזרה.</div></div>
+          <div class="tlitem" data-i="tl1"><div class="t">חמישי 21.5 · ~15:40</div><div class="d">דיווח על שחרור אדים ממיכלי אחסון; שסתום בטיחות וספרינקלרים פנימיים נפתחו אוטומטית; צווי פינוי ראשונים.</div></div>
+          <div class="tlitem" data-i="tl2"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את שסתום הבטיחות; צווי הפינוי בוטלו.</div></div>
+          <div class="tlitem" data-i="tl3"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום; פרקליטות המחוז (DA) פתחה חקירה.</div></div>
+          <div class="tlitem" data-i="tl4"><div class="t">שבת 23.5 · לילה</div><div class="d">מעבר להתקפה: ניסיון מסוכן לנטרול; קריאת מד פנימי הראתה 32°C (מול 25°C בבוקר). פתיחת מקלטים נוספים.</div></div>
+          <div class="tlitem" data-i="tl5"><div class="t">ראשון 24.5 · בוקר</div><div class="d">מיכל #2 (15,000 גלון) יוצב בהזרקת מנטרל; מיכל #1 עדיין באיום קרע/פיצוץ מיידי. ~50K מפונים; טמפ' עולה ~0.5°C/שעה לעבר סף ה-BLEVE. GKN בתביעה ייצוגית.</div></div>
+          <div class="tlitem" data-i="tl6"><div class="t">ראשון 24.5 · אחה"צ</div><div class="d">משימת סיור לילית (שבת בלילה) על מיכל #1 הניבה "מודיעין חיובי": הצוות זיהה <b>סדק אפשרי במיכל</b> שעשוי לשחרר חלק מהלחץ הפנימי — התפתחות שעשויה לשנות את אסטרטגיית התגובה.</div></div>
+          <div class="tlitem now" data-i="tl7"><div class="t">שני 25.5 · לילה→בוקר</div><div class="d"><b>משימה לכל אורך הלילה</b> לאישור אם הלחץ אכן שוחרר ואם איום ה-BLEVE הוסר. McGovern (מפקד OCFA בפועל): "איום ה-BLEVE הוא התרחיש הקטסטרופלי במקרה הגרוע — <b>אנחנו עדיין לא שם</b>. צריך להריץ את המבצע הלילה." הפינוי (~50K) עדיין בתוקף; אין לוח זמנים לחזרה.</div></div>
         </div>
       </div>
 
@@ -484,7 +484,7 @@ ul.li li b{color:#fff;}
         <a class="src" href="https://pubchem.ncbi.nlm.nih.gov/compound/6658" target="_blank" rel="noopener"><span class="ic">🔎</span><span><div class="nm">PubChem · CID 6658</div><div class="u">מסד נתונים כימי</div></span><span class="arr">›</span></a>
         <a class="src" href="https://ggcity.org/emergency" target="_blank" rel="noopener"><span class="ic">🚨</span><span><div class="nm">City of Garden Grove · Emergency</div><div class="u">מפת פינוי רשמית · קו חם 714-628-7085</div></span><span class="arr">›</span></a>
       </div>
-      <div class="note">הופק עבור 60 שניות חומ"ס · 24.5.2026 · אירוע מתפתח, ייתכנו שינויים. נתוני החומר מעוגלים — אין להשתמש ככלי הכרעה תפעולי ללא אימות מול ERG 2024 / כרטיס בטיחות.<br><br>
+      <div class="note" data-i="src_foot">הופק עבור 60 שניות חומ"ס · 24.5.2026 · אירוע מתפתח, ייתכנו שינויים. נתוני החומר מעוגלים — אין להשתמש ככלי הכרעה תפעולי ללא אימות מול ERG 2024 / כרטיס בטיחות.<br><br>
         <b style="color:#e3e8ee">רועי צוקרמן</b> · מומחה לחומ"ס וטב"ק<br>
         <a href="mailto:roiez1@gmail.com" style="color:var(--blue);text-decoration:none">roiez1@gmail.com</a></div>
     </section>
@@ -770,35 +770,66 @@ function initPlume(){
 
 // ================= i18n (EN translations) =================
 const EN={
-  tag:'● ACTIVE INCIDENT · EMERGENCY',
-  hero_title:'Methyl Methacrylate Tank Crisis',
-  hero_loc:'GKN Aerospace · Garden Grove, Orange County, California',
-  live_data:'Live incident data',
-  s_temp:'Internal temp', s_temp_rate:'↑~0.5°/hr', s_bleve:'BLEVE threshold',
-  s_evac:'Evacuated', s_vol:'Tank volume', s_gal:'gallons',
-  s_air:'Air monitoring', s_air_ok:'Normal', s_cas:'Casualties',
-  bleve_clock:'BLEVE clock',
-  bleve_gap:'~6°C gap · rising ~0.5°C/hr → window of a few hours',
-  g_start:'25°C start', g_now:'32°C now',
-  fail_scen:'Two failure scenarios',
-  crack_h:'🔍 Development: possible crack may relieve pressure',
-  crack_p:'An overnight recon mission identified a <b>possible crack in Tank #1</b> that may be relieving some internal pressure — a positive sign. An all-night operation was run to confirm whether pressure was released and the BLEVE threat eliminated. <b>OCFA stresses: "not there yet"</b> — the danger is not over.',
-  two_h:'⚠️ Two failure scenarios',
-  two_p:'If the crack is insufficient, the tank may still fail one of two ways: <b>rupture releasing ~7,000 gallons</b> of toxic liquid, or a <b>vapor explosion (BLEVE)</b> with a flammable cloud. Described as the worst-case scenario in a 32-year career.',
-  st_li1:'Tank #2 (15,000 gal, same chemical) <b>stabilized</b>: OCFA injected a neutralizer to prevent a chain reaction; the tank appears structurally sound.',
-  st_li2:'Tank #1 (34,000 gal) — the problem tank: its valve seized due to the chemical reaction inside; a possible pressure-relieving crack was identified.',
-  st_li3:'No casualties reported; air monitors have not detected MMA (a few residents reported throat irritation/dizziness).',
-  st_li4:'Shell cooling with water spray and an unmanned monitor line for days.',
-  st_li5:'State of emergency declared in Orange County; evacuation zone ~10 sq miles. GKN already faces a class-action lawsuit.',
-  st_foot:'Last update: 25 May 2026 AM (Israel time) · Data from OCFA and media · developing incident.',
-  tab_status:'Status', tab_map:'Map', tab_chem:'Chemical', tab_mech:'Mechanism', tab_info:'Info',
-  map_title:'Incident map', chem_title:'The hazardous material',
-  mech_title:'Hazard mechanism', info_title:'Timeline & sources',
-  sc_evap:'Evaporating pool', sc_rupture:'Instant rupture',
-  stab_f:'Stable night', stab_d:'Neutral day', wind_refresh:'↻ Refresh wind',
-  p_name:'Name', p_cas:'CAS', p_un:'UN number', p_formula:'Formula', p_mw:'Molecular weight', p_odor:'Odor', v_odor:'Sharp fruity',
-  p_flash:'Flash point', p_auto:'Autoignition', p_flam:'Flammable range', p_boil:'Boiling point', p_vp:'Vapor pressure', p_dens:'Density', p_pel:'PEL/REL (TWA)',
-  a1:'AEGL-1 · reversible irritation', a2:'AEGL-2 · irreversible harm', a3:'AEGL-3 · life-threatening', loa:'Odor threshold (LOA)',
+  tag:"● ACTIVE INCIDENT · EMERGENCY",
+  hero_title:"Methyl Methacrylate Tank Crisis",
+  hero_loc:"GKN Aerospace · Garden Grove, Orange County, California",
+  live_data:"Live incident data",
+  s_temp:"Internal temp",
+  s_temp_rate:"↑~0.5°/hr",
+  s_bleve:"BLEVE threshold",
+  s_evac:"Evacuated",
+  s_vol:"Tank volume",
+  s_gal:"gallons",
+  s_air:"Air monitoring",
+  s_air_ok:"Normal",
+  s_cas:"Casualties",
+  bleve_clock:"BLEVE clock",
+  bleve_gap:"~6°C gap · rising ~0.5°C/hr → window of a few hours",
+  g_start:"25°C start",
+  g_now:"32°C now",
+  fail_scen:"Two failure scenarios",
+  crack_h:"🔍 Development: possible crack may relieve pressure",
+  crack_p:"An overnight recon mission identified a <b>possible crack in Tank #1</b> that may be relieving some internal pressure — a positive sign. An all-night operation was run to confirm whether pressure was released and the BLEVE threat eliminated. <b>OCFA stresses: \"not there yet\"</b> — the danger is not over.",
+  two_h:"⚠️ Two failure scenarios",
+  two_p:"If the crack is insufficient, the tank may still fail one of two ways: <b>rupture releasing ~7,000 gallons</b> of toxic liquid, or a <b>vapor explosion (BLEVE)</b> with a flammable cloud. Described as the worst-case scenario in a 32-year career.",
+  st_li1:"Tank #2 (15,000 gal, same chemical) <b>stabilized</b>: OCFA injected a neutralizer to prevent a chain reaction; the tank appears structurally sound.",
+  st_li2:"Tank #1 (34,000 gal) — the problem tank: its valve seized due to the chemical reaction inside; a possible pressure-relieving crack was identified.",
+  st_li3:"No casualties reported; air monitors have not detected MMA (a few residents reported throat irritation/dizziness).",
+  st_li4:"Shell cooling with water spray and an unmanned monitor line for days.",
+  st_li5:"State of emergency declared in Orange County; evacuation zone ~10 sq miles. GKN already faces a class-action lawsuit.",
+  st_foot:"Last update: 25 May 2026 AM (Israel time) · Data from OCFA and media · developing incident.",
+  tab_status:"Status",
+  tab_map:"Map",
+  tab_chem:"Chemical",
+  tab_mech:"Mechanism",
+  tab_info:"Info",
+  map_title:"Incident map",
+  chem_title:"The hazardous material",
+  mech_title:"Hazard mechanism",
+  info_title:"Timeline & sources",
+  sc_evap:"Evaporating pool",
+  sc_rupture:"Instant rupture",
+  stab_f:"Stable night",
+  stab_d:"Neutral day",
+  wind_refresh:"↻ Refresh wind",
+  p_name:"Name",
+  p_cas:"CAS",
+  p_un:"UN number",
+  p_formula:"Formula",
+  p_mw:"Molecular weight",
+  p_odor:"Odor",
+  v_odor:"Sharp fruity",
+  p_flash:"Flash point",
+  p_auto:"Autoignition",
+  p_flam:"Flammable range",
+  p_boil:"Boiling point",
+  p_vp:"Vapor pressure",
+  p_dens:"Density",
+  p_pel:"PEL/REL (TWA)",
+  a1:"AEGL-1 · reversible irritation",
+  a2:"AEGL-2 · irreversible harm",
+  a3:"AEGL-3 · life-threatening",
+  loa:"Odor threshold (LOA)",
   c_id:"Identification",
   c_nfpa:"NFPA 704 classification",
   c_phys:"Physical properties",
@@ -812,6 +843,59 @@ const EN={
   i_chrono:"Chronology",
   i_evac:"Evacuation centers",
   i_sources:"Sources & links",
+  plume_title:"Toxic vapor plume (estimate)",
+  wind_loading:"Loading wind data…",
+  wind_manual:"Manual wind direction:",
+  receptors:"Public receptors",
+  lg_inc:"Incident source",
+  lg_school:"School (vulnerable)",
+  lg_park:"Amusement park",
+  lg_hosp:"Hospital",
+  lg_shelter:"Evac shelter",
+  plume_note:"Both scenarios shown as separate layers: <b>instant rupture</b> (dashed, larger range) and <b>evaporating pool</b> (filled). Tap a scenario to show/hide. ⚠️ Simplified Gaussian estimate (Pasquill-Gifford) — <b>not official ALOHA</b>; for illustration only.",
+  map_note:"Evacuation zone (red polygon) approximate: N Ball Rd · S Trask Ave · W Valley View St · E Dale St. Distance rings 1/3/5 km around the source. Coordinates from Google Places.",
+  nfpa_h:"<div><b style=\"color:#3b9dff\">Health 2</b> — temporary/residual harm</div>",
+  nfpa_f:"<div><b style=\"color:#ff6961\">Flammability 3</b> — ignites at almost any temp</div>",
+  nfpa_r:"<div><b style=\"color:#ffd60a\">Reactivity 2</b> — violent change under heat (polymerization)</div>",
+  aegl_note:"<div class=\"note\" style=\"text-align:right;padding:8px 2px 0;\">Source: EPA AEGL Interim (12/12/06). These values feed the plume model in the Map tab.</div>",
+  health_h:"<div class=\"alert amber\"><h4>🫁 Acute exposure</h4>",
+  health_p:"<p>Significant irritation of the lungs and upper airways, skin and eye irritation, nausea, dizziness and headache. At very high concentrations — severe respiratory distress and hospitalization.</p>",
+  health_l1:"<li class=\"g\">Evacuate and move upwind</li>",
+  health_l2:"<li class=\"g\">Fresh air; oxygen if breathing is difficult</li>",
+  health_l3:"<li class=\"g\">Flush skin/eyes with plenty of water; remove contaminated clothing</li>",
+  m_auto_h:"<div class=\"alert red\"><h4>🔥 Exothermic auto-polymerization</h4>",
+  m_auto_p:"<p>The liquid began uncontrolled chemical polymerization. Forming the plastic releases heat: heat accelerates polymerization → more heat → the reaction speeds up — a <b>positive feedback loop</b> leading to thermal runaway. The rising temperature (~1°/hr) is the signature of this phenomenon.</p>",
+  m_inh_h:"<div class=\"alert amber\"><h4>💊 Why the inhibitor failed</h4>",
+  m_inh_p:"<p>MMA is supplied with a stabilizer/inhibitor (hydroquinone / Topanol / MEHQ) — a molecule that <b>scavenges free radicals</b>: MMA polymerization proceeds as a radical chain reaction, and the inhibitor reacts with them and breaks the chain before it propagates, keeping the material stable in storage. Over time, with contamination or local hot spots, <b>the inhibitor is consumed and depleted</b>. Once it fails — nothing captures the radicals, and the molecules react on their own in a runaway chain. The stabilizer was in the tank; it was simply used up.</p>",
+  m_blk_h:"<div class=\"alert red\"><h4>🔒 Polymerization plugged the outlets</h4>",
+  m_blk_p:"<p>The core of the crisis is neither cooling nor inhibitor supply — but a <b>complete mechanical blockage</b>. Per an expert assessment (USC), the liquid monomer polymerized inside the tank outlet and turned into a glass-like solid. So nothing can be put in or taken out.</p>",
+  m_blk_sub:"<p style=\"font-weight:700;font-size:14.5px;margin:4px 2px 6px;\">Interventions ruled out due to the blocked valves:</p>",
+  m_blk_l1:"<li class=\"w\"><b>Injecting more inhibitor</b> — no open port to introduce/mix it; the inhibitors also require oxygen to work.</li>",
+  m_blk_l2:"<li class=\"w\"><b>Liquid nitrogen / internal cooling</b> — no access inside; cooling is only possible on the shell while heat is generated in the liquid. Risk of thermal shock to the steel.</li>",
+  m_blk_l3:"<li class=\"w\"><b>Draining / pumping out</b> — blocked by the plugged valves.</li>",
+  m_blk_l4:"<li class=\"w\"><b>Controlled pressure relief</b> — the safety valve is damaged and unreliable.</li>",
+  m_cool_h:"<div class=\"alert blue\" style=\"margin-top:10px;\"><h4>🧊 Why cooling is still critical</h4>",
+  m_cool_p:"<p>The polymerization rate roughly halves for every ~10°C drop. Cooling the shell slows (does not stop) the runaway and \"buys time\" — so water spray continues even without access to the core.</p>",
+  m_act_l1:"<li class=\"g\">External shell cooling with water spray — initially managed to close the safety valve and prevent material escape.</li>",
+  m_act_l2:"<li>Shift from a defensive to an <b>offensive</b> posture: placing a team at controlled risk with OCFA chemist support.</li>",
+  m_act_l3:"<li>External temperature reading by drone (does not read the tank interior) — so the early estimate of a temperature drop proved wrong.</li>",
+  m_act_l4:"<li class=\"g\">A team that approached <b>another</b> tank for chemical neutralization managed to read the internal temperature gauge — revealing the jump to 32°C.</li>",
+  m_act_l5:"<li class=\"w\">Agent used so far: <b>water only</b>. No neutralizer has been reported as successfully introduced into the problem tank.</li>",
+  m_ff_l1:"<li>Cool exposed tanks from a distance — prefer a fixed unmanned master stream / unmanned lines.</li>",
+  m_ff_l2:"<li>Extinguishing agents: <b>aqueous film-forming foam (AFFF)</b>, dry chemical, carbon dioxide. Water — for cooling and vapor dispersion only.</li>",
+  m_ff_l3:"<li class=\"w\">Eliminate ignition sources within the risk radius — vapors may travel and flash back.</li>",
+  m_ff_l4:"<li>Control firefighting runoff; prevent flow into water sources and sewers.</li>",
+  m_ff_l5:"<li class=\"w\">Stay clear of the tank ends at rupture risk; be ready for immediate withdrawal.</li>",
+  m_ff_l6:"<li>Protection: full chemical protective suit + SCBA on every entry to the hot zone.</li>",
+  i_live_intro:"<div style=\"font-size:13px;color:var(--muted);margin-bottom:10px;\">The links below update automatically at the source — the freshest headlines are there. Tap to open the live blog.</div>",
+  tl1:"<div class=\"t\">Thu 21.5 · ~15:40</div><div class=\"d\">Report of vapor release from storage tanks; safety valve and internal sprinklers opened automatically; first evacuation orders.</div>",
+  tl2:"<div class=\"t\">Thu night</div><div class=\"d\">Shell cooling managed to close the safety valve; evacuation orders lifted.</div>",
+  tl3:"<div class=\"t\">Fri 22.5</div><div class=\"d\">Tank damage prevented safe neutralization/removal of the contents; Tank #1 valve blocked → evacuation resumed and expanded. Governor Newsom declares a state of emergency; the District Attorney opened an investigation.</div>",
+  tl4:"<div class=\"t\">Sat 23.5 · night</div><div class=\"d\">Shift to offensive: a risky neutralization attempt; an internal gauge reading showed 32°C (vs 25°C in the morning). Additional shelters opened.</div>",
+  tl5:"<div class=\"t\">Sun 24.5 · AM</div><div class=\"d\">Tank #2 (15,000 gal) stabilized via neutralizer injection; Tank #1 still under imminent rupture/explosion threat. ~50K evacuated; temp rising ~0.5°C/hr toward the BLEVE threshold. GKN faces a class action.</div>",
+  tl6:"<div class=\"t\">Sun 24.5 · PM</div><div class=\"d\">An overnight recon mission (Sat night) on Tank #1 yielded \"positive intel\": the team identified a <b>possible crack in the tank</b> that may relieve some internal pressure — a development that could shift the response strategy.</div>",
+  tl7:"<div class=\"t\">Mon 25.5 · night→AM</div><div class=\"d\"><b>An all-night mission</b> to confirm whether pressure was actually released and the BLEVE threat eliminated. McGovern (interim OCFA chief): \"The BLEVE threat is the worst-case catastrophic event — <b>we are not there yet</b>. We need to run this operation tonight.\" The evacuation (~50K) remains in effect; no timeline for return.</div>",
+  src_foot:"<div class=\"note\">Produced for 60 Seconds of HazMat · 24.5.2026 · developing incident, subject to change. Material data are rounded — not to be used as an operational decision tool without verification against ERG 2024 / safety data sheet.<br><br>",
 };
 
 let origHE={};
