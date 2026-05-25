@@ -250,8 +250,8 @@ ul.li li b{color:#fff;}
         <div class="gauge-wrap">
           <div class="gnum"><span style="color:var(--amber)">~34<small>°C</small></span> <small style="color:var(--muted)">(93°F ↓)</small></div>
           <div class="glabel" data-i="bleve_gap">לפי OCFA (25.5): המיכל "שחרר את הלחץ" דרך הסדק, הטמפ' התייצבה ויורדת (כעת 93°F), ו<b>נראה שהפיצוץ נמנע</b>. צווי הפינוי עדיין בתוקף; אין לוח זמנים לחזרה.</div>
-          <div class="gbar"><div class="pin" style="left:42%"></div></div>
-          <div class="gscale"><span data-i="g_start">25°C התחלה</span><span data-i="g_now">שיא: &gt;38°C (&gt;100°F)</span><span data-i="g_nowmax">עכשיו 93°F ↓</span></div>
+          <div class="gbar"><div class="pin" style="left:69%"></div></div>
+          <div class="gscale"><span data-i="g_start">25°C</span><span data-i="g_now">עכשיו ~34°C (93°F ↓)</span><span data-i="g_nowmax">סף 38°C</span></div>
         </div>
         <div class="note" data-i="bleve_src" style="text-align:right;padding:8px 2px 0;">⚠️ ה-38°C (100°F) היה הסף שציינה OCFA, לא בהכרח טמפ' ה-BLEVE הפיזיקלי המדויק (נק' הרתיחה של MMA היא 101°C). הטמפ' חצתה אותו אך פיצוץ נמנע — כנראה בזכות שחרור הלחץ דרך הסדק. המקור: תדרוכי OCFA.</div>
       </div>
@@ -824,7 +824,7 @@ const EN={
   s_cas:"Casualties",
   bleve_clock:"BLEVE clock",
   bleve_gap:"Per OCFA (25.5): the tank \"released its pressure\" through the crack, the temperature stabilized and is falling (now 93°F), and an <b>explosion appears to have been averted</b>. Evacuation orders remain in effect; no timeline for return.",
-  g_start:"25°C start",
+  g_start:"25°C",
   fail_scen:"Two failure scenarios",
   crack_h:"🔍 Development: possible crack may relieve pressure",
   crack_p:"An overnight recon mission identified a <b>possible crack in Tank #1</b> that may be relieving some internal pressure — a positive sign. An all-night operation was run to confirm whether pressure was released and the BLEVE threat eliminated. <b>OCFA stresses: \"not there yet\"</b> — the danger is not over.",
@@ -939,7 +939,7 @@ const EN={
   s_temp_rate:"gauge capped at 100°F",
   s_bleve:"BLEVE threshold (OCFA)",
   bleve_gap:"Temp exceeded the 100°F threshold OCFA cited — the gauge cannot read above it. The discovered crack is likely venting pressure and preventing a BLEVE for now.",
-  g_now:"peak: >38°C (>100°F)",
+  g_now:"now ~34°C (93°F ↓)",
   bleve_src:"⚠️ 38°C (100°F) was the threshold OCFA cited, not necessarily the exact physical BLEVE temperature (MMA boils at 101°C). The temp crossed it but an explosion was averted — likely thanks to pressure release through the crack. Source: OCFA briefings.",
   temp_chart:"Tank temperature chart",
   temp_chart_note:"Green=verified rise · dashed red=estimated peak (gauge caps at 100°F) · green=fall after pressure release (93°F on 25.5). Source: OCFA briefings + Wikipedia.",
@@ -959,7 +959,7 @@ const EN={
   u_pubchem:"Chemical database",
   u_ggcity2:"Official evacuation map · hotline 714-628-7085",
   n_wiki1:"Wikipedia · incident page",
-  g_nowmax:"now 93°F ↓",
+  g_nowmax:"threshold 38°C",
 };
 
 let origHE={};
