@@ -326,9 +326,9 @@ ul.li li b{color:#fff;}
       <div class="card solid">
         <h3><span class="dot"></span><span data-i="c_id">זיהוי</span></h3>
         <div class="pg">
-          <div class="p"><div class="k" data-i="p_name">שם</div><div class="v" style="font-size:15px">מתיל מתאקרילט <small>(MMA)</small></div></div>
+          <div class="p"><div class="k" data-i="p_name">שם</div><div class="v" style="font-size:15px" data-i="v_name">מתיל מתאקרילט <small>(MMA)</small></div></div>
           <div class="p"><div class="k" data-i="p_cas">קאס</div><div class="v">80-62-6</div></div>
-          <div class="p"><div class="k" data-i="p_un">מספר או"ם</div><div class="v">או"ם 1247</div></div>
+          <div class="p"><div class="k" data-i="p_un">מספר או"ם</div><div class="v" data-i="v_un">או"ם 1247</div></div>
           <div class="p"><div class="k" data-i="p_formula">נוסחה</div><div class="v">C₅H₈O₂</div></div>
           <div class="p"><div class="k" data-i="p_mw">משקל מולקולרי</div><div class="v">100.12</div></div>
           <div class="p"><div class="k" data-i="p_odor">ריח</div><div class="v" style="font-size:14px" data-i="v_odor">פירותי חריף</div></div>
@@ -554,23 +554,41 @@ function dist(a,b){const R=6371,toR=x=>x*Math.PI/180;
   const dLat=toR(b.lat-a.lat),dLng=toR(b.lng-a.lng);
   const s=Math.sin(dLat/2)**2+Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLng/2)**2;
   return R*2*Math.atan2(Math.sqrt(s),Math.sqrt(1-s));}
+// ---- bilingual helpers for dynamic content ----
+function t(he,en){return LANG==='he'?he:en;}
+const RTYPE={
+  school:{he:'בית ספר יסודי',en:'Elementary school'},
+  shelter:{he:'מקלט פינוי',en:'Evacuation shelter'},
+  park:{he:'פארק שעשועים',en:'Amusement park'},
+  hospital:{he:'בית חולים',en:'Hospital'},
+};
+const DIRS8={
+  he:['צפון','צ-מז','מזרח','ד-מז','דרום','ד-מע','מערב','צ-מע'],
+  en:['N','NE','E','SE','S','SW','W','NW'],
+};
+function kmUnit(){return t('ק"מ','km');}
 function bearing(a,b){const toR=x=>x*Math.PI/180,toD=x=>x*180/Math.PI;
   const y=Math.sin(toR(b.lng-a.lng))*Math.cos(toR(b.lat));
   const x=Math.cos(toR(a.lat))*Math.sin(toR(b.lat))-Math.sin(toR(a.lat))*Math.cos(toR(b.lat))*Math.cos(toR(b.lng-a.lng));
-  const dirs=['צפון','צ-מז','מזרח','ד-מז','דרום','ד-מע','מערב','צ-מע'];
-  return dirs[Math.round(((toD(Math.atan2(y,x))+360)%360)/45)%8];}
+  const idx=Math.round(((toD(Math.atan2(y,x))+360)%360)/45)%8;
+  return DIRS8[LANG==='he'?'he':'en'][idx];}
 
-// receptor list
-const list=document.getElementById('recep-list');
-RECEPTORS.map(r=>({...r,km:dist(INCIDENT,r),dir:bearing(INCIDENT,r)}))
-  .sort((a,b)=>a.km-b.km)
-  .forEach(r=>{
-    const el=document.createElement('div');el.className='recep';
-    el.innerHTML=`<div class="ic" style="background:${r.c}22;color:${r.c}">${r.emoji}</div>
-      <div><div class="nm">${r.n}</div><div class="ds">${r.d}</div></div>
-      <div class="dist"><div class="d" style="color:${r.km<2?'#ff6961':'#fff'}">${r.km.toFixed(1)} ק"מ</div><div class="dir">${r.dir} · ${(r.km*0.621).toFixed(1)} mi</div></div>`;
-    list.appendChild(el);
-  });
+// receptor list (re-renders on language change)
+function renderReceptors(){
+  const list=document.getElementById('recep-list'); if(!list)return;
+  list.innerHTML='';
+  RECEPTORS.map(r=>({...r,km:dist(INCIDENT,r),dir:bearing(INCIDENT,r)}))
+    .sort((a,b)=>a.km-b.km)
+    .forEach(r=>{
+      const desc=RTYPE[r.t]?RTYPE[r.t][LANG==='he'?'he':'en']:'';
+      const el=document.createElement('div');el.className='recep';
+      el.innerHTML=`<div class="ic" style="background:${r.c}22;color:${r.c}">${r.emoji}</div>
+        <div><div class="nm">${r.n}</div><div class="ds">${desc}</div></div>
+        <div class="dist"><div class="d" style="color:${r.km<2?'#ff6961':'#fff'}">${r.km.toFixed(1)} ${kmUnit()}</div><div class="dir">${r.dir} · ${(r.km*0.621).toFixed(1)} mi</div></div>`;
+      list.appendChild(el);
+    });
+}
+renderReceptors();
 
 // ---- Map ----
 let MAP=null, plumeLayer=null;
@@ -584,7 +602,7 @@ function initMap(){
   // evacuation zone polygon (approx)
   const N=33.834,S=33.766,W=-118.014,E=-117.985;
   L.polygon([[N,W],[N,E],[S,E],[S,W]],{color:'#ff453a',weight:1.5,fillColor:'#ff453a',fillOpacity:.12,dashArray:'6 5'})
-    .addTo(map).bindPopup('אזור פינוי (מקורב)');
+    .addTo(map).bindPopup(t('אזור פינוי (מקורב)','Evacuation zone (approx.)'));
 
   // distance rings
   [1000,3000,5000].forEach(rr=>L.circle([INCIDENT.lat,INCIDENT.lng],{radius:rr,color:'#ffb02e',weight:.8,opacity:.4,fill:false,dashArray:'3 6'}).addTo(map));
@@ -592,13 +610,14 @@ function initMap(){
   // incident marker (pulsing)
   const inc=L.divIcon({className:'',html:`<div style="width:22px;height:22px;border-radius:50%;background:#ff453a;border:3px solid #fff;box-shadow:0 0 0 6px rgba(255,69,58,.35);animation:pulse 1.6s infinite"></div><style>@keyframes pulse{0%{box-shadow:0 0 0 4px rgba(255,69,58,.45)}70%{box-shadow:0 0 0 16px rgba(255,69,58,0)}100%{box-shadow:0 0 0 4px rgba(255,69,58,0)}}</style>`,iconSize:[22,22],iconAnchor:[11,11]});
   L.marker([INCIDENT.lat,INCIDENT.lng],{icon:inc}).addTo(map)
-    .bindPopup(`<b>${INCIDENT.name}</b><br>מוקד האירוע · מיכל MMA<br><small>${INCIDENT.addr}</small>`).openPopup();
+    .bindPopup(`<b>${INCIDENT.name}</b><br>${t('מוקד האירוע · מיכל MMA','Incident source · MMA tank')}<br><small>${INCIDENT.addr}</small>`).openPopup();
 
   // receptor markers
   RECEPTORS.forEach(r=>{
     const ic=L.divIcon({className:'',html:`<div style="width:15px;height:15px;border-radius:50%;background:${r.c};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.6)"></div>`,iconSize:[15,15],iconAnchor:[7,7]});
+    const desc=RTYPE[r.t]?RTYPE[r.t][LANG==='he'?'he':'en']:'';
     L.marker([r.lat,r.lng],{icon:ic}).addTo(map)
-      .bindPopup(`<b>${r.emoji} ${r.n}</b><br>${r.d}<br><small>${dist(INCIDENT,r).toFixed(1)} ק"מ ${bearing(INCIDENT,r)}</small>`);
+      .bindPopup(`<b>${r.emoji} ${r.n}</b><br>${desc}<br><small>${dist(INCIDENT,r).toFixed(1)} ${kmUnit()} ${bearing(INCIDENT,r)}</small>`);
   });
   setTimeout(()=>map.invalidateSize(),200);
   initPlume();
@@ -607,9 +626,9 @@ function initMap(){
 // ================= PLUME MODEL (simplified Gaussian, Pasquill-Gifford) =================
 // AEGL-1h values (EPA Interim 12/12/06), ppm — VERIFIED from epa.gov/aegl
 const AEGL=[
-  {k:'AEGL-3', ppm:570, color:'#ff453a', label:'מסכן חיים'},
-  {k:'AEGL-2', ppm:120, color:'#ff9416', label:'נזק בלתי הפיך'},
-  {k:'AEGL-1', ppm:17,  color:'#ffd60a', label:'גירוי הפיך'},
+  {k:'AEGL-3', ppm:570, color:'#ff453a', label:'מסכן חיים', labelEn:'life-threatening'},
+  {k:'AEGL-2', ppm:120, color:'#ff9416', label:'נזק בלתי הפיך', labelEn:'irreversible harm'},
+  {k:'AEGL-1', ppm:17,  color:'#ffd60a', label:'גירוי הפיך', labelEn:'reversible irritation'},
 ];
 const MW=100.12;
 const ppm2mg=ppm=>ppm*MW/24.45;          // mg/m3 @25C
@@ -625,8 +644,8 @@ function distFor(mgm3,Qgs,u,stab){const tg=mgm3/1000;let lo=1,hi=30000;
 
 // scenario source strengths (g/s) — transparent assumptions
 const SCEN={
-  rupture:{Q:1000,name:'קרע מיידי',short:'קרע',dash:'8 6',fill:.16,order:0},
-  evap:{Q:120,name:'דליפה מתאדה',short:'דליפה',dash:null,fill:.30,order:1},
+  rupture:{Q:1000,name:'קרע מיידי',nameEn:'Instant rupture',short:'קרע',dash:'8 6',fill:.16,order:0},
+  evap:{Q:120,name:'דליפה מתאדה',nameEn:'Evaporating pool',short:'דליפה',dash:null,fill:.30,order:1},
 };
 let plumeState={layers:{evap:true,rupture:true},stab:'F',windDir:270,windSpeed:2.0};
 
@@ -666,7 +685,7 @@ function drawPlume(){
         opacity:.95};
       if(cfg.dash)opts.dashArray=cfg.dash;
       L.polygon(wedge(d,travel,stab),opts).addTo(plumeLayer)
-        .bindPopup(`<b>${cfg.name}</b><br>${a.k} · ${a.ppm} ppm — ${a.label}<br>טווח ~${(d/1000).toFixed(2)} ק"מ במורד הרוח`);
+        .bindPopup(`<b>${LANG==='he'?cfg.name:cfg.nameEn}</b><br>${a.k} · ${a.ppm} ppm — ${LANG==='he'?a.label:a.labelEn}<br>${t('טווח ~','range ~')}${(d/1000).toFixed(2)} ${kmUnit()} ${t('במורד הרוח','downwind')}`);
     });
   });
   // wind arrow — clear shaft + arrowhead, length scaled to be visible
@@ -678,7 +697,7 @@ function drawPlume(){
     const barb=destPoint(tip[0],tip[1],(travel+180+off+360)%360,220);
     L.polyline([tip,barb],{color:'#0a84ff',weight:4,opacity:.9}).addTo(plumeLayer);
   });
-  L.marker(tip,{icon:L.divIcon({className:'',html:'<div style="background:#0a84ff;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-50%)">רוח</div>',iconSize:[1,1]})}).addTo(plumeLayer);
+  L.marker(tip,{icon:L.divIcon({className:'',html:'<div style="background:#0a84ff;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-50%)">'+t('רוח','wind')+'</div>',iconSize:[1,1]})}).addTo(plumeLayer);
 
   // auto-fit map to show the full plume extent (largest enabled zone)
   try{
@@ -701,14 +720,14 @@ function renderReadout(){
     const cfg=SCEN[sc];
     const hdr=document.createElement('div');
     hdr.style.cssText='font-size:12px;font-weight:800;color:#fff;margin:10px 2px 2px;';
-    hdr.innerHTML=`${cfg.name} <span style="color:var(--muted);font-weight:600">· מקור ~${cfg.Q} ג'/ש'${cfg.dash?' (מקווקו)':''}</span>`;
+    hdr.innerHTML=`${LANG==='he'?cfg.name:cfg.nameEn} <span style="color:var(--muted);font-weight:600">· ${t('מקור','source')} ~${cfg.Q} ${t("ג'/ש'",'g/s')}${cfg.dash?(LANG==='he'?' (מקווקו)':' (dashed)'):''}</span>`;
     ro.appendChild(hdr);
     AEGL.forEach(a=>{
       const d=distFor(ppm2mg(a.ppm),cfg.Q,u,stab);
-      const km=d?`${(d/1000).toFixed(2)} ק"מ`:'מתחת לסף';
+      const km=d?`${(d/1000).toFixed(2)} ${kmUnit()}`:t('מתחת לסף','below threshold');
       const row=document.createElement('div');row.className='plume-row';
       row.innerHTML=`<span class="sw" style="background:${a.color}"></span>
-        <div><div class="nm">${a.k} · ${a.ppm} ppm</div><div class="sub2">${a.label}</div></div>
+        <div><div class="nm">${a.k} · ${a.ppm} ppm</div><div class="sub2">${LANG==='he'?a.label:a.labelEn}</div></div>
         <span class="km">${km}</span>`;
       ro.appendChild(row);
     });
@@ -725,16 +744,20 @@ async function fetchWind(){
     const sp=j.current?.wind_speed_10m, dr=j.current?.wind_direction_10m;
     if(sp!=null&&dr!=null){
       plumeState.windSpeed=Math.max(1,sp);plumeState.windDir=dr;
-      const dirs=['צפונית','צפון-מזרחית','מזרחית','דרום-מזרחית','דרומית','דרום-מערבית','מערבית','צפון-מערבית'];
-      const dname=dirs[Math.round(dr/45)%8];
-      const toward=dirs[Math.round(((dr+180)%360)/45)%8];
-      ws.innerHTML=`🌬️ <b>רוח אמת</b> (Open-Meteo): מכיוון <b>${dname}</b> (${Math.round(dr)}°) · ${sp.toFixed(1)} מ'/ש'<br><span style="color:var(--amber)">← הפלומה נעה לכיוון ${toward}</span>`;
-      // sync the manual slider to the live value
+      const dirsHe=['צפונית','צפון-מזרחית','מזרחית','דרום-מזרחית','דרומית','דרום-מערבית','מערבית','צפון-מערבית'];
+      const dirsEn=['N','NE','E','SE','S','SW','W','NW'];
+      const dd=LANG==='he'?dirsHe:dirsEn;
+      const dname=dd[Math.round(dr/45)%8];
+      const toward=dd[Math.round(((dr+180)%360)/45)%8];
+      ws.innerHTML=LANG==='he'
+        ?`🌬️ <b>רוח אמת</b> (Open-Meteo): מכיוון <b>${dname}</b> (${Math.round(dr)}°) · ${sp.toFixed(1)} מ'/ש'<br><span style="color:var(--amber)">← הפלומה נעה לכיוון ${toward}</span>`
+        :`🌬️ <b>Live wind</b> (Open-Meteo): from <b>${dname}</b> (${Math.round(dr)}°) · ${sp.toFixed(1)} m/s<br><span style="color:var(--amber)">← plume travels toward ${toward}</span>`;
       const sl=document.getElementById('wind-slider'), sv=document.getElementById('wind-slider-val');
       if(sl){sl.value=Math.round(dr); sv.textContent=Math.round(dr)+'°';}
     }else throw new Error('no data');
   }catch(e){
-    ws.innerHTML='🌬️ <b>רוח לא נמשכה</b> — שימוש בכיוון הידני למטה. הזז את המחוון כדי לכוון את הפלומה.';
+    ws.innerHTML=t('🌬️ <b>רוח לא נמשכה</b> — שימוש בכיוון הידני למטה. הזז את המחוון כדי לכוון את הפלומה.',
+                   '🌬️ <b>Wind not fetched</b> — using the manual direction below. Drag the slider to aim the plume.');
   }
   refreshPlume();
 }
@@ -753,9 +776,13 @@ function initPlume(){
   if(sl){sl.addEventListener('input',()=>{
     plumeState.windDir=+sl.value; sv.textContent=sl.value+'°';
     const ws=document.getElementById('wind-status');
-    const dirs=['צפונית','צפון-מזרחית','מזרחית','דרום-מזרחית','דרומית','דרום-מערבית','מערבית','צפון-מערבית'];
-    const toward=dirs[Math.round(((plumeState.windDir+180)%360)/45)%8];
-    ws.innerHTML=`✋ <b>כיוון רוח ידני</b>: מכיוון ${Math.round(plumeState.windDir)}° · ${plumeState.windSpeed.toFixed(1)} מ'/ש'<br><span style="color:var(--amber)">← הפלומה נעה לכיוון ${toward}</span>`;
+    const dirsHe=['צפונית','צפון-מזרחית','מזרחית','דרום-מזרחית','דרומית','דרום-מערבית','מערבית','צפון-מערבית'];
+    const dirsEn=['N','NE','E','SE','S','SW','W','NW'];
+    const dd=LANG==='he'?dirsHe:dirsEn;
+    const toward=dd[Math.round(((plumeState.windDir+180)%360)/45)%8];
+    ws.innerHTML=LANG==='he'
+      ?`✋ <b>כיוון רוח ידני</b>: מכיוון ${Math.round(plumeState.windDir)}° · ${plumeState.windSpeed.toFixed(1)} מ'/ש'<br><span style="color:var(--amber)">← הפלומה נעה לכיוון ${toward}</span>`
+      :`✋ <b>Manual wind</b>: from ${Math.round(plumeState.windDir)}° · ${plumeState.windSpeed.toFixed(1)} m/s<br><span style="color:var(--amber)">← plume travels toward ${toward}</span>`;
     refreshPlume();
   });}
   const wr=document.getElementById('wind-refresh');
@@ -910,6 +937,8 @@ const EN={
   bleve_src:"⚠️ 38°C (100°F) is the threshold OCFA cited, not necessarily the exact physical BLEVE temperature (MMA boils at 101°C). When asked, OCFA had no definite explosion temperature. Source: OCFA briefings (Craig Covey).",
   temp_chart:"Tank temperature chart",
   temp_chart_note:"Solid points = verified internal-gauge readings. Dashed line = estimate (the gauge caps at 100°F, so the true value is higher and unknown). Source: OCFA briefings + Wikipedia.",
+  v_name:"Methyl methacrylate <small>(MMA)</small>",
+  v_un:"UN 1247",
 };
 
 let origHE={};
@@ -989,7 +1018,14 @@ function drawTempChart(){
   ctx.fillText('↑ '+(LANG==='he'?'גבוה מהמדידה':'above gauge'),X(75)-2,Y(40.5));
 }
 const _origApplyLang=applyLang;
-applyLang=function(l){_origApplyLang(l);try{drawTempChart();}catch(e){}};
+applyLang=function(l){
+  _origApplyLang(l);
+  try{drawTempChart();}catch(e){}
+  try{if(typeof renderReceptors==='function')renderReceptors();}catch(e){}
+  try{if(typeof refreshPlume==='function'&&MAP)refreshPlume();}catch(e){}
+  try{if(typeof fetchWind==='function'&&MAP)fetchWind();}catch(e){}
+  // rebuild map markers' popups by re-initializing is heavy; popups update on next open.
+};
 drawTempChart();
 </script>
 </body>
