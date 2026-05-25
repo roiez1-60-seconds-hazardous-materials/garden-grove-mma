@@ -380,7 +380,7 @@ ul.li li b{color:#fff;}
 
       <div class="card">
         <h3><span class="dot"></span><span data-i="c_health">השפעות בריאותיות ותגובה</span></h3>
-        <div class="alert amber" data-i="health_h"><h4>🫁 חשיפה חריפה</h4>
+        <div class="alert amber"><h4 data-i="health_h">🫁 חשיפה חריפה</h4>
           <p data-i="health_p">גירוי משמעותי של ריאות ודרכי נשימה עליונות, גירוי עור ועיניים, בחילה, סחרחורת וכאבי ראש. בריכוז גבוה מאוד — מצוקה נשימתית קשה ואשפוז.</p></div>
         <ul class="li">
           <li class="g" data-i="health_l1">פינוי והרחקה מכיוון הרוח</li>
@@ -396,15 +396,15 @@ ul.li li b{color:#fff;}
 
       <div class="card">
         <h3><span class="dot"></span><span data-i="m_poly">פילמור בורח (מאושר)</span></h3>
-        <div class="alert red" data-i="m_auto_h"><h4>🔥 אוטו-פילמור אקסותרמי</h4>
+        <div class="alert red"><h4 data-i="m_auto_h">🔥 אוטו-פילמור אקסותרמי</h4>
           <p data-i="m_auto_p">הנוזל החל בפילמור כימי בלתי מבוקר. יצירת הפלסטיק משחררת חום: החום מאיץ את הפילמור → עוד חום → התגובה מאיצה — <b>לולאת משוב חיובית</b> המובילה ל-thermal runaway. עליית הטמפ' (~1°/שעה) היא חתימת התופעה.</p></div>
-        <div class="alert amber" data-i="m_inh_h"><h4>💊 מדוע המעכב נכשל</h4>
+        <div class="alert amber"><h4 data-i="m_inh_h">💊 מדוע המעכב נכשל</h4>
           <p data-i="m_inh_p">ל-MMA מוסיפים מייצב/מעכב (הידרוקווינון / Topanol / MEHQ) — מולקולה ה<b>לוכדת רדיקלים חופשיים</b>: פילמור MMA מתרחש כשרשרת תגובה של רדיקלים, והמעכב מגיב איתם ושובר את השרשרת לפני שתתפשט, וכך שומר על יציבות באחסון. עם הזמן, בזיהום או נקודות חום מקומיות, <b>המעכב מתכלה ונגמר</b>. ברגע שכשל — אין מי שילכוד את הרדיקלים, והמולקולות מגיבות מעצמן בשרשרת בורחת. חומר הייצוב היה במיכל; הוא פשוט נצרך.</p></div>
       </div>
 
       <div class="card">
         <h3><span class="dot"></span><span data-i="m_block">מנגנון החסימה</span></h3>
-        <div class="alert red" data-i="m_blk_h"><h4>🔒 הפילמור פקק את היציאות</h4>
+        <div class="alert red"><h4 data-i="m_blk_h">🔒 הפילמור פקק את היציאות</h4>
           <p data-i="m_blk_p">ליבת המשבר אינה קירור ולא מלאי מעכבים — אלא <b>חסימה מכנית מוחלטת</b>. לפי הערכת מומחה (USC), המונומר הנוזלי התפלמר בתוך מוצא המיכל והפך לחומר מוצק דמוי-זכוכית. לכן אי אפשר להכניס או להוציא דבר.</p></div>
         <p style="font-weight:700;font-size:14.5px;margin:4px 2px 6px;" data-i="m_blk_sub">התערבויות שנשללו עקב חסימת הברזים:</p>
         <ul class="li">
@@ -413,7 +413,7 @@ ul.li li b{color:#fff;}
           <li class="w" data-i="m_blk_l3"><b>ניקוז / שאיבה</b> — חסום ע"י הברזים הפקוקים.</li>
           <li class="w" data-i="m_blk_l4"><b>שחרור לחץ מבוקר</b> — שסתום הבטיחות ניזוק ואינו אמין.</li>
         </ul>
-        <div class="alert blue" style="margin-top:10px;" data-i="m_cool_h"><h4>🧊 למה קירור עדיין קריטי</h4>
+        <div class="alert blue" style="margin-top:10px;"><h4 data-i="m_cool_h">🧊 למה קירור עדיין קריטי</h4>
           <p data-i="m_cool_p">קצב הפילמור יורד בקירוב בחצי על כל ~10°C ירידה. קירור הדופן מאט (לא עוצר) את הבריחה ו"קונה זמן" — לכן ממשיכים ברסס מים גם ללא גישה לליבה.</p></div>
       </div>
 
@@ -892,23 +892,23 @@ const EN={
   nfpa_f:"<div><b style=\"color:#ff6961\">Flammability 3</b> — ignites at almost any temp</div>",
   nfpa_r:"<div><b style=\"color:#ffd60a\">Reactivity 2</b> — violent change under heat (polymerization)</div>",
   aegl_note:"<div class=\"note\" style=\"text-align:right;padding:8px 2px 0;\">Source: EPA AEGL Interim (12/12/06). These values feed the plume model in the Map tab.</div>",
-  health_h:"<div class=\"alert amber\"><h4>🫁 Acute exposure</h4>",
+  health_h:"🫁 Acute exposure",
   health_p:"<p>Significant irritation of the lungs and upper airways, skin and eye irritation, nausea, dizziness and headache. At very high concentrations — severe respiratory distress and hospitalization.</p>",
   health_l1:"<li class=\"g\">Evacuate and move upwind</li>",
   health_l2:"<li class=\"g\">Fresh air; oxygen if breathing is difficult</li>",
   health_l3:"<li class=\"g\">Flush skin/eyes with plenty of water; remove contaminated clothing</li>",
-  m_auto_h:"<div class=\"alert red\"><h4>🔥 Exothermic auto-polymerization</h4>",
+  m_auto_h:"🔥 Exothermic auto-polymerization",
   m_auto_p:"<p>The liquid began uncontrolled chemical polymerization. Forming the plastic releases heat: heat accelerates polymerization → more heat → the reaction speeds up — a <b>positive feedback loop</b> leading to thermal runaway. The rising temperature (~1°/hr) is the signature of this phenomenon.</p>",
-  m_inh_h:"<div class=\"alert amber\"><h4>💊 Why the inhibitor failed</h4>",
+  m_inh_h:"💊 Why the inhibitor failed",
   m_inh_p:"<p>MMA is supplied with a stabilizer/inhibitor (hydroquinone / Topanol / MEHQ) — a molecule that <b>scavenges free radicals</b>: MMA polymerization proceeds as a radical chain reaction, and the inhibitor reacts with them and breaks the chain before it propagates, keeping the material stable in storage. Over time, with contamination or local hot spots, <b>the inhibitor is consumed and depleted</b>. Once it fails — nothing captures the radicals, and the molecules react on their own in a runaway chain. The stabilizer was in the tank; it was simply used up.</p>",
-  m_blk_h:"<div class=\"alert red\"><h4>🔒 Polymerization plugged the outlets</h4>",
+  m_blk_h:"🔒 Polymerization plugged the outlets",
   m_blk_p:"<p>The core of the crisis is neither cooling nor inhibitor supply — but a <b>complete mechanical blockage</b>. Per an expert assessment (USC), the liquid monomer polymerized inside the tank outlet and turned into a glass-like solid. So nothing can be put in or taken out.</p>",
   m_blk_sub:"<p style=\"font-weight:700;font-size:14.5px;margin:4px 2px 6px;\">Interventions ruled out due to the blocked valves:</p>",
   m_blk_l1:"<li class=\"w\"><b>Injecting more inhibitor</b> — no open port to introduce/mix it; the inhibitors also require oxygen to work.</li>",
   m_blk_l2:"<li class=\"w\"><b>Liquid nitrogen / internal cooling</b> — no access inside; cooling is only possible on the shell while heat is generated in the liquid. Risk of thermal shock to the steel.</li>",
   m_blk_l3:"<li class=\"w\"><b>Draining / pumping out</b> — blocked by the plugged valves.</li>",
   m_blk_l4:"<li class=\"w\"><b>Controlled pressure relief</b> — the safety valve is damaged and unreliable.</li>",
-  m_cool_h:"<div class=\"alert blue\" style=\"margin-top:10px;\"><h4>🧊 Why cooling is still critical</h4>",
+  m_cool_h:"🧊 Why cooling is still critical",
   m_cool_p:"<p>The polymerization rate roughly halves for every ~10°C drop. Cooling the shell slows (does not stop) the runaway and \"buys time\" — so water spray continues even without access to the core.</p>",
   m_act_l1:"<li class=\"g\">External shell cooling with water spray — initially managed to close the safety valve and prevent material escape.</li>",
   m_act_l2:"<li>Shift from a defensive to an <b>offensive</b> posture: placing a team at controlled risk with OCFA chemist support.</li>",
