@@ -48,7 +48,7 @@ body{
 /* ===== Status bar faux ===== */
 .nav{
   position:sticky;top:0;z-index:50;
-  padding:calc(env(safe-area-inset-top) + 10px) 18px 12px;
+  padding:calc(env(safe-area-inset-top) + 10px) 18px 26px;
   background:rgba(11,14,19,.72);
   backdrop-filter:saturate(180%) blur(22px);
   -webkit-backdrop-filter:saturate(180%) blur(22px);
@@ -104,9 +104,9 @@ body{
 .gnum{font-size:34px;font-weight:900;letter-spacing:-1px;}
 .gnum small{font-size:15px;color:var(--muted);font-weight:600;}
 .glabel{font-size:12px;color:var(--muted);margin-top:2px;}
-.gbar{height:10px;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--yellow),var(--amber),var(--red));margin:14px 4px 6px;position:relative;}
+.gbar{height:10px;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--yellow),var(--amber),var(--red));margin:14px 4px 6px;position:relative;direction:ltr;}
 .gbar .pin{position:absolute;top:-6px;width:4px;height:22px;background:#fff;border-radius:3px;box-shadow:0 0 0 2px rgba(0,0,0,.4);}
-.gscale{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);padding:0 2px;}
+.gscale{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);padding:0 2px;direction:ltr;}
 
 /* alert blocks */
 .alert{border-radius:16px;padding:14px 15px;margin-bottom:12px;border:.5px solid;}
@@ -218,7 +218,7 @@ ul.li li b{color:#fff;}
       </div>
       <span class="live"><span class="ld"></span>LIVE</span>
       <button id="lang-toggle" style="margin-right:8px;font-family:inherit;font-size:12px;font-weight:800;color:var(--amber);background:rgba(255,176,46,.12);border:.5px solid rgba(255,176,46,.4);border-radius:10px;padding:6px 11px;cursor:pointer;">EN</button>
-      <div id="viewcount" style="position:absolute;top:100%;left:0;right:0;text-align:center;font-size:10.5px;color:var(--muted);pointer-events:none;padding-top:3px;"></div>
+      <div id="viewcount" style="position:absolute;top:calc(100% + 4px);left:0;right:0;text-align:center;font-size:10.5px;color:var(--muted);pointer-events:none;"></div>
     </div>
   </header>
 
