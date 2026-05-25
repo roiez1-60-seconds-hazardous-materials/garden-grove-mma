@@ -237,7 +237,7 @@ ul.li li b{color:#fff;}
         <h3><span class="dot"></span><span data-i="live_data">נתוני אירוע חיים</span></h3>
         <div class="stats">
           <div class="stat"><div class="k" data-i="s_temp">טמפ' פנימית</div><div class="v" style="color:var(--amber)">~34°C <small data-i="s_temp_rate">93°F · יורדת ↓</small></div></div>
-          <div class="stat ok"><div class="k" data-i="s_bleve">איום BLEVE</div><div class="v" style="font-size:18px" data-i="s_bleve_v">הוסר</div></div>
+          <div class="stat ok"><div class="k" data-i="s_bleve">איום BLEVE</div><div class="v" style="font-size:17px" data-i="s_bleve_v">נמנע (OCFA)</div></div>
           <div class="stat"><div class="k" data-i="s_evac">מפונים</div><div class="v">~50K</div></div>
           <div class="stat"><div class="k" data-i="s_vol">נפח מיכל</div><div class="v">34K <small data-i="s_gal">גלון</small></div></div>
           <div class="stat ok"><div class="k" data-i="s_air">ניטור אוויר</div><div class="v" style="font-size:18px" data-i="s_air_ok">תקין</div></div>
@@ -249,7 +249,7 @@ ul.li li b{color:#fff;}
         <h3><span class="dot"></span><span data-i="bleve_clock">שעון BLEVE</span></h3>
         <div class="gauge-wrap">
           <div class="gnum"><span style="color:var(--amber)">~34<small>°C</small></span> <small style="color:var(--muted)">(93°F ↓)</small></div>
-          <div class="glabel" data-i="bleve_gap">✅ OCFA הודיעו ב-25.5 כי <b>איום הפיצוץ הוסר</b> — המיכל שחרר את הלחץ דרך הסדק, והטמפ' התייצבה ויורדת (כעת 93°F). צווי הפינוי עדיין בתוקף בינתיים.</div>
+          <div class="glabel" data-i="bleve_gap">לפי OCFA (25.5): המיכל "שחרר את הלחץ" דרך הסדק, הטמפ' התייצבה ויורדת (כעת 93°F), ו<b>נראה שהפיצוץ נמנע</b>. צווי הפינוי עדיין בתוקף; אין לוח זמנים לחזרה.</div>
           <div class="gbar"><div class="pin" style="left:42%"></div></div>
           <div class="gscale"><span data-i="g_start">25°C התחלה</span><span data-i="g_now">שיא: &gt;38°C (&gt;100°F)</span><span data-i="g_nowmax">עכשיו 93°F ↓</span></div>
         </div>
@@ -463,11 +463,11 @@ ul.li li b{color:#fff;}
           <div class="tlitem" data-i="tl2"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את שסתום הבטיחות; צווי הפינוי בוטלו.</div></div>
           <div class="tlitem" data-i="tl3"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום; פרקליטות המחוז (DA) פתחה חקירה.</div></div>
           <div class="tlitem" data-i="tl4"><div class="t">שבת 23.5 · לילה</div><div class="d">מעבר להתקפה: ניסיון מסוכן לנטרול; קריאת מד פנימי הראתה 32°C (מול 25°C בבוקר). פתיחת מקלטים נוספים.</div></div>
-          <div class="tlitem" data-i="tl5"><div class="t">ראשון 24.5 · בוקר</div><div class="d">מיכל #2 (15,000 גלון) יוצב בהזרקת מנטרל; מיכל #1 עדיין באיום קרע/פיצוץ מיידי. ~50K מפונים; טמפ' עולה ~0.5°C/שעה לעבר סף ה-BLEVE. GKN בתביעה ייצוגית.</div></div>
+          <div class="tlitem" data-i="tl5"><div class="t">ראשון 24.5 · בוקר</div><div class="d">מיכל #2 (15,000 גלון) יוצב בהזרקת מנטרל; מיכל #1 עדיין באיום קרע/פיצוץ. ~50K מפונים; טמפ' עולה ~1°F/שעה (≈0.5°C) לעבר סף ה-BLEVE. GKN בתביעה ייצוגית.</div></div>
           <div class="tlitem" data-i="tl6"><div class="t">ראשון 24.5 · אחה"צ</div><div class="d">משימת סיור לילית (שבת בלילה) על מיכל #1 הניבה "מודיעין חיובי": הצוות זיהה <b>סדק אפשרי במיכל</b> שעשוי לשחרר חלק מהלחץ הפנימי — התפתחות שעשויה לשנות את אסטרטגיית התגובה.</div></div>
           <div class="tlitem" data-i="tl7"><div class="t">שני 25.5 · לילה→בוקר</div><div class="d"><b>משימה לכל אורך הלילה</b> לאישור אם הלחץ אכן שוחרר ואם איום ה-BLEVE הוסר. McGovern (מפקד OCFA בפועל): "איום ה-BLEVE הוא התרחיש הקטסטרופלי במקרה הגרוע — <b>אנחנו עדיין לא שם</b>. צריך להריץ את המבצע הלילה." הפינוי (~50K) עדיין בתוקף; אין לוח זמנים לחזרה.</div></div>
-          <div class="tlitem" data-i="tl8"><div class="t">שני 25.5 · המשך</div><div class="d">הפינוי (~50K) <b>עדיין בתוקף</b>, ללא אישור שאיום ה-BLEVE הוסר. עדכונים נוספים: 12 בתי ספר סגורים עד יום הלימודים האחרון (רביעי 27.5); <b>FEMA</b> מעורבת וניוסום ביקש הכרזת חירום פדרלית; שיעור סירוב פינוי ~15%; מוקד 24ש' נוסף: 714-741-5444. חקירת ABC7 מצאה ש-GKN ספגה הפרות SCAQMD ב-2021 (אי-שמירת רשומות, אי-קבלת היתרים).</div></div>
-          <div class="tlitem now" data-i="tl9"><div class="t">שני 25.5 · עדכון מכריע</div><div class="d">✅ <b>OCFA הודיעו: איום הפיצוץ הוסר.</b> המיכל "שחרר את הלחץ" דרך הסדק היחיד שהתגלה, הטמפ' התייצבה ויורדת — <b>כעת 93°F</b>. אין נפגעים, אין דליפת חומר (ניטור אוויר תקין). <b>צווי הפינוי עדיין בתוקף</b> — לא ברור מתי תושבים יורשו לחזור. אזורים מחוץ לאזור הפינוי "בטוחים לחלוטין".</div></div>
+          <div class="tlitem" data-i="tl8"><div class="t">שני 25.5 · המשך</div><div class="d">עדכונים: 12 בתי ספר סגורים עד יום הלימודים האחרון (רביעי 27.5); <b>FEMA</b> מעורבת וניוסום ביקש הכרזת חירום פדרלית; שיעור סירוב פינוי ~15% (נכון לשישי); מוקד 24ש' נוסף: 714-741-5444. חקירת ABC7: GKN ספגה הפרות SCAQMD ב-2021 (שילמה ~$1M, התיק נסגר), ושוב במרץ 2025 ("notice to comply", חזרה לתאימות בנובמבר).</div></div>
+          <div class="tlitem now" data-i="tl9"><div class="t">שני 25.5 · עדכון מכריע</div><div class="d">לפי OCFA: המיכל "שחרר את הלחץ" דרך הסדק היחיד שהתגלה, הטמפ' התייצבה ו<b>יורדת — כעת 93°F</b>, ו<b>נראה שהפיצוץ נמנע</b>. אין נפגעים, אין דליפת חומר (ניטור אוויר תקין). <b>צווי הפינוי עדיין בתוקף</b> — לא ברור מתי תושבים יורשו לחזור. אזורים מחוץ לאזור הפינוי "בטוחים לחלוטין" לפי הרשויות.</div></div>
         </div>
       </div>
 
@@ -815,7 +815,7 @@ const EN={
   s_temp:"Internal temp",
   s_temp_rate:"93°F · falling ↓",
   s_bleve:"BLEVE threat",
-  s_bleve_v:"eliminated",
+  s_bleve_v:"averted (OCFA)",
   s_evac:"Evacuated",
   s_vol:"Tank volume",
   s_gal:"gallons",
@@ -823,7 +823,7 @@ const EN={
   s_air_ok:"Normal",
   s_cas:"Casualties",
   bleve_clock:"BLEVE clock",
-  bleve_gap:"✅ OCFA announced on 25.5 that the <b>explosion threat has been eliminated</b> — the tank released its pressure through the crack, and the temperature has stabilized and is falling (now 93°F). Evacuation orders remain in effect for now.",
+  bleve_gap:"Per OCFA (25.5): the tank \"released its pressure\" through the crack, the temperature stabilized and is falling (now 93°F), and an <b>explosion appears to have been averted</b>. Evacuation orders remain in effect; no timeline for return.",
   g_start:"25°C start",
   fail_scen:"Two failure scenarios",
   crack_h:"🔍 Development: possible crack may relieve pressure",
@@ -930,11 +930,11 @@ const EN={
   tl2:"<div class=\"t\">Thu night</div><div class=\"d\">Shell cooling managed to close the safety valve; evacuation orders lifted.</div>",
   tl3:"<div class=\"t\">Fri 22.5</div><div class=\"d\">Tank damage prevented safe neutralization/removal of the contents; Tank #1 valve blocked → evacuation resumed and expanded. Governor Newsom declares a state of emergency; the District Attorney opened an investigation.</div>",
   tl4:"<div class=\"t\">Sat 23.5 · night</div><div class=\"d\">Shift to offensive: a risky neutralization attempt; an internal gauge reading showed 32°C (vs 25°C in the morning). Additional shelters opened.</div>",
-  tl5:"<div class=\"t\">Sun 24.5 · AM</div><div class=\"d\">Tank #2 (15,000 gal) stabilized via neutralizer injection; Tank #1 still under imminent rupture/explosion threat. ~50K evacuated; temp rising ~0.5°C/hr toward the BLEVE threshold. GKN faces a class action.</div>",
+  tl5:"<div class=\"t\">Sun 24.5 · AM</div><div class=\"d\">Tank #2 (15,000 gal) stabilized via neutralizer injection; Tank #1 still under rupture/explosion threat. ~50K evacuated; temp rising ~1°F/hr (≈0.5°C) toward the BLEVE threshold. GKN faces a class action.</div>",
   tl6:"<div class=\"t\">Sun 24.5 · PM</div><div class=\"d\">An overnight recon mission (Sat night) on Tank #1 yielded \"positive intel\": the team identified a <b>possible crack in the tank</b> that may relieve some internal pressure — a development that could shift the response strategy.</div>",
   tl7:"<div class=\"t\">Mon 25.5 · night→AM</div><div class=\"d\"><b>An all-night mission</b> to confirm whether pressure was actually released and the BLEVE threat eliminated. McGovern (interim OCFA chief): \"The BLEVE threat is the worst-case catastrophic event — <b>we are not there yet</b>. We need to run this operation tonight.\" The evacuation (~50K) remains in effect; no timeline for return.</div>",
-  tl8:"<div class=\"t\">Mon 25.5 · continued</div><div class=\"d\">The evacuation (~50K) <b>remains in effect</b>, with no confirmation the BLEVE threat is eliminated. Further updates: 12 schools closed through the last school day (Wed 27.5); <b>FEMA</b> involved and Newsom requested a federal emergency declaration; ~15% evacuation-refusal rate; additional 24h hotline: 714-741-5444. An ABC7 investigation found GKN faced SCAQMD violations in 2021 (failure to keep records, failure to obtain permits).</div>",
-  tl9:"<div class=\"t\">Mon 25.5 · key update</div><div class=\"d\">✅ <b>OCFA announced: the explosion threat has been eliminated.</b> The tank \"released its pressure\" through the single discovered crack; the temperature stabilized and is falling — <b>now 93°F</b>. No injuries, no chemical leak (air monitoring normal). <b>Evacuation orders remain in effect</b> — unclear when residents may return. Areas outside the evacuation zone are \"completely safe.\"</div>",
+  tl8:"<div class=\"t\">Mon 25.5 · continued</div><div class=\"d\">Updates: 12 schools closed through the last school day (Wed 27.5); <b>FEMA</b> involved and Newsom requested a federal emergency declaration; ~15% evacuation-refusal rate (as of Friday); additional 24h hotline: 714-741-5444. ABC7 investigation: GKN faced SCAQMD violations in 2021 (paid ~$1M, case closed), and again in March 2025 (\"notice to comply\", back in compliance by November).</div>",
+  tl9:"<div class=\"t\">Mon 25.5 · key update</div><div class=\"d\">Per OCFA: the tank \"released its pressure\" through the single discovered crack; the temperature stabilized and is <b>falling — now 93°F</b>, and an <b>explosion appears to have been averted</b>. No injuries, no chemical leak (air monitoring normal). <b>Evacuation orders remain in effect</b> — unclear when residents may return. Areas outside the evacuation zone are \"completely safe\" per authorities.</div>",
   src_foot:"<div class=\"note\">Produced for 60 Seconds of HazMat · 24.5.2026 · developing incident, subject to change. Material data are rounded — not to be used as an operational decision tool without verification against ERG 2024 / safety data sheet.<br><br>",
   s_temp_rate:"gauge capped at 100°F",
   s_bleve:"BLEVE threshold (OCFA)",
