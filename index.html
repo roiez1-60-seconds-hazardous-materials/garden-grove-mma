@@ -600,7 +600,9 @@ function initMap(){
     maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(map);
 
   // evacuation zone polygon (approx)
-  const N=33.834,S=33.766,W=-118.014,E=-117.985;
+  // Evac zone bounds from verified intersections (Google Places):
+  // N = Ball Rd (33.8173) · S = Trask Ave (33.7748) · W = Valley View St (-118.0281) · E = Dale St (-117.9845)
+  const N=33.8173,S=33.7748,W=-118.0281,E=-117.9845;
   L.polygon([[N,W],[N,E],[S,E],[S,W]],{color:'#ff453a',weight:1.5,fillColor:'#ff453a',fillOpacity:.12,dashArray:'6 5'})
     .addTo(map).bindPopup(t('אזור פינוי (מקורב)','Evacuation zone (approx.)'));
 
