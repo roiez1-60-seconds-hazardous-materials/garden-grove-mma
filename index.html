@@ -228,8 +228,8 @@ ul.li li b{color:#fff;}
     <!-- ===== PAGE 1: STATUS ===== -->
     <section class="page on" id="p-status">
       <div class="hero">
-        <span class="tag" data-i="tag">● אירוע פעיל · מצב חירום</span>
-        <h2 data-i="hero_title">קריסת מיכל מתיל מתאקרילט</h2>
+        <span class="tag" data-i="tag">● פינוי בוטל · מיתון נמשך</span>
+        <h2 data-i="hero_title">משבר מיכל מתיל מתאקרילט</h2>
         <div class="loc" data-i="hero_loc">GKN Aerospace · גרדן גרוב, מחוז אורנג', קליפורניה</div>
       </div>
 
@@ -467,7 +467,8 @@ ul.li li b{color:#fff;}
           <div class="tlitem" data-i="tl6"><div class="t">ראשון 24.5 · אחה"צ</div><div class="d">משימת סיור לילית (שבת בלילה) על מיכל #1 הניבה "מודיעין חיובי": הצוות זיהה <b>סדק אפשרי במיכל</b> שעשוי לשחרר חלק מהלחץ הפנימי — התפתחות שעשויה לשנות את אסטרטגיית התגובה.</div></div>
           <div class="tlitem" data-i="tl7"><div class="t">שני 25.5 · לילה→בוקר</div><div class="d"><b>משימה לכל אורך הלילה</b> לאישור אם הלחץ אכן שוחרר ואם איום ה-BLEVE הוסר. McGovern (מפקד OCFA בפועל): "איום ה-BLEVE הוא התרחיש הקטסטרופלי במקרה הגרוע — <b>אנחנו עדיין לא שם</b>. צריך להריץ את המבצע הלילה." הפינוי (~50K) עדיין בתוקף; אין לוח זמנים לחזרה.</div></div>
           <div class="tlitem" data-i="tl8"><div class="t">שני 25.5 · המשך</div><div class="d">עדכונים: 12 בתי ספר סגורים עד יום הלימודים האחרון (רביעי 27.5); <b>FEMA</b> מעורבת וניוסום ביקש הכרזת חירום פדרלית; שיעור סירוב פינוי ~15% (נכון לשישי); מוקד 24ש' נוסף: 714-741-5444. חקירת ABC7: GKN ספגה הפרות SCAQMD ב-2021 (שילמה ~$1M, התיק נסגר), ושוב במרץ 2025 ("notice to comply", חזרה לתאימות בנובמבר).</div></div>
-          <div class="tlitem now" data-i="tl9"><div class="t">שני 25.5 · עדכון מכריע</div><div class="d">לפי OCFA: המיכל "שחרר את הלחץ" דרך הסדק היחיד שהתגלה, הטמפ' התייצבה ו<b>יורדת — כעת 93°F</b>, ו<b>נראה שהפיצוץ נמנע</b>. אין נפגעים, אין דליפת חומר (ניטור אוויר תקין). <b>צווי הפינוי עדיין בתוקף</b> — לא ברור מתי תושבים יורשו לחזור. אזורים מחוץ לאזור הפינוי "בטוחים לחלוטין" לפי הרשויות.</div></div>
+          <div class="tlitem" data-i="tl9"><div class="t">שני 25.5 · עדכון מכריע</div><div class="d">לפי OCFA: המיכל "שחרר את הלחץ" דרך הסדק היחיד שהתגלה, הטמפ' התייצבה ו<b>יורדת — כעת 93°F</b>, ו<b>נראה שהפיצוץ נמנע</b>. אין נפגעים, אין דליפת חומר (ניטור אוויר תקין). צווי הפינוי עדיין בתוקף — אזורים מחוץ לאזור הפינוי "בטוחים לחלוטין" לפי הרשויות.</div></div>
+          <div class="tlitem now" data-i="tl10"><div class="t">שני 25.5 · 18:00 ואילך</div><div class="d">✅ <b>צווי הפינוי בוטלו לכל האזורים המגוריים</b> (עיריית גרדן גרוב). בעקבות הסרת איום ה-BLEVE, אש וחוק העריכו מחדש את אזורי הפינוי. הציבור מתבקש עדיין להימנע מהאזורים הסגורים. מסיבת עיתונאים נערכה ב-18:00 במפקדת האירוע בלוס אלמיטוס.</div></div>
         </div>
       </div>
 
@@ -808,7 +809,7 @@ function initPlume(){
 
 // ================= i18n (EN translations) =================
 const EN={
-  tag:"● ACTIVE INCIDENT · EMERGENCY",
+  tag:"● EVACUATIONS LIFTED · MITIGATION ONGOING",
   hero_title:"Methyl Methacrylate Tank Crisis",
   hero_loc:"GKN Aerospace · Garden Grove, Orange County, California",
   live_data:"Live incident data",
@@ -934,7 +935,8 @@ const EN={
   tl6:"<div class=\"t\">Sun 24.5 · PM</div><div class=\"d\">An overnight recon mission (Sat night) on Tank #1 yielded \"positive intel\": the team identified a <b>possible crack in the tank</b> that may relieve some internal pressure — a development that could shift the response strategy.</div>",
   tl7:"<div class=\"t\">Mon 25.5 · night→AM</div><div class=\"d\"><b>An all-night mission</b> to confirm whether pressure was actually released and the BLEVE threat eliminated. McGovern (interim OCFA chief): \"The BLEVE threat is the worst-case catastrophic event — <b>we are not there yet</b>. We need to run this operation tonight.\" The evacuation (~50K) remains in effect; no timeline for return.</div>",
   tl8:"<div class=\"t\">Mon 25.5 · continued</div><div class=\"d\">Updates: 12 schools closed through the last school day (Wed 27.5); <b>FEMA</b> involved and Newsom requested a federal emergency declaration; ~15% evacuation-refusal rate (as of Friday); additional 24h hotline: 714-741-5444. ABC7 investigation: GKN faced SCAQMD violations in 2021 (paid ~$1M, case closed), and again in March 2025 (\"notice to comply\", back in compliance by November).</div>",
-  tl9:"<div class=\"t\">Mon 25.5 · key update</div><div class=\"d\">Per OCFA: the tank \"released its pressure\" through the single discovered crack; the temperature stabilized and is <b>falling — now 93°F</b>, and an <b>explosion appears to have been averted</b>. No injuries, no chemical leak (air monitoring normal). <b>Evacuation orders remain in effect</b> — unclear when residents may return. Areas outside the evacuation zone are \"completely safe\" per authorities.</div>",
+  tl9:"<div class=\"t\">Mon 25.5 · key update</div><div class=\"d\">Per OCFA: the tank \"released its pressure\" through the single discovered crack; the temperature stabilized and is <b>falling — now 93°F</b>, and an <b>explosion appears to have been averted</b>. No injuries, no chemical leak (air monitoring normal). Evacuation orders still in effect — areas outside the evacuation zone are \"completely safe\" per authorities.</div>",
+  tl10:"<div class=\"t\">Mon 25.5 · 6 PM onward</div><div class=\"d\">✅ <b>Evacuation orders lifted for all residential areas</b> (City of Garden Grove). With the BLEVE threat eliminated, Fire & Law re-evaluated the evacuation zones. The public is still asked to avoid the closed areas. A press conference was held at 6 PM at the Incident Command Post in Los Alamitos.</div>",
   src_foot:"<div class=\"note\">Produced for 60 Seconds of HazMat · 24.5.2026 · developing incident, subject to change. Material data are rounded — not to be used as an operational decision tool without verification against ERG 2024 / safety data sheet.<br><br>",
   s_temp_rate:"gauge capped at 100°F",
   s_bleve:"BLEVE threshold (OCFA)",
