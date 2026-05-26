@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e13">
+<title>Mapbox 3D — בדיקה · Garden Grove</title>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
+<style>
+  :root{
+    --bg:#0b0e13; --card:#161b24; --line:rgba(255,255,255,.1);
+    --txt:#f2f5f8; --muted:#8b95a3; --amber:#ffb02e; --red:#ff453a;
+    --orange:#ff9f0a; --green:#30d158; --blue:#0a84ff; --purple:#bf5af2;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;overflow:hidden;}
+  #map{position:absolute;inset:0;}
+  .panel{
+    position:absolute;top:calc(env(safe-area-inset-top) + 12px);left:12px;right:12px;z-index:5;
+    background:rgba(11,14,19,.82);backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border:.5px solid var(--line);border-radius:16px;padding:12px 14px;
+  }
+  .panel h1{margin:0 0 3px;font-size:16px;font-weight:800;}
+  .panel .sub{font-size:11.5px;color:var(--muted);margin-bottom:10px;}
+  .row{display:flex;gap:7px;flex-wrap:wrap;}
+  .seg{
+    font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);
+    background:rgba(255,255,255,.06);border:.5px solid var(--line);
+    border-radius:10px;padding:7px 11px;cursor:pointer;transition:.15s;
+  }
+  .seg.on{color:var(--bg);background:var(--amber);border-color:var(--amber);}
+  .seg.zone-orig.on{background:var(--orange);border-color:var(--orange);}
+  .seg.zone-reduced.on{background:var(--red);border-color:var(--red);color:#fff;}
+  .lbl{font-size:11px;color:var(--muted);align-self:center;margin-left:2px;}
+  .divider{height:.5px;background:var(--line);margin:10px 0;}
+  .note{
+    position:absolute;bottom:calc(env(safe-area-inset-bottom) + 12px);left:12px;right:12px;z-index:5;
+    background:rgba(11,14,19,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:.5px solid var(--line);border-radius:14px;padding:10px 13px;
+    font-size:11px;color:var(--muted);line-height:1.5;
+  }
+  .badge{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin-left:4px;}
+  .mk{font-size:22px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.6));cursor:pointer;}
+  .mk-inc{font-size:30px;animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+  .mapboxgl-popup-content{background:#161b24;color:#f2f5f8;border-radius:10px;font-size:12.5px;
+    font-family:-apple-system,sans-serif;border:.5px solid rgba(255,255,255,.12);direction:rtl;}
+  .mapboxgl-popup-tip{border-top-color:#161b24!important;border-bottom-color:#161b24!important;}
+  .mapboxgl-popup-close-button{color:#8b95a3;font-size:16px;}
+  .err{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:30px;z-index:9;background:var(--bg);font-size:14px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<div class="panel">
+  <h1>מפת Mapbox 3D — בדיקה</h1>
+  <div class="sub">GKN Aerospace · Garden Grove · MMA</div>
+  <div class="row">
+    <span class="lbl">תצוגה:</span>
+    <button class="seg on" id="v-dark">כהה</button>
+    <button class="seg" id="v-sat">לוויין</button>
+    <button class="seg" id="v-3d">תלת-מימד ✓</button>
+  </div>
+  <div class="divider"></div>
+  <div class="row">
+    <span class="lbl">אזור פינוי:</span>
+    <button class="seg zone-orig" id="z-orig">מקורי ~50K</button>
+    <button class="seg zone-reduced on" id="z-reduced">מצומצם ~16K</button>
+  </div>
+</div>
+
+<div class="note">
+  <span class="badge" style="background:var(--orange)"></span>מקורי ~50K (21–25.5) &nbsp;·&nbsp;
+  <span class="badge" style="background:var(--red)"></span>מצומצם ~16K (מ-25.5 18:00) &nbsp;·&nbsp;
+  <span class="badge" style="background:var(--amber)"></span>מוקד / רצפטורים. גרור בשתי אצבעות להטיה (3D).
+</div>
+
+<script>
+// ⚠️ החלף ב-token האמיתי שלך (מוגבל ל-domain garden-grove-mma.vercel.app ב-Mapbox).
+// לעולם אל תשלח את ה-token בצ'אט — הדבק אותו כאן ישירות בקובץ.
+const MAPBOX_TOKEN = 'pk.PLACEHOLDER_REPLACE_ME';
+
+const INCIDENT={lat:33.7864618,lng:-118.001386,name:'GKN Aerospace',addr:'12122 Western Ave'};
+const RECEPTORS=[
+  {n:'Wakeham Elementary',d:'בית ספר יסודי',lat:33.7876869,lng:-117.9963068,emoji:'🏫'},
+  {n:'Patton Elementary',d:'בית ספר יסודי',lat:33.7894706,lng:-118.0126219,emoji:'🏫'},
+  {n:'Stanton City Hall',d:'מקלט פינוי',lat:33.8023249,lng:-117.9962905,emoji:'🏛️'},
+  {n:"Knott's Berry Farm",d:'פארק שעשועים',lat:33.8443038,lng:-118.0002265,emoji:'🎢'},
+  {n:'GG Sports & Rec Center',d:'מקלט פינוי',lat:33.7641383,lng:-117.9663724,emoji:'🏟️'},
+  {n:'Disneyland Park',d:'פארק שעשועים',lat:33.8120918,lng:-117.918974,emoji:'🎡'},
+  {n:'Garden Grove Hospital',d:'בית חולים',lat:33.7748653,lng:-117.913120,emoji:'🏥'},
+];
+// Evac zones — verified Google Places intersections
+const ZONES={
+  orig:{N:33.8173,S:33.7748,W:-118.0281,E:-117.9845,color:'#ff9f0a',label:'אזור פינוי מקורי (~50K · 21–25.5)'},
+  reduced:{N:33.7957,S:33.7738,W:-118.0111,E:-117.9840,color:'#ff453a',label:'אזור פינוי מצומצם (~16K · מ-25.5 18:00)'}
+};
+const rectCoords=z=>[[[z.W,z.N],[z.E,z.N],[z.E,z.S],[z.W,z.S],[z.W,z.N]]];
+
+const STYLES={dark:'mapbox://styles/mapbox/dark-v11', sat:'mapbox://styles/mapbox/satellite-streets-v12'};
+let state={style:'dark', is3d:true, zones:{orig:false, reduced:true}};
+let map=null, markers=[];
+
+function fail(msg){const e=document.createElement('div');e.className='err';e.innerHTML=msg;document.body.appendChild(e);}
+
+if(!MAPBOX_TOKEN || MAPBOX_TOKEN.indexOf('PLACEHOLDER')>-1){
+  fail('⚠️ לא הוגדר Mapbox token.<br><br>פתח את הקובץ <b>mapbox-test.html</b>,<br>החלף את <code>pk.PLACEHOLDER_REPLACE_ME</code><br>ב-token האמיתי שלך (מוגבל ל-domain),<br>ודחוף שוב.');
+} else {
+  mapboxgl.accessToken = MAPBOX_TOKEN;
+  map = new mapboxgl.Map({
+    container:'map', style:STYLES[state.style],
+    center:[INCIDENT.lng,INCIDENT.lat], zoom:13.2,
+    pitch:state.is3d?55:0, bearing:-12, antialias:true
+  });
+  map.addControl(new mapboxgl.NavigationControl({visualizePitch:true}),'bottom-right');
+  map.on('load', onStyleReady);
+  map.on('error', e=>{ if(e.error && /access token|401|unauthorized/i.test(e.error.message||'')) fail('⚠️ ה-token נדחה.<br>ודא שהוא תקין ומאושר ל-domain.'); });
+}
+
+function add3dBuildings(){
+  if(!map.getStyle().layers) return;
+  // dark style has composite/building source; satellite-streets too
+  const lbl = map.getStyle().layers.find(l=>l.type==='symbol' && l.layout && l.layout['text-field']);
+  const before = lbl ? lbl.id : undefined;
+  if(map.getLayer('gg-3d')) map.removeLayer('gg-3d');
+  try{
+    map.addLayer({
+      id:'gg-3d', source:'composite', 'source-layer':'building', type:'fill-extrusion',
+      minzoom:13,
+      paint:{
+        'fill-extrusion-color':'#2a3340',
+        'fill-extrusion-height':['get','height'],
+        'fill-extrusion-base':['get','min_height'],
+        'fill-extrusion-opacity':.65
+      }
+    }, before);
+  }catch(e){/* satellite style may lack building layer */}
+}
+
+function drawZones(){
+  Object.keys(ZONES).forEach(k=>{
+    const z=ZONES[k], sid='zone-'+k, fid='zonef-'+k, lid='zonel-'+k;
+    if(map.getLayer(fid))map.removeLayer(fid);
+    if(map.getLayer(lid))map.removeLayer(lid);
+    if(map.getSource(sid))map.removeSource(sid);
+    if(!state.zones[k])return;
+    map.addSource(sid,{type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'Polygon',coordinates:rectCoords(z)}}});
+    map.addLayer({id:fid,type:'fill',source:sid,paint:{'fill-color':z.color,'fill-opacity':k==='reduced'?.18:.10}});
+    map.addLayer({id:lid,type:'line',source:sid,paint:{'line-color':z.color,'line-width':2,'line-dasharray':[2,1.5]}});
+  });
+}
+
+function addMarkers(){
+  markers.forEach(m=>m.remove()); markers=[];
+  // incident
+  const ei=document.createElement('div'); ei.className='mk mk-inc'; ei.textContent='⚠️';
+  markers.push(new mapboxgl.Marker({element:ei})
+    .setLngLat([INCIDENT.lng,INCIDENT.lat])
+    .setPopup(new mapboxgl.Popup({offset:18}).setHTML('<b>'+INCIDENT.name+'</b><br>'+INCIDENT.addr))
+    .addTo(map));
+  // receptors
+  RECEPTORS.forEach(r=>{
+    const el=document.createElement('div'); el.className='mk'; el.textContent=r.emoji;
+    markers.push(new mapboxgl.Marker({element:el})
+      .setLngLat([r.lng,r.lat])
+      .setPopup(new mapboxgl.Popup({offset:14}).setHTML('<b>'+r.n+'</b><br>'+r.d))
+      .addTo(map));
+  });
+}
+
+function onStyleReady(){
+  if(state.is3d) add3dBuildings();
+  drawZones();
+  addMarkers();
+}
+
+// === Controls ===
+function setView(style){
+  if(state.style===style)return;
+  state.style=style;
+  document.getElementById('v-dark').classList.toggle('on',style==='dark');
+  document.getElementById('v-sat').classList.toggle('on',style==='sat');
+  map.setStyle(STYLES[style]);
+  map.once('style.load',onStyleReady); // re-add layers after style swap
+}
+document.getElementById('v-dark').onclick=()=>setView('dark');
+document.getElementById('v-sat').onclick=()=>setView('sat');
+document.getElementById('v-3d').onclick=function(){
+  state.is3d=!state.is3d;
+  this.textContent='תלת-מימד '+(state.is3d?'✓':'✗');
+  this.classList.toggle('on',state.is3d);
+  map.easeTo({pitch:state.is3d?55:0, bearing:state.is3d?-12:0, duration:700});
+  if(state.is3d){ add3dBuildings(); } else if(map.getLayer('gg-3d')){ map.removeLayer('gg-3d'); }
+};
+function toggleZone(k,btn){
+  state.zones[k]=!state.zones[k];
+  btn.classList.toggle('on',state.zones[k]);
+  drawZones();
+}
+document.getElementById('z-orig').onclick=function(){toggleZone('orig',this);};
+document.getElementById('z-reduced').onclick=function(){toggleZone('reduced',this);};
+</script>
+</body>
+</html>
