@@ -298,6 +298,12 @@ ul.li li b{color:#fff;}
         <span class="li"><span class="pin" style="background:#30d158"></span><span data-i="lg_shelter">מקלט פינוי</span></span>
       </div>
 
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center;">
+        <span style="font-size:12.5px;color:var(--muted);" data-i="zone_pick">אזור פינוי:</span>
+        <button class="seg" data-zone="orig" data-i="zone_orig">מקורי ~50K</button>
+        <button class="seg on" data-zone="reduced" data-i="zone_reduced">מצומצם ~16K</button>
+      </div>
+
       <div class="card" style="margin-top:14px;">
         <h3><span class="dot"></span><span data-i="plume_title">פלומת עננת רעילה (הערכה)</span></h3>
         <div id="wind-status" style="font-size:13px;color:var(--muted);margin-bottom:10px;" data-i="wind_loading">טוען נתוני רוח…</div>
@@ -321,7 +327,7 @@ ul.li li b{color:#fff;}
         <h3><span class="dot"></span><span data-i="receptors">רצפטורים ציבוריים</span></h3>
         <div id="recep-list"></div>
       </div>
-      <div class="note" data-i="map_note">אזור הפינוי המצומצם (מ-25.5 18:00, מצולע אדום): צפ' Orangewood Ave · דר' Garden Grove Blvd · מע' Knott St · מז' Dale St. ~16K תושבים (צומצם מ-50K). טבעות מרחק 1/3/5 ק"מ סביב המוקד. קואורדינטות מ-Google Places.</div>
+      <div class="note" data-i="map_note">שני אזורי הפינוי זמינים לבחירה (כפתורים למעלה): מקורי ~50K (כתום, 21–25.5) ומצומצם ~16K (אדום, מ-25.5 18:00). טבעות מרחק 1/3/5 ק"מ סביב המוקד. קואורדינטות מצמתים מאומתים (Google Places).</div>
     </section>
 
     <!-- ===== PAGE 3: CHEMICAL ===== -->
@@ -598,6 +604,26 @@ renderReceptors();
 
 // ---- Map ----
 let MAP=null, plumeLayer=null;
+// Evacuation zones (selectable). Both from verified Google Places intersections.
+const ZONES={
+  orig:{N:33.8173,S:33.7748,W:-118.0281,E:-117.9845,color:'#ff9f0a',
+        he:'אזור פינוי מקורי (~50K · 21–25.5)',en:'Original evac zone (~50K · 21–25.5)'},
+  reduced:{N:33.7957,S:33.7738,W:-118.0111,E:-117.9840,color:'#ff453a',
+        he:'אזור פינוי מצומצם (~16K · מ-25.5 18:00)',en:'Reduced evac zone (~16K · from 25.5 6PM)'}
+};
+let zoneLayer=null;
+const zoneState={orig:false, reduced:true}; // default: show current (reduced)
+function drawZones(){
+  if(!MAP)return;
+  if(zoneLayer){MAP.removeLayer(zoneLayer);} zoneLayer=L.layerGroup().addTo(MAP);
+  Object.keys(ZONES).forEach(k=>{
+    if(!zoneState[k])return;
+    const z=ZONES[k];
+    L.polygon([[z.N,z.W],[z.N,z.E],[z.S,z.E],[z.S,z.W]],
+      {color:z.color,weight:1.6,fillColor:z.color,fillOpacity:k==='reduced'?.14:.07,dashArray:'6 5'})
+      .addTo(zoneLayer).bindPopup(t(z.he,z.en));
+  });
+}
 function initMap(){
   if(mapInit) return; mapInit=true;
   const map=L.map('map',{zoomControl:true,attributionControl:true}).setView([INCIDENT.lat,INCIDENT.lng],13);
@@ -605,15 +631,8 @@ function initMap(){
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
     maxZoom:19,attribution:'© OpenStreetMap · © CARTO'}).addTo(map);
 
-  // evacuation zone polygon (approx)
-  // Evac zone bounds from verified intersections (Google Places):
-  // N = Ball Rd (33.8173) · S = Trask Ave (33.7748) · W = Valley View St (-118.0281) · E = Dale St (-117.9845)
-  // Reduced evac zone from 25.5 18:00 (verified intersections, Google Places):
-  // N = Orangewood Ave (33.7957) · S = Garden Grove Blvd (33.7738) · W = Knott St (-118.0111) · E = Dale St (-117.9840)
-  // (Previous 50K zone was Ball/Trask/Valley View/Dale — significantly larger.)
-  const N=33.7957,S=33.7738,W=-118.0111,E=-117.9840;
-  L.polygon([[N,W],[N,E],[S,E],[S,W]],{color:'#ff453a',weight:1.5,fillColor:'#ff453a',fillOpacity:.12,dashArray:'6 5'})
-    .addTo(map).bindPopup(t('אזור פינוי מצומצם (~16K · מ-25.5 18:00)','Reduced evac zone (~16K · from 25.5 6PM)'));
+  // === Evacuation zones (selectable layers) — see global ZONES/drawZones ===
+  drawZones();
 
   // distance rings
   [1000,3000,5000].forEach(rr=>L.circle([INCIDENT.lat,INCIDENT.lng],{radius:rr,color:'#ffb02e',weight:.8,opacity:.4,fill:false,dashArray:'3 6'}).addTo(map));
@@ -774,6 +793,9 @@ async function fetchWind(){
 }
 
 function initPlume(){
+  document.querySelectorAll('.seg[data-zone]').forEach(b=>b.addEventListener('click',()=>{
+    const z=b.dataset.zone; zoneState[z]=!zoneState[z];
+    b.classList.toggle('on',zoneState[z]); drawZones();}));
   document.querySelectorAll('.seg[data-layer]').forEach(b=>b.addEventListener('click',()=>{
     const L=b.dataset.layer; plumeState.layers[L]=!plumeState.layers[L];
     b.classList.toggle('on',plumeState.layers[L]); refreshPlume();}));
@@ -899,7 +921,10 @@ const EN={
   lg_hosp:"Hospital",
   lg_shelter:"Evac shelter",
   plume_note:"Both scenarios shown as separate layers: <b>instant rupture</b> (dashed, larger range) and <b>evaporating pool</b> (filled). Tap a scenario to show/hide. ⚠️ Simplified Gaussian estimate (Pasquill-Gifford) — <b>not official ALOHA</b>; for illustration only.",
-  map_note:"Reduced evacuation zone (from 25.5 6PM, red polygon): N Orangewood Ave · S Garden Grove Blvd · W Knott St · E Dale St. ~16K residents (reduced from 50K). Distance rings 1/3/5 km around the source. Coordinates from Google Places.",
+  map_note:"Both evacuation zones are selectable (buttons above): original ~50K (orange, 21–25.5) and reduced ~16K (red, from 25.5 6PM). Distance rings 1/3/5 km around the source. Coordinates from verified intersections (Google Places).",
+  zone_pick:"Evac zone:",
+  zone_orig:"Original ~50K",
+  zone_reduced:"Reduced ~16K",
   nfpa_h:"<div><b style=\"color:#3b9dff\">Health 2</b> — temporary/residual harm</div>",
   nfpa_f:"<div><b style=\"color:#ff6961\">Flammability 3</b> — ignites at almost any temp</div>",
   nfpa_r:"<div><b style=\"color:#ffd60a\">Reactivity 2</b> — violent change under heat (polymerization)</div>",
@@ -1064,6 +1089,7 @@ applyLang=function(l){
   try{drawTempChart();}catch(e){}
   try{if(typeof renderReceptors==='function')renderReceptors();}catch(e){}
   try{if(typeof refreshPlume==='function'&&MAP)refreshPlume();}catch(e){}
+  try{if(typeof drawZones==='function'&&MAP)drawZones();}catch(e){}
   try{if(typeof fetchWind==='function'&&MAP)fetchWind();}catch(e){}
   try{if(typeof renderViewCount==='function')renderViewCount();}catch(e){}
   // rebuild map markers' popups by re-initializing is heavy; popups update on next open.
