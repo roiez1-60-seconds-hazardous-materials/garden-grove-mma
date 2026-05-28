@@ -101,6 +101,61 @@ html[lang="en"] .infographic-card .en-only{display:block;}
   background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.15);border-radius:10px;
   font-size:13px;line-height:1.5;}
 
+/* ===== Operational Lessons Card ===== */
+.lessons-card{position:relative;overflow:hidden;}
+.lessons-card::before{content:'';position:absolute;top:-40%;right:-20%;width:340px;height:340px;
+  background:radial-gradient(circle,rgba(255,176,46,.10) 0%,transparent 60%);
+  pointer-events:none;filter:blur(20px);}
+.lessons-card h3{position:relative;}
+.lessons-key{position:relative;margin:6px 0 14px;padding:14px 16px;
+  background:linear-gradient(135deg,rgba(255,176,46,.10) 0%,rgba(255,148,22,.06) 100%);
+  border:.5px solid rgba(255,176,46,.35);border-right:3px solid var(--amber);border-radius:12px;}
+.lessons-key .kicker{font-size:9.5px;font-weight:800;letter-spacing:1.5px;color:var(--amber);
+  text-transform:uppercase;margin-bottom:4px;}
+.lessons-key .text{font-size:13.5px;line-height:1.5;color:var(--txt);}
+.lessons-key b{color:var(--amber);}
+
+.lessons-list{display:flex;flex-direction:column;gap:8px;}
+.lesson{background:rgba(255,255,255,.025);border:.5px solid var(--line);border-radius:11px;
+  overflow:hidden;transition:.25s ease;}
+.lesson:hover{background:rgba(255,255,255,.04);}
+.lesson summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:center;
+  gap:12px;user-select:none;}
+.lesson summary::-webkit-details-marker{display:none;}
+.lesson summary::after{content:'';width:8px;height:8px;border-right:2px solid var(--muted);
+  border-bottom:2px solid var(--muted);transform:rotate(-45deg);margin-right:auto;
+  margin-left:4px;transition:.25s;flex-shrink:0;}
+.lesson[open] summary::after{transform:rotate(45deg);border-color:var(--txt);}
+.lesson .ic-wrap{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;}
+.lesson .ic-wrap svg{width:18px;height:18px;}
+.lesson .ic-wrap.c1{background:rgba(10,132,255,.14);color:#5ab0ff;}
+.lesson .ic-wrap.c2{background:rgba(255,176,46,.14);color:var(--amber);}
+.lesson .ic-wrap.c3{background:rgba(255,69,58,.14);color:var(--red-soft);}
+.lesson .ic-wrap.c4{background:rgba(48,209,88,.14);color:var(--green);}
+.lesson .ic-wrap.c5{background:rgba(191,90,242,.14);color:#d59cff;}
+.lesson .ic-wrap.c6{background:rgba(100,210,255,.14);color:#7adfff;}
+.lesson .title{font-size:13.5px;font-weight:800;color:var(--txt);line-height:1.3;}
+.lesson .subtitle{font-size:10.5px;color:var(--muted);margin-top:1px;font-weight:600;}
+.lesson .body{padding:0 14px 14px 14px;}
+.lesson .body ul{margin:0;padding-right:18px;list-style:none;}
+.lesson .body li{position:relative;font-size:12.5px;line-height:1.6;color:#cdd5e0;
+  padding-right:14px;margin-bottom:7px;}
+.lesson .body li::before{content:'';position:absolute;right:0;top:9px;width:5px;height:5px;
+  border-radius:50%;background:currentColor;opacity:.5;}
+.lesson .body li:last-child{margin-bottom:0;}
+.lesson .body li b{color:var(--txt);}
+
+.lessons-rec{margin-top:14px;padding:13px 15px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(48,209,88,.08) 0%,rgba(10,132,255,.05) 100%);
+  border:.5px solid rgba(48,209,88,.25);border-right:3px solid var(--green);}
+.lessons-rec .kicker{font-size:9.5px;font-weight:800;letter-spacing:1.5px;color:var(--green);
+  text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.lessons-rec .kicker svg{width:13px;height:13px;}
+.lessons-rec ol{margin:0;padding-right:20px;font-size:12.5px;line-height:1.65;color:#cdd5e0;}
+.lessons-rec ol li{margin-bottom:4px;}
+.lessons-rec ol li b{color:var(--txt);}
+
 /* stat grid */
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .stat{background:rgba(255,255,255,.04);border:.5px solid var(--line);border-radius:16px;padding:13px 14px;}
@@ -502,6 +557,78 @@ ul.li li b{color:#fff;}
         </div>
         <div class="en-only">
           <img src="assets/infographic-en.jpg" alt="Garden Grove Chemical Runaway — Crisis Averted (visual summary)" loading="lazy">
+        </div>
+      </div>
+
+      <div class="card lessons-card">
+        <h3><span class="dot"></span><span data-i="i_lessons_title">תובנות ולקחים מבצעיים</span></h3>
+
+        <div class="lessons-key">
+          <div class="kicker" data-i="i_lessons_kicker">התובנה המרכזית</div>
+          <div class="text" data-i="i_lessons_key">פינוי לתרחיש כשל מיכל (BLEVE) חורג בהרבה ממרחקי <b>ERG</b>. ERG ל-MMA (נוזל דליק, Guide 129P) נותן עשרות עד ~1,600 מ' — הרשויות פינו 3–4 ק"מ לפי מודל הדף ייעודי. <b>אל תסתמך על ERG בלבד לתרחיש פיצוץ.</b></div>
+        </div>
+
+        <div class="lessons-list">
+
+          <details class="lesson">
+            <summary>
+              <div class="ic-wrap c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/><line x1="6" y1="9" x2="10" y2="9"/><line x1="6" y1="13" x2="10" y2="13"/></svg></div>
+              <div><div class="title" data-i="i_les1_t">זיהוי וניטור</div><div class="subtitle" data-i="i_les1_s">מד פנימי vs. מדידה חיצונית</div></div>
+            </summary>
+            <div class="body" data-i="i_les1_b"><ul><li>מונומרים מיוצבים = <b>פצצת זמן תרמית</b> כשהמעכב מתכלה</li><li>הטמפ' <b>הפנימית</b> היא המדד הקריטי — לא החיצונית</li><li>מדידת רחפן/IR חיצונית מטעה (הראתה ירידה בעוד הפנים עלה)</li></ul></div>
+          </details>
+
+          <details class="lesson">
+            <summary>
+              <div class="ic-wrap c2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+              <div><div class="title" data-i="i_les2_t">התערבות</div><div class="subtitle" data-i="i_les2_s">נתיבי גישה ושסתומים</div></div>
+            </summary>
+            <div class="body" data-i="i_les2_b"><ul><li>בדוק <b>מוקדם</b> שלמות נתיבי התערבות: שסתומים, ניקוז, שאיבה</li><li>ברז חסום שולל נטרול/ניקוז/אוורור</li><li>במצב כזה נותרת רק אסטרטגיית קירור והמתנה — משנה את כל היקף האירוע</li></ul></div>
+          </details>
+
+          <details class="lesson">
+            <summary>
+              <div class="ic-wrap c3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+              <div><div class="title" data-i="i_les3_t">פינוי ומרחקי סיכון</div><div class="subtitle" data-i="i_les3_s">מודל הדף ייעודי</div></div>
+            </summary>
+            <div class="body" data-i="i_les3_b"><ul><li><b>ERG לא מתאים</b> לכשל מיכל מלא — מרחקים קטנים מדי</li><li>BLEVE דורש מודל הדף (overpressure + קרינת חום)</li><li>הפרד 2 משפחות אזורים: <b>הדף</b> (עיגולי, סימטרי) מול <b>אדים</b> (אובלי, מוטה-רוח)</li><li>עדכן את אזור האדים לפי תחזית הרוח (יום/לילה)</li></ul></div>
+          </details>
+
+          <details class="lesson">
+            <summary>
+              <div class="ic-wrap c4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+              <div><div class="title" data-i="i_les4_t">ניהול דה-אסקלציה</div><div class="subtitle" data-i="i_les4_s">קריטריונים מדידים להחזרה</div></div>
+            </summary>
+            <div class="body" data-i="i_les4_b"><ul><li>החזר תושבים <b>בשלבים</b>, לפי קריטריון מדיד (כאן: טמפ' יציבה 4ש' ללא קירור)</li><li>הגדר מראש <b>תנאי סף</b> לכל שלב צמצום</li><li>הורד אמצעים מייצבים בהדרגה עם נקודות עצירה — לא הכל בבת אחת</li><li>צוות שמטפס על המיכל = אינדיקטור ביטחון גלוי</li></ul></div>
+          </details>
+
+          <details class="lesson">
+            <summary>
+              <div class="ic-wrap c5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a9 9 0 0 1 9 9"/><path d="M3 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg></div>
+              <div><div class="title" data-i="i_les5_t">תקשורת סיכון</div><div class="subtitle" data-i="i_les5_s">הריח המטעה</div></div>
+            </summary>
+            <div class="body" data-i="i_les5_b"><ul><li>חומר עם סף ריח נמוך → הציבור מריח <b>הרבה לפני</b> סכנה אמיתית</li><li>הכן מסר מראש: <b>"אם אתה מריח — זה לא אומר שאתה בסכנה"</b></li><li>בלי מסר מסונכרן הציבור יפעל לפי האף, לא לפי הנתונים</li></ul></div>
+          </details>
+
+          <details class="lesson">
+            <summary>
+              <div class="ic-wrap c6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg></div>
+              <div><div class="title" data-i="i_les6_t">גישה מבצעית כללית</div><div class="subtitle" data-i="i_les6_s">גמישות ואירוע ממושך</div></div>
+            </summary>
+            <div class="body" data-i="i_les6_b"><ul><li>שמור הערכת מצב מתמשכת וגמישות אסטרטגית (הסדק האקראי <b>שינה הכל</b>)</li><li>אל תינעל על תוכנית אחת</li><li>תכנן לאירוע ממושך (~6 ימים): משמרות, לוגיסטיקת מים, מרכזי פינוי לאורך זמן</li><li>אזהרת לוגיסטיקה: באירוע זה היו ~200 מיטות לעד 50K מפונים</li></ul></div>
+          </details>
+
+        </div>
+
+        <div class="lessons-rec">
+          <div class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i="i_rec_kicker">המלצות לפעולה</span></div>
+          <ol data-i="i_rec_list">
+            <li>הכנת <b>מודל פינוי משולב</b> (הדף+אדים) לאירועי מיכלי מונומרים — לא ERG בלבד</li>
+            <li>סקר תקופתי של <b>נתיבי התערבות</b> במתקני אחסון: שסתומים, ניקוז, שאיבה — בדיקה תפקודית, לא רק חזותית</li>
+            <li>פרוטוקול <b>מסר תקשורת מוכן מראש</b> לחומרים עם סף ריח נמוך</li>
+            <li>תכנון מקלטים בקיבולת ריאלית — <b>יחס מקלט-לתושב</b> תואם לתרחיש המוערך</li>
+            <li>תרגול <b>תרחישי דה-אסקלציה</b> עם קריטריונים מדידים — לא רק תרחישי עלייה</li>
+          </ol>
         </div>
       </div>
 
@@ -954,6 +1081,29 @@ const EN={
   i_chrono_tz:"All times in local California time (PDT). In parentheses — Israel time (IDT, +10h).",
   i_info_title:"Visual Summary",
   i_info_he_pending:"Hebrew infographic not uploaded yet — will appear here once received.",
+  i_lessons_title:"Operational Lessons & Insights",
+  i_lessons_kicker:"CORE INSIGHT",
+  i_lessons_key:"Evacuation for a tank-failure scenario (BLEVE) far exceeds <b>ERG</b> distances. ERG for MMA (flammable liquid, Guide 129P) gives tens of meters to ~1,600 m — authorities evacuated 3–4 km using a dedicated blast model. <b>Do not rely on ERG alone for an explosion scenario.</b>",
+  i_les1_t:"Detection & Monitoring",
+  i_les1_s:"Internal gauge vs. external readings",
+  i_les1_b:"<ul><li>Stabilized monomers = <b>thermal time bomb</b> when the inhibitor depletes</li><li>The <b>internal</b> temperature is the critical metric — not external</li><li>Drone/IR external readings can mislead (showed decline while inside rose)</li></ul>",
+  i_les2_t:"Intervention",
+  i_les2_s:"Access paths and valves",
+  i_les2_b:"<ul><li>Check <b>early</b> the integrity of intervention paths: valves, drainage, pumping</li><li>A blocked valve eliminates neutralization/drainage/venting</li><li>In such a state only cool-and-wait remains — changing the entire scope of the event</li></ul>",
+  i_les3_t:"Evacuation & Risk Distances",
+  i_les3_s:"Dedicated blast model",
+  i_les3_b:"<ul><li><b>ERG is not suitable</b> for full tank failure — distances too small</li><li>BLEVE requires a blast model (overpressure + thermal radiation)</li><li>Separate 2 zone families: <b>blast</b> (circular, symmetric) vs. <b>vapor</b> (oblong, wind-oriented)</li><li>Update the vapor zone per wind forecast (day/night)</li></ul>",
+  i_les4_t:"De-escalation Management",
+  i_les4_s:"Measurable return criteria",
+  i_les4_b:"<ul><li>Return residents <b>in stages</b>, per measurable criteria (here: temp stable 4h without cooling)</li><li>Define <b>threshold conditions</b> in advance for each reduction stage</li><li>Lower stabilizing measures gradually with stop-points — not all at once</li><li>Crew climbing on the tank = visible confidence indicator</li></ul>",
+  i_les5_t:"Risk Communication",
+  i_les5_s:"The misleading odor",
+  i_les5_b:"<ul><li>Substance with low odor threshold → public smells it <b>well before</b> real danger</li><li>Prepare a message in advance: <b>\"If you smell it — that does not mean you are in danger\"</b></li><li>Without a synchronized message the public acts by nose, not by data</li></ul>",
+  i_les6_t:"General Operational Approach",
+  i_les6_s:"Flexibility and prolonged event",
+  i_les6_b:"<ul><li>Maintain continuous situational assessment and strategic flexibility (the random crack <b>changed everything</b>)</li><li>Do not lock onto a single plan</li><li>Plan for a prolonged event (~6 days): shifts, water logistics, shelters over time</li><li>Logistics warning: in this event there were ~200 cots for up to 50K evacuees</li></ul>",
+  i_rec_kicker:"ACTION RECOMMENDATIONS",
+  i_rec_list:"<ol><li>Prepare an <b>integrated evacuation model</b> (blast+vapor) for monomer tank events — not ERG alone</li><li>Periodic survey of <b>intervention paths</b> at storage facilities: valves, drainage, pumping — functional check, not visual only</li><li>Protocol for a <b>pre-prepared communication message</b> for substances with low odor threshold</li><li>Plan shelters at realistic capacity — <b>shelter-to-resident ratio</b> matching the assessed scenario</li><li>Drill <b>de-escalation scenarios</b> with measurable criteria — not only escalation drills</li></ol>",
   i_evac:"Evacuation centers",
   i_sources:"Sources & links",
   plume_title:"Toxic vapor plume (estimate)",
