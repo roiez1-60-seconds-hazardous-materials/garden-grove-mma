@@ -151,10 +151,36 @@ body{
 html[lang="he"] .infographic-card .he-only{display:block;}
 html[lang="en"] .infographic-card .en-only{display:block;}
 .infographic-card img{width:100%;height:auto;display:block;border-radius:10px;
-  border:.5px solid rgba(255,255,255,.08);background:#fff;}
+  border:.5px solid rgba(255,255,255,.08);background:#fff;cursor:zoom-in;
+  transition:transform .25s ease,box-shadow .25s ease;}
+.infographic-card img:hover{transform:scale(1.01);
+  box-shadow:0 8px 28px -8px rgba(0,0,0,.5);}
+.infographic-card .ig-hint{font-size:11px;color:var(--muted);text-align:center;
+  margin:2px 0 8px;display:flex;align-items:center;justify-content:center;gap:5px;}
+.infographic-card .ig-hint::before{content:'⌕';font-size:13px;opacity:.7;}
 .infographic-card .placeholder{padding:18px;text-align:center;color:var(--muted);
   background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.15);border-radius:10px;
   font-size:13px;line-height:1.5;}
+
+/* ===== Lightbox (image zoom) ===== */
+.lightbox{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.96);
+  display:none;align-items:center;justify-content:center;padding:20px;
+  animation:lbFade .2s ease;}
+.lightbox.on{display:flex;}
+@keyframes lbFade{from{opacity:0;}to{opacity:1;}}
+.lightbox img{max-width:100%;max-height:100%;border-radius:8px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);cursor:zoom-out;
+  animation:lbZoom .25s cubic-bezier(.2,.8,.2,1);}
+@keyframes lbZoom{from{transform:scale(.85);opacity:0;}to{transform:scale(1);opacity:1;}}
+.lightbox .lb-close{position:absolute;top:max(12px,env(safe-area-inset-top));
+  left:14px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.12);
+  border:.5px solid rgba(255,255,255,.25);color:#fff;font-size:22px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);transition:background .2s;}
+.lightbox .lb-close:hover{background:rgba(255,255,255,.22);}
+.lightbox .lb-hint{position:absolute;bottom:max(16px,env(safe-area-inset-bottom));
+  left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:11px;
+  letter-spacing:.5px;text-align:center;pointer-events:none;}
 
 /* ===== Operational Lessons Card ===== */
 .lessons-card{position:relative;overflow:hidden;}
@@ -574,47 +600,6 @@ ul.li li b{color:#fff;}
     <section class="page" id="p-info">
       <h2 class="ltitle" data-i="info_title">ציר זמן ומקורות</h2>
 
-      <div class="card">
-        <h3><span class="dot"></span><span data-i="i_chrono">כרונולוגיה</span></h3>
-        <div class="note" data-i="i_chrono_tz" style="padding:0 2px 8px;">כל השעות בשעון מקומי קליפורניה (PDT). בסוגריים — שעון ישראל (IDT, +10 שעות).</div>
-        <div class="tl">
-          <div class="tlitem now" data-i="tl13"><div class="t">רביעי 27.5 · בוקר–ערב (רביעי 27.5 ~18:14 בישראל ואילך)</div><div class="d">📋 <b>שלב הנורמליזציה.</b> ggcity.org אישר רשמית ב-08:14 שכל צווי הפינוי בוטלו. מפת OCFA מציגה: ירוק = אזור פתוח, קו אדום = סגירת Western Ave (Chapman ↔ Garden Grove Blvd), <b>מעגל אדום = אזור בידוד מבצעי לצוותי חומ"ס</b> להמשך ניטור. <b>כל בתי הספר נפתחו</b> (כולל שלושה אחרונים: Alamitos Intermediate, Lawrence ו-Wakeham). <b>4 מקלטים נסגרים רשמית הערב ב-19:00 שעון מקומי</b> (Golden West, Los Amigos, Los Alamitos ועוד). הסבר כימי מסכם של סרן Huang (OCFA): ברגע שה-MMA מתקרר ועובר למצב מוצק — איום השחרור נעלם פיזית. ישיבת המועצה המיוחדת (26.5 ערב) הייתה סוערת; תושבים דרשו אחריותיות, וצוין כשל לוגיסטי: <b>במקלטים היו ~200 מיטות בעוד שעד 50K פונו</b>. ראש משטרת ג"ג Amir El-Farra הוא שהכריז על ביטול הפינוי הכולל באותה ישיבה. פרקליט המחוז Spitzer פתח חקירה פלילית; קו טיפים אנונימי: 714-347-8714. ראש העירייה Klopfenstein: "הקהילה ראויה לדעת מה קרה, למה, האם הופרו חוקים, ואילו צעדים נדרשים למניעה." מצעד פסטיבל התות נדחה.</div></div>
-          <div class="tlitem" data-i="tl12"><div class="t">שלישי 26.5 · ~20:15 (רביעי 27.5 ~06:15 בישראל)</div><div class="d">✅ <b>כל צווי הפינוי בוטלו</b> (OCFA). הפיקוד המאוחד (אש, משטרה, EPA, בריאות המחוז) אישר: <b>אין דליפה, אין איום פיצוץ, אין איום שריפה, אין סיכון לציבור.</b> ההחלטה התקבלה לאחר ש<b>הטמפ' נשארה יציבה 4 שעות ללא התערבות הספרינקלרים</b>. 16,000 התושבים האחרונים קיבלו אישור לחזור. נותרה סגירת כביש אחת: Western Ave בין Chapman ל-Garden Grove Blvd, ליד האתר. כל בתי הספר במחוז ייפתחו מחדש ברביעי 27.5. החקירה על סיבת ההתחממות נמשכת; הוגשה תביעה ייצוגית נגד GKN.</div></div>
-          <div class="tlitem" data-i="tl11"><div class="t">שלישי 26.5 · במהלך היום (שלישי 26.5 ~16:20+ בישראל)</div><div class="d"><b>הטמפ' נותרה יציבה</b> — לכן OCFA החל בכיבוי <b>מדורג</b> של מערכות הקירור. McGovern: "נכבה מערכת אחת מהשתיים וננטר; אם המגמה טובה — נכבה גם את השנייה." נכון ל-16:00 (שעון מקומי) <b>לא הוזרמו מים כלל</b> והצוותים אף טיפסו על ראש המיכל — סימן ביטחון. נותרה רק מערכת הספרינקלרים הפנימית. אין דליפה, ניטור אוויר תקין (סרן Huang). 9 בתי ספר (מחוץ לאזור) נפתחו מחדש; 3 עדיין סגורים. ~16K עדיין מפונים; 7 מקלטים פתוחים. המיכל השלישי (4,500 גלון) — תכולתו תפונה.</div></div>
-          <div class="tlitem" data-i="tl10"><div class="t">שני 25.5 · 18:00 (שלישי 26.5 04:00 בישראל)</div><div class="d"><b>אזור הפינוי צומצם משמעותית</b> (לא בוטל): ~65% מהמפונים הורשו לחזור, אך <b>~16,000 תושבים עדיין מפונים</b> (מתוך 50K). גבולות חדשים: צפון Orangewood Ave, מזרח Dale St, מערב Knott St, דרום Garden Grove Blvd. מרכזי הפינוי נשארים פתוחים. McGovern: "התרחיש הגרוע מותן ונפתר — <b>אבל זה לא נגמר</b>. עדיין יש סיכוי לפיצוץ/דליפה קטנים בהרבה."</div></div>
-          <div class="tlitem" data-i="tl9"><div class="t">שני 25.5 · עדכון מכריע</div><div class="d">לפי OCFA: המיכל "שחרר את הלחץ" דרך הסדק היחיד שהתגלה, הטמפ' התייצבה ו<b>יורדת — כעת 93°F</b>, ו<b>נראה שהפיצוץ נמנע</b>. אין נפגעים, אין דליפת חומר (ניטור אוויר תקין). צווי הפינוי עדיין בתוקף — אזורים מחוץ לאזור הפינוי "בטוחים לחלוטין" לפי הרשויות.</div></div>
-          <div class="tlitem" data-i="tl8"><div class="t">שני 25.5 · המשך</div><div class="d">עדכונים: 12 בתי ספר סגורים עד יום הלימודים האחרון (רביעי 27.5), במעבר ללמידה מקוונת; <b>FEMA</b> מעורבת ו<b>טראמפ חתם על הכרזת חירום פדרלית</b> שביקשה קליפורניה; מוקד 24ש' נוסף: 714-741-5444. חקירת ABC7: GKN ספגה הפרות SCAQMD ב-2021 (שילמה ~$1M, התיק נסגר), ושוב במרץ 2025 ("notice to comply", חזרה לתאימות בנובמבר). ראש העיר Klopfenstein: ישיבת מועצה רגילה (שלישי 26.5) בוטלה; במקומה ישיבה מיוחדת ב-17:30 על האירוע והתגובה.</div></div>
-          <div class="tlitem" data-i="tl7"><div class="t">שני 25.5 · לילה→בוקר</div><div class="d"><b>משימה לכל אורך הלילה</b> לאישור אם הלחץ אכן שוחרר ואם איום ה-BLEVE הוסר. McGovern (מפקד OCFA בפועל): "איום ה-BLEVE הוא התרחיש הקטסטרופלי במקרה הגרוע — <b>אנחנו עדיין לא שם</b>. צריך להריץ את המבצע הלילה." הפינוי (~50K) עדיין בתוקף; אין לוח זמנים לחזרה.</div></div>
-          <div class="tlitem" data-i="tl6"><div class="t">ראשון 24.5 · אחה"צ</div><div class="d">משימת סיור לילית (שבת בלילה) על מיכל #1 הניבה "מודיעין חיובי": הצוות זיהה <b>סדק אפשרי במיכל</b> שעשוי לשחרר חלק מהלחץ הפנימי — התפתחות שעשויה לשנות את אסטרטגיית התגובה.</div></div>
-          <div class="tlitem" data-i="tl5"><div class="t">ראשון 24.5 · בוקר</div><div class="d">מיכל #2 (15,000 גלון) יוצב בהזרקת מנטרל; מיכל #1 עדיין באיום קרע/פיצוץ. ~50K מפונים; טמפ' עולה ~1°F/שעה (≈0.5°C) לעבר סף ה-BLEVE. GKN בתביעה ייצוגית.</div></div>
-          <div class="tlitem" data-i="tl4"><div class="t">שישי 22.5 · לילה</div><div class="d">מעבר להתקפה: צוות התקרב לאחד המיכלים השכנים בניסיון נטרול והצליח לקרוא את מד הטמפ' הפנימי של המיכל הבעייתי — <b>32°C</b> (90°F), גבוה משמעותית מ-25°C (77°F) שנמדד באותו בוקר. קודם האמינו (לפי מדידות חיצוניות מרחפן) שהטמפ' יורדת. פתיחת מקלטים נוספים.</div></div>
-          <div class="tlitem" data-i="tl3"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום; פרקליטות המחוז (DA) פתחה חקירה.</div></div>
-          <div class="tlitem" data-i="tl2"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את שסתום הבטיחות; צווי הפינוי בוטלו.</div></div>
-          <div class="tlitem" data-i="tl1"><div class="t">חמישי 21.5 · ~15:40 (שישי 22.5 ~01:40 בישראל)</div><div class="d">דיווח על שחרור אדים ממיכלי אחסון; שסתום בטיחות וספרינקלרים פנימיים נפתחו אוטומטית; צווי פינוי ראשונים.</div></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3><span class="dot"></span><span data-i="i_evac">מרכזי פינוי</span></h3>
-        <ul class="li">
-          <li>Golden West College — 15744 Goldenwest St, Huntington Beach</li>
-          <li>Freedom Hall, Mile Square Park — 16801 Euclid St, Fountain Valley</li>
-          <li>Savanna High School — 301 N Gilbert St, Anaheim</li>
-          <li>John F. Kennedy High School — 8281 Walker St, La Palma</li>
-          <li>Oceanview High School — 17071 Gothard St, Huntington Beach</li>
-        </ul>
-      </div>
-
-      <div class="card infographic-card">
-        <h3><span class="dot"></span><span data-i="i_info_title">סיכום ויזואלי</span></h3>
-        <div class="he-only">
-          <img src="assets/infographic-he.jpg" alt="משבר ה-MMA בגרדן גרוב — כרוניקה של מניעת קטסטרופה (סיכום ויזואלי)" loading="lazy">
-        </div>
-        <div class="en-only">
-          <img src="assets/infographic-en.jpg" alt="Garden Grove Chemical Runaway — Crisis Averted (visual summary)" loading="lazy">
-        </div>
-      </div>
-
       <div class="card lessons-card">
         <h3><span class="dot"></span><span data-i="i_lessons_title">תובנות ולקחים מבצעיים</span></h3>
 
@@ -687,6 +672,48 @@ ul.li li b{color:#fff;}
         </div>
       </div>
 
+      <div class="card infographic-card">
+        <h3><span class="dot"></span><span data-i="i_info_title">סיכום ויזואלי</span></h3>
+        <div class="ig-hint" data-i="i_info_hint">לחצו על התמונה להגדלה</div>
+        <div class="he-only">
+          <img src="assets/infographic-he.jpg" alt="משבר ה-MMA בגרדן גרוב — כרוניקה של מניעת קטסטרופה (סיכום ויזואלי)" loading="lazy" onclick="openLightbox(this.src,this.alt)">
+        </div>
+        <div class="en-only">
+          <img src="assets/infographic-en.jpg" alt="Garden Grove Chemical Runaway — Crisis Averted (visual summary)" loading="lazy" onclick="openLightbox(this.src,this.alt)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span><span data-i="i_chrono">כרונולוגיה</span></h3>
+        <div class="note" data-i="i_chrono_tz" style="padding:0 2px 8px;">כל השעות בשעון מקומי קליפורניה (PDT). בסוגריים — שעון ישראל (IDT, +10 שעות).</div>
+        <div class="tl">
+          <div class="tlitem now" data-i="tl13"><div class="t">רביעי 27.5 · בוקר–ערב (רביעי 27.5 ~18:14 בישראל ואילך)</div><div class="d">📋 <b>שלב הנורמליזציה.</b> ggcity.org אישר רשמית ב-08:14 שכל צווי הפינוי בוטלו. מפת OCFA מציגה: ירוק = אזור פתוח, קו אדום = סגירת Western Ave (Chapman ↔ Garden Grove Blvd), <b>מעגל אדום = אזור בידוד מבצעי לצוותי חומ"ס</b> להמשך ניטור. <b>כל בתי הספר נפתחו</b> (כולל שלושה אחרונים: Alamitos Intermediate, Lawrence ו-Wakeham). <b>4 מקלטים נסגרים רשמית הערב ב-19:00 שעון מקומי</b> (Golden West, Los Amigos, Los Alamitos ועוד). הסבר כימי מסכם של סרן Huang (OCFA): ברגע שה-MMA מתקרר ועובר למצב מוצק — איום השחרור נעלם פיזית. ישיבת המועצה המיוחדת (26.5 ערב) הייתה סוערת; תושבים דרשו אחריותיות, וצוין כשל לוגיסטי: <b>במקלטים היו ~200 מיטות בעוד שעד 50K פונו</b>. ראש משטרת ג"ג Amir El-Farra הוא שהכריז על ביטול הפינוי הכולל באותה ישיבה. פרקליט המחוז Spitzer פתח חקירה פלילית; קו טיפים אנונימי: 714-347-8714. ראש העירייה Klopfenstein: "הקהילה ראויה לדעת מה קרה, למה, האם הופרו חוקים, ואילו צעדים נדרשים למניעה." מצעד פסטיבל התות נדחה.</div></div>
+          <div class="tlitem" data-i="tl12"><div class="t">שלישי 26.5 · ~20:15 (רביעי 27.5 ~06:15 בישראל)</div><div class="d">✅ <b>כל צווי הפינוי בוטלו</b> (OCFA). הפיקוד המאוחד (אש, משטרה, EPA, בריאות המחוז) אישר: <b>אין דליפה, אין איום פיצוץ, אין איום שריפה, אין סיכון לציבור.</b> ההחלטה התקבלה לאחר ש<b>הטמפ' נשארה יציבה 4 שעות ללא התערבות הספרינקלרים</b>. 16,000 התושבים האחרונים קיבלו אישור לחזור. נותרה סגירת כביש אחת: Western Ave בין Chapman ל-Garden Grove Blvd, ליד האתר. כל בתי הספר במחוז ייפתחו מחדש ברביעי 27.5. החקירה על סיבת ההתחממות נמשכת; הוגשה תביעה ייצוגית נגד GKN.</div></div>
+          <div class="tlitem" data-i="tl11"><div class="t">שלישי 26.5 · במהלך היום (שלישי 26.5 ~16:20+ בישראל)</div><div class="d"><b>הטמפ' נותרה יציבה</b> — לכן OCFA החל בכיבוי <b>מדורג</b> של מערכות הקירור. McGovern: "נכבה מערכת אחת מהשתיים וננטר; אם המגמה טובה — נכבה גם את השנייה." נכון ל-16:00 (שעון מקומי) <b>לא הוזרמו מים כלל</b> והצוותים אף טיפסו על ראש המיכל — סימן ביטחון. נותרה רק מערכת הספרינקלרים הפנימית. אין דליפה, ניטור אוויר תקין (סרן Huang). 9 בתי ספר (מחוץ לאזור) נפתחו מחדש; 3 עדיין סגורים. ~16K עדיין מפונים; 7 מקלטים פתוחים. המיכל השלישי (4,500 גלון) — תכולתו תפונה.</div></div>
+          <div class="tlitem" data-i="tl10"><div class="t">שני 25.5 · 18:00 (שלישי 26.5 04:00 בישראל)</div><div class="d"><b>אזור הפינוי צומצם משמעותית</b> (לא בוטל): ~65% מהמפונים הורשו לחזור, אך <b>~16,000 תושבים עדיין מפונים</b> (מתוך 50K). גבולות חדשים: צפון Orangewood Ave, מזרח Dale St, מערב Knott St, דרום Garden Grove Blvd. מרכזי הפינוי נשארים פתוחים. McGovern: "התרחיש הגרוע מותן ונפתר — <b>אבל זה לא נגמר</b>. עדיין יש סיכוי לפיצוץ/דליפה קטנים בהרבה."</div></div>
+          <div class="tlitem" data-i="tl9"><div class="t">שני 25.5 · עדכון מכריע</div><div class="d">לפי OCFA: המיכל "שחרר את הלחץ" דרך הסדק היחיד שהתגלה, הטמפ' התייצבה ו<b>יורדת — כעת 93°F</b>, ו<b>נראה שהפיצוץ נמנע</b>. אין נפגעים, אין דליפת חומר (ניטור אוויר תקין). צווי הפינוי עדיין בתוקף — אזורים מחוץ לאזור הפינוי "בטוחים לחלוטין" לפי הרשויות.</div></div>
+          <div class="tlitem" data-i="tl8"><div class="t">שני 25.5 · המשך</div><div class="d">עדכונים: 12 בתי ספר סגורים עד יום הלימודים האחרון (רביעי 27.5), במעבר ללמידה מקוונת; <b>FEMA</b> מעורבת ו<b>טראמפ חתם על הכרזת חירום פדרלית</b> שביקשה קליפורניה; מוקד 24ש' נוסף: 714-741-5444. חקירת ABC7: GKN ספגה הפרות SCAQMD ב-2021 (שילמה ~$1M, התיק נסגר), ושוב במרץ 2025 ("notice to comply", חזרה לתאימות בנובמבר). ראש העיר Klopfenstein: ישיבת מועצה רגילה (שלישי 26.5) בוטלה; במקומה ישיבה מיוחדת ב-17:30 על האירוע והתגובה.</div></div>
+          <div class="tlitem" data-i="tl7"><div class="t">שני 25.5 · לילה→בוקר</div><div class="d"><b>משימה לכל אורך הלילה</b> לאישור אם הלחץ אכן שוחרר ואם איום ה-BLEVE הוסר. McGovern (מפקד OCFA בפועל): "איום ה-BLEVE הוא התרחיש הקטסטרופלי במקרה הגרוע — <b>אנחנו עדיין לא שם</b>. צריך להריץ את המבצע הלילה." הפינוי (~50K) עדיין בתוקף; אין לוח זמנים לחזרה.</div></div>
+          <div class="tlitem" data-i="tl6"><div class="t">ראשון 24.5 · אחה"צ</div><div class="d">משימת סיור לילית (שבת בלילה) על מיכל #1 הניבה "מודיעין חיובי": הצוות זיהה <b>סדק אפשרי במיכל</b> שעשוי לשחרר חלק מהלחץ הפנימי — התפתחות שעשויה לשנות את אסטרטגיית התגובה.</div></div>
+          <div class="tlitem" data-i="tl5"><div class="t">ראשון 24.5 · בוקר</div><div class="d">מיכל #2 (15,000 גלון) יוצב בהזרקת מנטרל; מיכל #1 עדיין באיום קרע/פיצוץ. ~50K מפונים; טמפ' עולה ~1°F/שעה (≈0.5°C) לעבר סף ה-BLEVE. GKN בתביעה ייצוגית.</div></div>
+          <div class="tlitem" data-i="tl4"><div class="t">שישי 22.5 · לילה</div><div class="d">מעבר להתקפה: צוות התקרב לאחד המיכלים השכנים בניסיון נטרול והצליח לקרוא את מד הטמפ' הפנימי של המיכל הבעייתי — <b>32°C</b> (90°F), גבוה משמעותית מ-25°C (77°F) שנמדד באותו בוקר. קודם האמינו (לפי מדידות חיצוניות מרחפן) שהטמפ' יורדת. פתיחת מקלטים נוספים.</div></div>
+          <div class="tlitem" data-i="tl3"><div class="t">שישי 22.5</div><div class="d">נזק למיכל מנע נטרול/פינוי בטוח של התוכן; ברז מיכל #1 נחסם → חידוש והרחבת הפינוי. המושל ניוסום מכריז מצב חירום; פרקליטות המחוז (DA) פתחה חקירה.</div></div>
+          <div class="tlitem" data-i="tl2"><div class="t">חמישי בלילה</div><div class="d">קירור דופן הצליח לסגור את שסתום הבטיחות; צווי הפינוי בוטלו.</div></div>
+          <div class="tlitem" data-i="tl1"><div class="t">חמישי 21.5 · ~15:40 (שישי 22.5 ~01:40 בישראל)</div><div class="d">דיווח על שחרור אדים ממיכלי אחסון; שסתום בטיחות וספרינקלרים פנימיים נפתחו אוטומטית; צווי פינוי ראשונים.</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span><span data-i="i_evac">מרכזי פינוי</span></h3>
+        <ul class="li">
+          <li>Golden West College — 15744 Goldenwest St, Huntington Beach</li>
+          <li>Freedom Hall, Mile Square Park — 16801 Euclid St, Fountain Valley</li>
+          <li>Savanna High School — 301 N Gilbert St, Anaheim</li>
+          <li>John F. Kennedy High School — 8281 Walker St, La Palma</li>
+          <li>Oceanview High School — 17071 Gothard St, Huntington Beach</li>
+        </ul>
+      </div>
+
       <div class="card">
         <h3><span class="dot"></span><span data-i="i_sources">מקורות וקישורים</span></h3>
         <a class="src" href="https://www.nbcnews.com/news/us-news/california-evacuation-chemical-explosion-rcna346582" target="_blank" rel="noopener"><span class="ic">📰</span><span><div class="nm">NBC News</div><div class="u" data-i="u_nbcnews">פינוי ואיום פיצוץ · נתוני MMA</div></span><span class="arr">›</span></a>
@@ -737,8 +764,35 @@ ul.li li b{color:#fff;}
   </nav>
 </div>
 
+<!-- Image lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lb-close" type="button" onclick="closeLightbox(event,true)" aria-label="סגור">×</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lb-hint" data-i="i_lb_hint">לחצו מחוץ לתמונה כדי לסגור</div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
+// ---- Image lightbox ----
+function openLightbox(src,alt){
+  const lb=document.getElementById('lightbox');
+  const im=document.getElementById('lightbox-img');
+  if(!lb||!im) return;
+  im.src=src; im.alt=alt||'';
+  lb.classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(e,force){
+  // Close on backdrop click or explicit (X) — not when clicking the image itself
+  if(!force && e && e.target && e.target.tagName==='IMG') return;
+  const lb=document.getElementById('lightbox');
+  if(!lb) return;
+  lb.classList.remove('on');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeLightbox(null,true);
+});
 // ---- Tab navigation ----
 var LANG='he';
 const tabs=document.querySelectorAll('.tab');
@@ -1135,6 +1189,8 @@ const EN={
   i_chrono:"Chronology",
   i_chrono_tz:"All times in local California time (PDT). In parentheses — Israel time (IDT, +10h).",
   i_info_title:"Visual Summary",
+  i_info_hint:"Tap the image to enlarge",
+  i_lb_hint:"Tap outside the image to close",
   i_info_he_pending:"Hebrew infographic not uploaded yet — will appear here once received.",
   i_lessons_title:"Operational Lessons & Insights",
   i_lessons_kicker:"CORE INSIGHT",
